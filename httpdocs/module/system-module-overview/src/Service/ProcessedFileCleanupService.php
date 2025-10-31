@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 use Exception;
 use WirklichDigital\SystemModuleOverview\Entity\ProcessedFile;
+use WirklichDigital\SystemModuleOverview\Service\LaminasSystemLogService;
 
 use function array_diff;
 use function filemtime;

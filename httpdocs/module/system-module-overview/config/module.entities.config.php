@@ -19,6 +19,7 @@ return [
             'fields' => [
                 'level' => [
                     'type' => 'string',
+                    'length' => 50,
                     'nullable' => false,
                 ],
                 'message' => [
@@ -27,6 +28,7 @@ return [
                 ],
                 'context' => [
                     'type' => 'string',
+                    'length' => 255,
                     'nullable' => true,
                 ],
                 'additionalData' => [

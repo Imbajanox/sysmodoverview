@@ -351,7 +351,7 @@ class SysModOverviewService
             $this->entityManager->persist($em);
             return $em;
         } catch (Exception $e) {
-            $this->logService->warning("Error in setInfosInEntity: " . $e->getMessage(), "SysModOverviewService");
+            $this->logService->error("Error in setInfosInEntity: " . $e->getMessage(), "SysModOverviewService");
             throw $e;
         }
     }
@@ -359,7 +359,7 @@ class SysModOverviewService
     public function setInfos(array $data)
     {
         try {
-            $this->logService->warning("SysModOverviewService::setInfos: Processing data for server with IP " . ($data['ipaddress'] ?? 'unknown'), "SysModOverviewService");
+            $this->logService->info("SysModOverviewService::setInfos: Processing data for server with IP " . ($data['ipaddress'] ?? 'unknown'), "SysModOverviewService");
             // Validate required data
             if (!isset($data['ipaddress']) || empty($data['ipaddress'])) {
                 throw new Exception("Missing required field: ipaddress");
@@ -380,16 +380,16 @@ class SysModOverviewService
             $this->runFinalServices($server);
 
             $this->entityManager->commit();
-            $this->logService->warning("SysModOverviewService::setInfos: Successfully processed data for server with IP " . $data['ipaddress'], "SysModOverviewService");
+            $this->logService->info("SysModOverviewService::setInfos: Successfully processed data for server with IP " . $data['ipaddress'], "SysModOverviewService");
         } catch (Exception $e) {
             if ($this->entityManager->getConnection()->isTransactionActive()) {
                 try {
                     $this->entityManager->rollback();
                 } catch (Exception $rollbackException) {
-                    $this->logService->warning("SysModOverviewService::setInfos Rollback Error: " . $rollbackException->getMessage() . " (Original error: " . $e->getMessage() . ")", "SysModOverviewService");
+                    $this->logService->error("SysModOverviewService::setInfos Rollback Error: " . $rollbackException->getMessage() . " (Original error: " . $e->getMessage() . ")", "SysModOverviewService");
                 }
             }
-            $this->logService->warning("SysModOverviewService::setInfos Error: " . $e->getMessage(), "SysModOverviewService");
+            $this->logService->error("SysModOverviewService::setInfos Error: " . $e->getMessage(), "SysModOverviewService");
             throw $e;
         }
     }
