@@ -77,13 +77,20 @@ class IndexController extends AbstractActionController
             error_log("Warning: Missing IP address in received data, using unique identifier");
             $ipaddress = "no-ip-" . uniqid();
         } else {
-            $ipaddress = $data["ipaddress"];
+            // Sanitize IP address for filename safety
+            $ipaddress = str_replace(['/', '\\', ':', '*', '?', '"', '<', '>', '|'], '-', $data["ipaddress"]);
         }
         
+        // Get system name with fallback
         $systemName = $data["j77Config"]["name"] ?? "laminassystem";
+        // Sanitize system name for filename safety
+        $systemName = str_replace(['/', '\\', ':', '*', '?', '"', '<', '>', '|'], '-', $systemName);
+        
         $jsonData = json_encode($data);
         
         $systemPath = Path::join($path, "$systemName-($ipaddress).json");
         file_put_contents($systemPath, $jsonData);
+        
+        error_log(sprintf("IndexController: Saved data file '%s' for processing", basename($systemPath)));
     }
 }

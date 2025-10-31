@@ -213,6 +213,7 @@ class SaveSystemdatasTask implements CronTaskExecutable
     
     /**
      * Mark file as processed in database
+     * Handles duplicate hash errors gracefully (race condition protection)
      * 
      * @param string $filename
      * @param string $filePath
@@ -228,16 +229,35 @@ class SaveSystemdatasTask implements CronTaskExecutable
         string $status,
         ?string $errorMessage = null
     ): void {
-        $processedFile = new ProcessedFile();
-        $processedFile->setFilename($filename);
-        $processedFile->setFilePath($filePath);
-        $processedFile->setFileHash($fileHash);
-        $processedFile->setProcessedAt(new DateTime());
-        $processedFile->setStatus($status);
-        $processedFile->setErrorMessage($errorMessage);
-        
-        $this->entityManager->persist($processedFile);
-        $this->entityManager->flush();
+        try {
+            $processedFile = new ProcessedFile();
+            $processedFile->setFilename($filename);
+            $processedFile->setFilePath($filePath);
+            $processedFile->setFileHash($fileHash);
+            $processedFile->setProcessedAt(new DateTime());
+            $processedFile->setStatus($status);
+            $processedFile->setErrorMessage($errorMessage);
+            
+            $this->entityManager->persist($processedFile);
+            $this->entityManager->flush();
+        } catch (Exception $e) {
+            // If duplicate key error, file was already marked by another process - this is OK
+            if (strpos($e->getMessage(), 'Duplicate entry') !== false || 
+                strpos($e->getMessage(), 'SQLSTATE[23000]') !== false) {
+                error_log(sprintf(
+                    "SaveSystemdatasTask: File '%s' already marked as processed (race condition handled)",
+                    $filename
+                ));
+            } else {
+                // Re-throw other errors
+                error_log(sprintf(
+                    "SaveSystemdatasTask: Error marking file '%s' as processed: %s",
+                    $filename,
+                    $e->getMessage()
+                ));
+                throw $e;
+            }
+        }
     }
     
     /**
