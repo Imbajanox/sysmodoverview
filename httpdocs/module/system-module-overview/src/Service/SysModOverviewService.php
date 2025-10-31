@@ -279,7 +279,7 @@ class SysModOverviewService
                 if (is_integer(key($module))) {
                     $dependencies = [];
                     foreach ($module as $depModule) {
-                        if (is_array($depModule) && isset($depModule["dependent"])) {
+                        if (is_array($depModule) && isset($depModule["dependent"]) && !empty($depModule["dependent"])) {
                             $dependencies[] = $depModule["dependent"];
                         }
                     }
@@ -321,7 +321,7 @@ class SysModOverviewService
             }
 
             if (!is_array($data) || empty($data)) {
-                error_log("Warning: Empty or invalid data provided to setInfosInEntity for entity: " . $entity);
+                error_log("setInfosInEntity: Empty or invalid data provided for entity: " . $entity);
                 return $em;
             }
 
@@ -389,7 +389,7 @@ class SysModOverviewService
                 try {
                     $this->entityManager->rollback();
                 } catch (Exception $rollbackException) {
-                    error_log("SysModOverviewService::setInfos Rollback Error: " . $rollbackException->getMessage());
+                    error_log("SysModOverviewService::setInfos Rollback Error: " . $rollbackException->getMessage() . " (Original error: " . $e->getMessage() . ")");
                 }
             }
             error_log("SysModOverviewService::setInfos Error: " . $e->getMessage());

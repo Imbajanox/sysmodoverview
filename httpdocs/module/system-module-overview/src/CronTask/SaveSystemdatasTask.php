@@ -13,9 +13,9 @@ use function is_file;
 use function json_decode;
 use function json_last_error;
 use function json_last_error_msg;
+use function preg_match;
 use function scandir;
 use function sprintf;
-use function str_ends_with;
 
 use const JSON_ERROR_NONE;
 
@@ -51,8 +51,8 @@ class SaveSystemdatasTask implements CronTaskExecutable
         foreach ($files as $file) {
             $filePath = $systemsDir . '/' . $file;
             
-            // Only process JSON files
-            if (!is_file($filePath) || !str_ends_with($file, '.json')) {
+            // Only process JSON files (case-insensitive)
+            if (!is_file($filePath) || !preg_match('/\.json$/i', $file)) {
                 continue;
             }
 

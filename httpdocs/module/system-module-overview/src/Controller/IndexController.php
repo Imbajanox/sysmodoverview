@@ -72,7 +72,14 @@ class IndexController extends AbstractActionController
             return;
         }
         
-        $ipaddress = $data["ipaddress"] ?? "unknown";
+        // IP address is required for proper system identification
+        if (!isset($data["ipaddress"]) || empty($data["ipaddress"])) {
+            error_log("Warning: Missing IP address in received data, using timestamp-based identifier");
+            $ipaddress = "no-ip-" . time();
+        } else {
+            $ipaddress = $data["ipaddress"];
+        }
+        
         $systemName = $data["j77Config"]["name"] ?? "laminassystem";
         $jsonData = json_encode($data);
         
