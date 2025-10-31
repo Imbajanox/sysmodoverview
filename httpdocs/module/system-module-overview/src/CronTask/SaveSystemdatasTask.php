@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManager;
 use WirklichDigital\SystemModuleOverview\Service\SysModOverviewService;
 use Exception;
 
-use function file_exists;
 use function file_get_contents;
 use function is_dir;
 use function is_file;
