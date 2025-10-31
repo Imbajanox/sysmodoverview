@@ -13,11 +13,13 @@ use function is_file;
 use function json_decode;
 use function json_last_error;
 use function json_last_error_msg;
-use function preg_match;
+use function pathinfo;
 use function scandir;
 use function sprintf;
+use function strtolower;
 
 use const JSON_ERROR_NONE;
+use const PATHINFO_EXTENSION;
 
 class SaveSystemdatasTask implements CronTaskExecutable
 {
@@ -52,7 +54,8 @@ class SaveSystemdatasTask implements CronTaskExecutable
             $filePath = $systemsDir . '/' . $file;
             
             // Only process JSON files (case-insensitive)
-            if (!is_file($filePath) || !preg_match('/\.json$/i', $file)) {
+            $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+            if (!is_file($filePath) || $extension !== 'json') {
                 continue;
             }
 

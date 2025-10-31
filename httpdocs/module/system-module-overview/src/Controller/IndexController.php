@@ -74,8 +74,8 @@ class IndexController extends AbstractActionController
         
         // IP address is required for proper system identification
         if (!isset($data["ipaddress"]) || empty($data["ipaddress"])) {
-            error_log("Warning: Missing IP address in received data, using timestamp-based identifier");
-            $ipaddress = "no-ip-" . time();
+            error_log("Warning: Missing IP address in received data, using unique identifier");
+            $ipaddress = "no-ip-" . uniqid();
         } else {
             $ipaddress = $data["ipaddress"];
         }
