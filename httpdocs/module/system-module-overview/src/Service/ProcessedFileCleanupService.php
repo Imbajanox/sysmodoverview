@@ -22,6 +22,9 @@ class ProcessedFileCleanupService
     // Default retention period in days
     private const DEFAULT_RETENTION_DAYS = 30;
     
+    // Directory path for processed files
+    private const PROCESSED_DIR = 'data/sysmoddatas/processed';
+    
     public function __construct(
         protected EntityManager $entityManager,
         protected array $config = []
@@ -67,7 +70,7 @@ class ProcessedFileCleanupService
     public function cleanupArchivedFiles(?int $daysToKeep = null): int
     {
         $daysToKeep = $daysToKeep ?? self::DEFAULT_RETENTION_DAYS;
-        $processedDir = "data/sysmoddatas/processed";
+        $processedDir = self::PROCESSED_DIR;
         
         if (!is_dir($processedDir)) {
             error_log("ProcessedFileCleanupService: Processed directory does not exist");

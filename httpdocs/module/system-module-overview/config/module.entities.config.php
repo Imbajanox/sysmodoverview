@@ -22,7 +22,7 @@ return [
                 ],
                 'filePath' => [
                     'type' => 'string',
-                    'nullable' => true,
+                    'nullable' => false,
                 ],
                 'fileHash' => [
                     'type' => 'string',

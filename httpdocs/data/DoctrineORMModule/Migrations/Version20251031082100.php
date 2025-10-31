@@ -24,7 +24,7 @@ final class Version20251031082100 extends AbstractMigration
         $this->addSql('CREATE TABLE ProcessedFile (
             id INT AUTO_INCREMENT NOT NULL,
             filename VARCHAR(255) NOT NULL,
-            filePath VARCHAR(500) DEFAULT NULL,
+            filePath VARCHAR(500) NOT NULL,
             fileHash VARCHAR(32) NOT NULL,
             processedAt DATETIME NOT NULL,
             status VARCHAR(50) NOT NULL,

@@ -18,6 +18,9 @@ use const JSON_ERROR_NONE;
 
 class IndexController extends AbstractActionController
 {
+    // Directory path for incoming system data files
+    private const SYSTEMS_DIR = 'data/sysmoddatas/systems';
+    
     public function __construct(
         protected EntityManager $entityManager,
         protected SysModOverviewService $sysModOverviewService,
@@ -62,7 +65,7 @@ class IndexController extends AbstractActionController
 
     private function putDataInFile(array $data)
     {
-        $path = "data/sysmoddatas/systems";
+        $path = self::SYSTEMS_DIR;
         if (! is_dir($path)) {
             mkdir($path, 0755, true);
         }

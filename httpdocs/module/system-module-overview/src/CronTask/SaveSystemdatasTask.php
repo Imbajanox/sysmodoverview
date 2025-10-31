@@ -32,6 +32,10 @@ class SaveSystemdatasTask implements CronTaskExecutable
     // Default batch processing configuration
     private const DEFAULT_MAX_FILES_PER_RUN = 50;
     
+    // Directory paths
+    private const SYSTEMS_DIR = 'data/sysmoddatas/systems';
+    private const PROCESSED_DIR = 'data/sysmoddatas/processed';
+    
     // File processing status constants
     private const STATUS_SUCCESS = 'success';
     private const STATUS_ERROR = 'error';
@@ -52,8 +56,8 @@ class SaveSystemdatasTask implements CronTaskExecutable
 
     public function run()
     {
-        $systemsDir = "data/sysmoddatas/systems";
-        $processedDir = "data/sysmoddatas/processed";
+        $systemsDir = self::SYSTEMS_DIR;
+        $processedDir = self::PROCESSED_DIR;
         
         if (!is_dir($systemsDir)) {
             error_log(sprintf("SaveSystemdatasTask: Directory '%s' does not exist", $systemsDir));
@@ -240,8 +244,14 @@ class SaveSystemdatasTask implements CronTaskExecutable
             
             $this->entityManager->persist($processedFile);
             $this->entityManager->flush();
+        } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
+            // File was already marked by another process - this is OK (race condition)
+            error_log(sprintf(
+                "SaveSystemdatasTask: File '%s' already marked as processed (race condition handled)",
+                $filename
+            ));
         } catch (Exception $e) {
-            // If duplicate key error, file was already marked by another process - this is OK
+            // Check for generic duplicate entry errors as fallback
             if (strpos($e->getMessage(), 'Duplicate entry') !== false || 
                 strpos($e->getMessage(), 'SQLSTATE[23000]') !== false) {
                 error_log(sprintf(

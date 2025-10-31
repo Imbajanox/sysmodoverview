@@ -4,6 +4,16 @@ namespace WirklichDigital\SystemModuleOverview\Entity;
 
 use DateTime;
 
+/**
+ * ProcessedFile Entity
+ * 
+ * Tracks processed system data files to prevent duplicate processing.
+ * Uses MD5 file hash for content-based duplicate detection, allowing the system
+ * to identify and skip files that have already been processed even if renamed.
+ * 
+ * This entity is used by the SaveSystemdatasTask cronjob to maintain a record
+ * of all files processed, their status (success/error), and any error messages.
+ */
 class ProcessedFile
 {
     protected ?int $id = null;
