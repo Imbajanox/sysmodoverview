@@ -1,0 +1,44 @@
+<h1><?= $this->translate('Module'); ?>: <?php echo $vendor . '/' . $name ?></h1>
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Systems that use this module'); ?></h3>
+                
+            </div>
+            <div class="md-card-content">
+                <?php if (!empty($serverInfo)): ?>
+                    <table class="dataTable uk-table uk-table-striped">
+                        <thead>
+                            <tr>
+                                <th><?= $this->translate('Repository Name'); ?></th>
+                                <th><?= $this->translate('Server URL'); ?></th>
+                                <th><?= $this->translate('IP Address'); ?></th>
+                                <th><?= $this->translate('Current Version'); ?></th>
+                                <th><?= $this->translate('Latest Version'); ?></th>
+                                <th><?= $this->translate('Outdated'); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($serverInfo as $info): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($info['systemRepositoryName']) ?></td>
+                                    <td>
+                                        <a href="<?= $this->url('sysModOverview/system/server/view', ['id' => $info['serverId']], []) ?>" target="_blank">
+                                            <?= htmlspecialchars($info['serverURL']) ?>
+                                        </a>
+                                    </td>
+                                    <td><?= htmlspecialchars($info['ipAddress']) ?></td>
+                                    <td><?= htmlspecialchars($info['version']) ?></td>
+                                    <td><?= htmlspecialchars($info['latestVersion']) ?></td>
+                                    <td><?php echo $this->translate($info['outdated']); ?></td>
+                                </tr> <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <p><?= $this->translate('No information available.'); ?></p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>

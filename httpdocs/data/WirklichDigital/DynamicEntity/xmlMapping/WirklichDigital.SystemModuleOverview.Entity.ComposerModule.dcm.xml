@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WirklichDigital\SystemModuleOverview\Entity\ComposerModule" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <id name="id" type="integer">
+      <generator strategy="AUTO"/>
+    </id>
+    <field name="vendor" type="string" nullable="1"/>
+    <field name="name" type="string" nullable="1"/>
+    <field name="systems" type="integer" nullable="1"/>
+    <field name="upToDate" type="integer" nullable="1"/>
+    <field name="outdated" type="integer" nullable="1"/>
+    <one-to-many field="laminasSystemServerModule" target-entity="WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule" mapped-by="composerModule"/>
+    <one-to-many field="laminasSystemServerComposerOutdated" target-entity="WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated" mapped-by="composerModule"/>
+  </entity>
+</doctrine-mapping>

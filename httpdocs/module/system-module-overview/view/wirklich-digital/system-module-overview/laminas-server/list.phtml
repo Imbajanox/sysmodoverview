@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1><?= $this->translate('Laminas Systems'); ?></h1>
+
+            <div class="md-card md-card-success">
+                <div class="md-card-toolbar">
+                    <h3 class="md-card-toolbar-heading-text">
+                        <?= $this->translate('Instructions'); ?>
+                    </h3>
+                </div>
+                <div class="md-card-content">
+                    <ul>
+                        <li><?= $this->translate('All Laminas systems are listed in this table'); ?></li>
+                        <li><?= $this->translate('For a system to appear here, the module "wirklich-digital/laminas-syshelper-client" must be installed.'); ?></li>
+                        <li><?= $this->translate('More information about the system can be retrieved via "Show Details".'); ?></li>
+                        <li><?= $this->translate('Current info of the Laminas system is then regularly sent via cron job.'); ?></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="md-card" style="display: inline-block; margin-bottom: 20px;">
+                <div class="md-card-toolbar">
+                    <h3 class="md-card-toolbar-heading-text">
+                        <strong><?= $this->translate('Laminas Systems'); ?></strong>
+                    </h3>
+                </div>
+                <div class="md-card-content">
+                    <table data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                        <?= $this->datatable()
+                            ->setTableClasses(['dataTable', 'uk-table', 'tablesorter-altair'])
+                            ->render($this->datatable); 
+                        ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.wirklichDigitalDataTableCurrentConfig = {
+        processing: true,
+        serverSide: true,
+        ajax: <?= json_encode($this->url('sysModOverview/system/server/listAjax', ['id' => $this->systemId], [])) ?>,
+        order: [
+            [0, 'asc']
+        ],
+        columnDefs: <?= $this->datatableColumnDefinition($this->datatable, []); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+</script>
+
+<style>
+    .md-card
+    {
+        display: block!important;
+        overflow: scroll;
+    }
+</style>

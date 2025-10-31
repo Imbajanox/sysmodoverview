@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+  <entity name="WirklichDigital\SyshelperBase\Entity\AssignedIp" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <id name="id" type="uuid">
+      <generator strategy="CUSTOM"/>
+      <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+    </id>
+    <field name="address" type="ip"/>
+    <field name="ptr" type="string" nullable="1"/>
+    <field name="syshelperDescription" type="text" nullable="1"/>
+    <field name="openPortsInternal" type="json" nullable="1"/>
+    <field name="openPortsInternalLastScanAt" type="datetime" nullable="1"/>
+    <field name="openPortsExternal" type="json" nullable="1"/>
+    <field name="openPortsExternalLastScanAt" type="datetime" nullable="1"/>
+    <many-to-one field="host" target-entity="WirklichDigital\SyshelperBase\Entity\Host" inversed-by="assignedIps"/>
+    <many-to-one field="subnet" target-entity="WirklichDigital\SyshelperBase\Entity\IpSubnet" inversed-by="assignedIps"/>
+    <many-to-many field="tags" target-entity="WirklichDigital\SyshelperBase\Entity\SyshelperTag" inversed-by="assignedIps"/>
+    <one-to-one field="reachableIp" target-entity="WirklichDigital\SyshelperBase\Entity\ReachableIp" mapped-by="assignedIp"/>
+    <one-to-many field="alerts" target-entity="WirklichDigital\SyshelperAlerts\Entity\Alert" mapped-by="host"/>
+    <field name="createdAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="create"/>
+    </field>
+    <field name="updatedAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="update"/>
+    </field>
+  </entity>
+</doctrine-mapping>

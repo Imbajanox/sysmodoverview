@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+  <entity name="WirklichDigital\DynamicEntityTranslatableModule\Entity\Translation" repository-class="WirklichDigital\DynamicEntityTranslatableModule\Repository\DynamicEntityTranslationRepository">
+    <indexes>
+      <index name="translations_lookup_idx" columns="locale,objectClass,foreignKey"/>
+    </indexes>
+    <unique-constraints>
+      <unique-constraint name="lookup_unique_idx" columns="locale,objectClass,foreignKey,field"/>
+    </unique-constraints>
+    <id name="id" type="integer">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="locale" type="string" length="8">
+      <gedmo:versioned/>
+    </field>
+    <field name="objectClass" type="string" length="255">
+      <gedmo:versioned/>
+    </field>
+    <field name="field" type="string" length="64">
+      <gedmo:versioned/>
+    </field>
+    <field name="foreignKey" type="string" length="64">
+      <gedmo:versioned/>
+    </field>
+    <field name="content" type="text" nullable="1">
+      <gedmo:versioned/>
+    </field>
+    <gedmo:loggable log-entry-class="WirklichDigital\DynamicEntityLoggableModule\Entity\LogEntry"/>
+  </entity>
+</doctrine-mapping>

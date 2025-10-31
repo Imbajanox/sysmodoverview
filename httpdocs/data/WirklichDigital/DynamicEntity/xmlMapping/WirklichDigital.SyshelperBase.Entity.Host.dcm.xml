@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+  <entity name="WirklichDigital\SyshelperBase\Entity\Host" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <id name="id" type="uuid">
+      <generator strategy="CUSTOM"/>
+      <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+    </id>
+    <field name="name" type="string" nullable="1"/>
+    <field name="syshelperDescription" type="text" nullable="1"/>
+    <field name="lastConnectionAt" type="datetime" nullable="1"/>
+    <field name="connectionIp" type="ip" nullable="1"/>
+    <field name="systemUuid" type="string" nullable="1"/>
+    <field name="scriptVersion" type="string" nullable="1"/>
+    <field name="fqdn" type="string" nullable="1"/>
+    <field name="externalIpV4" type="string" nullable="1"/>
+    <field name="externalIpV6" type="string" nullable="1"/>
+    <field name="nameservers" type="json" nullable="1"/>
+    <field name="interfaces" type="json" nullable="1"/>
+    <field name="servicesListening" type="json" nullable="1"/>
+    <field name="processesRunning" type="json" nullable="1"/>
+    <field name="puppetVersion" type="string" nullable="1"/>
+    <field name="puppetIsOK" type="boolean" nullable="1"/>
+    <field name="webserverVersionApache" type="string" nullable="1"/>
+    <field name="webserverVersionNginx" type="string" nullable="1"/>
+    <field name="webserverDomainsApache" type="json" nullable="1"/>
+    <field name="webserverDomainsNginx" type="json" nullable="1"/>
+    <field name="isVirtual" type="boolean" nullable="1"/>
+    <field name="cpuCores" type="integer" nullable="1"/>
+    <field name="cpuModel" type="string" nullable="1"/>
+    <field name="ramSizeKb" type="integer" nullable="1"/>
+    <field name="ramAvailableKb" type="integer" nullable="1"/>
+    <field name="disks" type="json" nullable="1"/>
+    <field name="osName" type="string" nullable="1"/>
+    <field name="osVersion" type="string" nullable="1"/>
+    <field name="kernelVersion" type="string" length="512" nullable="1"/>
+    <field name="packagesAptMirrors" type="json" nullable="1"/>
+    <field name="packagesAptHasRepoError" type="boolean" nullable="1"/>
+    <field name="packagesAptUpgradable" type="json" nullable="1"/>
+    <field name="packagesInstalled" type="json" nullable="1"/>
+    <field name="pleskVersion" type="string" nullable="1"/>
+    <field name="pleskBackupIsDone" type="boolean" nullable="1"/>
+    <field name="pleskBackupHasError" type="boolean" nullable="1"/>
+    <field name="mailqCount" type="integer" nullable="1"/>
+    <field name="proxmoxVersion" type="string" nullable="1"/>
+    <field name="uptimeSeconds" type="integer" nullable="1"/>
+    <one-to-many field="assignedIps" target-entity="WirklichDigital\SyshelperBase\Entity\AssignedIp" mapped-by="host">
+      <cascade>
+        <cascade-remove/>
+      </cascade>
+    </one-to-many>
+    <one-to-many field="rawFacts" target-entity="WirklichDigital\SyshelperBase\Entity\HostRawFact" mapped-by="host">
+      <cascade>
+        <cascade-remove/>
+      </cascade>
+    </one-to-many>
+    <one-to-many field="sshPublicKeyHostMappings" target-entity="WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostMapping" mapped-by="host">
+      <cascade>
+        <cascade-remove/>
+      </cascade>
+    </one-to-many>
+    <one-to-many field="sshPublicKeyLogins" target-entity="WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin" mapped-by="host">
+      <cascade>
+        <cascade-persist/>
+        <cascade-remove/>
+      </cascade>
+    </one-to-many>
+    <one-to-many field="alerts" target-entity="WirklichDigital\SyshelperAlerts\Entity\Alert" mapped-by="host"/>
+    <many-to-many field="tags" target-entity="WirklichDigital\SyshelperBase\Entity\SyshelperTag" inversed-by="hosts"/>
+    <field name="createdAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="create"/>
+    </field>
+    <field name="updatedAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="update"/>
+    </field>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+  <entity name="WirklichDigital\Authentication\Entity\User" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <indexes>
+      <index name="index_type" columns="type"/>
+      <index name="index_isHidden" columns="isHidden"/>
+      <index name="index_canLogin" columns="canLogin"/>
+    </indexes>
+    <id name="id" type="integer">
+      <generator strategy="AUTO"/>
+    </id>
+    <field name="type" type="string">
+      <gedmo:versioned/>
+    </field>
+    <field name="isHidden" type="boolean">
+      <options>
+        <option name="default">0</option>
+      </options>
+      <gedmo:versioned/>
+    </field>
+    <field name="canLogin" type="boolean">
+      <options>
+        <option name="default">1</option>
+      </options>
+      <gedmo:versioned/>
+    </field>
+    <field name="roles" type="json">
+      <gedmo:versioned/>
+    </field>
+    <one-to-one field="systemUser" target-entity="WirklichDigital\Authentication\Entity\SystemUser" mapped-by="user">
+      <cascade>
+        <cascade-remove/>
+      </cascade>
+    </one-to-one>
+    <one-to-one field="defaultUser" target-entity="WirklichDigital\DefaultUser\Entity\DefaultUser" mapped-by="user">
+      <cascade>
+        <cascade-remove/>
+      </cascade>
+    </one-to-one>
+    <one-to-many field="authenticationMails" target-entity="WirklichDigital\AuthenticationMail\Entity\AuthenticationMail" mapped-by="user">
+      <cascade>
+        <cascade-remove/>
+        <cascade-persist/>
+      </cascade>
+    </one-to-many>
+    <field name="createdAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="create"/>
+      <gedmo:versioned/>
+    </field>
+    <field name="updatedAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="update"/>
+      <gedmo:versioned/>
+    </field>
+    <many-to-one field="createdBy" target-entity="WirklichDigital\Authentication\Entity\User">
+      <join-column on-delete="SET NULL"/>
+      <gedmo:blameable on="create"/>
+      <gedmo:versioned/>
+    </many-to-one>
+    <many-to-one field="updatedBy" target-entity="WirklichDigital\Authentication\Entity\User">
+      <join-column on-delete="SET NULL"/>
+      <gedmo:blameable on="update"/>
+      <gedmo:versioned/>
+    </many-to-one>
+    <gedmo:loggable log-entry-class="WirklichDigital\DynamicEntityLoggableModule\Entity\LogEntry"/>
+  </entity>
+</doctrine-mapping>

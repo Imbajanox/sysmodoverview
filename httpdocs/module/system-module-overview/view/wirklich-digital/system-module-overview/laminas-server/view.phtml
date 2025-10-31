@@ -1,0 +1,220 @@
+<h1><?php echo $this->translate('Laminas System'); ?>: <?php echo $server->getUrl(); ?></h1>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Basic details'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="basic_details_table" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <tr>
+                            <th><?= $this->translate('Repository Name'); ?>:</th>
+                            <td><?PHP echo $system->getRepositoryName(); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Repository'); ?>:</th>
+                            <td><?PHP echo $repo; ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('URL'); ?>:</th>
+                            <td><?PHP echo $server->getUrl(); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('IPv4 Address'); ?>:</th>
+                            <td><?= htmlspecialchars($ipv4); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('IPv6 Address'); ?>:</th>
+                            <td><?= htmlspecialchars($ipv6); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Last updated at'); ?>:</th>
+                            <td><?PHP echo $server->getUpdatedAt() ? $server->getUpdatedAt()->format('d.m.Y h:i') : $this->translate('No information available.'); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="uk-width-medium-1-2 uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Machine & OS'); ?></h3>
+            </div>
+            <div class="md-card-content">
+
+                <table id="basic_details_table" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <tr>
+                            <th><?= $this->translate('PHP Version'); ?>:</th>
+                            <td><?PHP echo $php[0] ?? $this->translate('No information available.'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('System Config'); ?>:</th>
+                            <td><?PHP echo $systemInfo[0] ?? $this->translate('No information available.'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Development System'); ?>:</th>
+                            <td><?php echo $devSystem ? $this->translate('Yes') : $this->translate('No'); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Migrations'); ?></h3>
+            </div>
+            <div class="md-card-content">
+              
+                  
+                <table id="basic_details_table" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <?php if (! $this->database) : ?>
+                            <td colspan="2"><?= $this->translate('No database information available.'); ?></td>
+                        <?php else: ?>
+                        <tr>
+                            <td colspan="2" style="border-bottom:2px solid #e0e0e0; border-top:2px solid #e0e0e0;"><?= $this->translate('Database'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Driver'); ?>:</th>
+                            <td><?php echo $this->database['Driver'] ?? $this->translate('No information available.'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Name'); ?>:</th>
+                            <td><?php echo $this->database['Name'] ?? $this->translate('No information available.'); ?></td>
+                        </tr>
+                        <?php endif; ?>
+                        <?php if (! $this->versions) : ?>
+                            <td colspan="2"><?= $this->translate('No version information available.'); ?></td>
+                        <?php else: ?>
+                        <!-- Visual separator -->
+                        <tr>
+                            <td colspan="2" style="border-bottom:2px solid #e0e0e0; border-top:2px solid #e0e0e0;"><?= $this->translate('Versions'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Previous'); ?>:</th>
+                            <td><?php echo $this->versions['Previous'] ?? $this->translate('No information available.'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Current'); ?>:</th>
+                            <td><?php echo $this->versions['Current'] ?? $this->translate('No information available.'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Next'); ?>:</th>
+                            <td><?php echo $this->versions['Next'] ?? $this->translate('No information available.'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Latest'); ?>:</th>
+                            <td><?php echo $this->versions['Latest'] ?? $this->translate('No information available.'); ?></td>
+                        </tr>
+                        <?php endif; ?>
+                        <?php if (! $this->migrations) : ?>
+                            <td colspan="2"><?= $this->translate('No migration information available.'); ?></td>
+                        <?php else: ?>
+                        <tr>
+                            <td colspan="2" style="border-bottom:2px solid #e0e0e0; border-top:2px solid #e0e0e0;"><?= $this->translate('Migrations'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Executed'); ?>:</th>
+                            <td><?php echo $this->migrations['Executed'] ?? $this->translate('No information available.'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Executed Unavailable'); ?>:</th>
+                            <td><?php echo $this->migrations['Executed Unavailable'] ?? $this->translate('No information available.'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Available'); ?>:</th>
+                            <td><?php echo $this->migrations['Available'] ?? $this->translate('No information available.'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('New'); ?>:</th>
+                            <td><?php echo $this->migrations['New'] ?? $this->translate('No information available.'); ?></td>
+                        </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="uk-width-medium-1-2 uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Database'); ?></h3>
+            </div>
+            <div class="md-card-content">
+
+                <table id="process_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th><?= $this->translate('Table Name'); ?></th>
+                            <th><?= $this->translate('Engine'); ?></th>
+                            <th><?= $this->translate('Version'); ?></th>
+                            <th><?= $this->translate('Rows'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP if (!empty($databaseInfo)): ?>
+                            <?PHP foreach ($databaseInfo as $table): ?>
+                                <tr>
+                                    <td><?= $table->getDbName(); ?></td>
+                                    <td><?= $table->getDbEngine();  ?></td>
+                                    <td><?= $table->getDbVersion();  ?></td>
+                                    <td><?= $table->getDbRows();  ?></td>
+                                </tr>
+                            <?PHP endforeach; ?>
+                        <?PHP endif; ?>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Installed Modules'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="process_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th><?= $this->translate('Vendor'); ?></th>
+                            <th><?= $this->translate('Name'); ?></th>
+                            <th><?= $this->translate('Installed Version'); ?></th>
+                            <th><?= $this->translate('Current Version'); ?> </th>
+                            <th><?= $this->translate('State'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP if (!empty($modulesWithComposerOutdated)): ?>
+                            <?PHP foreach ($modulesWithComposerOutdated as $moduleWithComposerOutdated): ?>
+                                <tr>
+                                    <td><?= $moduleWithComposerOutdated['module']->getComposerModule() ? $moduleWithComposerOutdated['module']->getComposerModule()->getVendor() : '-'; ?></td>
+                                    <td><?= $moduleWithComposerOutdated['module']->getComposerModule() ? $moduleWithComposerOutdated['module']->getComposerModule()->getName() : '-';  ?></td>
+                                    <td><?= $moduleWithComposerOutdated['composerOutdated'] ? $moduleWithComposerOutdated['composerOutdated']->getVersion() : $moduleWithComposerOutdated['module']->getModuleVersion();  ?></td>
+                                    <td><?= $moduleWithComposerOutdated['composerOutdated'] ? $moduleWithComposerOutdated['composerOutdated']->getLatest() : $moduleWithComposerOutdated['module']->getModuleVersion();  ?></td>
+                                    <td><?= $moduleWithComposerOutdated['composerOutdated'] ? $moduleWithComposerOutdated['composerOutdated']->getLatestStatus() : 'up-to-date';  ?></td>
+                                </tr>
+                            <?PHP endforeach; ?>
+                        <?PHP endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

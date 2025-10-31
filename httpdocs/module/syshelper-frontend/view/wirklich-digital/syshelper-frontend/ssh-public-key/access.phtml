@@ -1,0 +1,52 @@
+
+<h1><?= $this->translate('SSH Access'); ?></h1>
+
+<div class="md-card md-card-success">
+    <div class="md-card-toolbar">
+        <h3 class="md-card-toolbar-heading-text">
+            Verwendungshinweise
+        </h3>
+    </div>
+    <div class="md-card-content">
+        <ul>
+            <li>SSH-Keys der Gruppen "High" und "Admin" haben Zugriff auf alle Hosts, auch ohne in dieser Liste zu stehen.</li>
+            <li>Einträge in dieser Liste werden automatisch gelöscht, wenn der entsprechende Zugriff länger als zwei Monate nicht genutzt worden ist.</li>
+            <li>Es kann bis zu 15 Minuten dauern, bis Änderungen an dieser Liste wirksam werden.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('SSH Access List'); ?></h3>
+
+                <div class="md-card-toolbar-actions">
+                    <?php if ($this->isAllowedRoute('syshelper-frontend/ssh-public-key/access-create')) : ?>
+                        <a href="<?= $this->url('syshelper-frontend/ssh-public-key/access-create', [], []) ?>">
+                            <i class="md-icon material-icons">add</i>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="md-card-content">
+                <?= $this->datatable()
+                        ->setTableClasses(['dataTable', 'uk-table'])
+                        ->render($this->datatable); ?>
+                </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.wirklichDigitalDataTableCurrentConfig = {
+        processing: true,
+        serverSide: true,
+        stateSave: true,
+        ajax: <?= json_encode($this->url('syshelper-frontend/ssh-public-key/accessAjax',[],['query' => []])) ?>,
+        order: [[ 2, 'dsc' ]],
+        columnDefs: <?= $this->datatableColumnDefinition($this->datatable, ["visible"]); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+</script>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <id name="id" type="uuid">
+      <generator strategy="CUSTOM"/>
+      <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+    </id>
+    <field name="user" type="string" nullable="1" length="32"/>
+    <field name="ip" type="ip" nullable="1"/>
+    <field name="loggedInAt" type="datetime"/>
+    <many-to-one field="host" target-entity="WirklichDigital\SyshelperBase\Entity\Host" mapped-by="sshPublicKeyLogins"/>
+    <many-to-one field="sshPublicKey" target-entity="WirklichDigital\SyshelperBase\Entity\SshPublicKey" inversed-by="sshPublicKeyLogins"/>
+  </entity>
+</doctrine-mapping>

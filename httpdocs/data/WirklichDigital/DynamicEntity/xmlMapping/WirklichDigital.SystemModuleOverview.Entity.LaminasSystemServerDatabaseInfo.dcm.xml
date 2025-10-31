@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <id name="id" type="integer">
+      <generator strategy="AUTO"/>
+    </id>
+    <field name="dbName" type="string" nullable="1"/>
+    <field name="dbEngine" type="string" nullable="1"/>
+    <field name="dbVersion" type="string" nullable="1"/>
+    <field name="dbRowFormat" type="string" nullable="1"/>
+    <field name="dbRows" type="string" nullable="1"/>
+    <field name="dbAvgRowLength" type="string" nullable="1"/>
+    <field name="dbDataLength" type="string" nullable="1"/>
+    <field name="dbMaxDataLength" type="string" nullable="1"/>
+    <field name="dbIndexLength" type="string" nullable="1"/>
+    <field name="dbDataFree" type="string" nullable="1"/>
+    <field name="dbAutoIncrement" type="string" nullable="1"/>
+    <field name="dbCreateTime" type="string" nullable="1"/>
+    <field name="dbUpdateTime" type="string" nullable="1"/>
+    <field name="dbCheckTime" type="string" nullable="1"/>
+    <field name="dbCollation" type="string" nullable="1"/>
+    <field name="dbChecksum" type="string" nullable="1"/>
+    <field name="dbCreateOptions" type="string" nullable="1"/>
+    <field name="dbComment" type="string" nullable="1"/>
+    <field name="dbMaxIndexLength" type="string" nullable="1"/>
+    <field name="dbTemporary" type="string" nullable="1"/>
+    <many-to-one field="laminasSystemServer" target-entity="WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer" inversed-by="laminasSystemServerDatabaseInfo"/>
+  </entity>
+</doctrine-mapping>

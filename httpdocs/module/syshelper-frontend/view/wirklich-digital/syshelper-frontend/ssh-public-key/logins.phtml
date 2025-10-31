@@ -1,0 +1,29 @@
+
+<h1><?= $this->translate('Latest SSH Logins'); ?></h1>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('List of logins'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <?= $this->datatable()
+                        ->setTableClasses(['dataTable', 'uk-table'])
+                        ->render($this->datatable); ?>
+                </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.wirklichDigitalDataTableCurrentConfig = {
+        processing: true,
+        serverSide: true,
+        stateSave: true,
+        ajax: <?= json_encode($this->url('syshelper-frontend/ssh-public-key/loginsAjax',[],['query' => []])) ?>,
+        order: [[ 0, 'dsc' ]],
+        columnDefs: <?= $this->datatableColumnDefinition($this->datatable, ["visible"]); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+</script>

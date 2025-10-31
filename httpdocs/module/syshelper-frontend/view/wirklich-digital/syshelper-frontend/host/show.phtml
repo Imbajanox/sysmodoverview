@@ -1,0 +1,658 @@
+<?PHP
+
+use WirklichDigital\StdLib\FileUtils\HumanReadbleFilesize;
+use WirklichDigital\StdLib\ColorUtils\ColorCalculator;
+use WirklichDigital\SyshelperBase\Entity\AssignedIp;
+use WirklichDigital\SyshelperBase\Entity\Host;
+use WirklichDigital\SyshelperAlerts\CronTask\LastConnectionLongAgoTask;
+use Laminas\Validator\InArray;
+
+$longAgo = $host->getLastConnectionAt() < (new \DateTime("-".LastConnectionLongAgoTask::LONG_AGO_TIME." hours"));
+    /** @var Host $host */
+?>
+<h1><?= $this->translate('Host'); ?>: <?= $host->getFqdn(); ?>
+    <?php
+        if ($host->getPleskVersion()) echo "<a href='https://".$host->getFqdn().":8443' target='_blank'>[Plesk]</a>";
+        if ($host->getProxmoxVersion()) echo "<a href='https://".$host->getFqdn().":8006' target='_blank'>[ProxMox]</a>";
+        if ($longAgo) echo "<a href=".$this->url('syshelper-frontend/host/remove',['id' => $host->getId()])." hidden>[REMOVE HOST]</a>";
+    ?>
+</h1>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Basic details'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="basic_details_table" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <tr>
+                            <th><?= $this->translate('FQDN');?>:</th>
+                            <td><?PHP echo $host->getFqdn(); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('System UUID');?>:</th>
+                            <td><?PHP echo $host->getSystemUuid(); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Script version'); ?>:</th>
+                            <td><?PHP echo $host->getScriptVersion() ?? $this->translate('Unknown Version'); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Connection-IP'); ?>:</th>
+                            <td><?PHP echo $host->getConnectionIp(); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Last connection at'); ?>:</th>
+                            <td <?PHP if ($longAgo) echo 'style="color:red;"' ?>><?PHP echo !empty($host->getLastConnectionAt()) ? $host->getLastConnectionAt()->format('Y-m-d H:i:s') : '-'; ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('First seen at'); ?>:</th>
+                            <td><?PHP echo !empty($host->getCreatedAt()) ? $host->getCreatedAt()->format('Y-m-d H:i:s') : '-'; ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Tags'); ?>:</th>
+                            <td><?PHP foreach($host->getTags() as $tag)
+                                echo '<span class="uk-badge" style="background-color: '.$tag->getColor().'; '.(ColorCalculator::isLightHtmlColor($tag->getColor())?'color: #000;':'color: #FFF;').'">'.$tag->getName().'</span> ';
+                            ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="uk-width-medium-1-2 uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Machine & OS'); ?></h3>
+            </div>
+            <div class="md-card-content">
+
+                <table id="machine_details" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <tr>
+                            <th><?= $this->translate('OS / Version');?>:</th>
+                            <td><?PHP echo ucfirst($host->getOsName() ?? $this->translate('Unknown OS')).', '.($host->getOsVersion() ?? $this->translate('Unknown Version')) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Kernel');?>:</th>
+                            <td><?PHP echo $host->getKernelVersion() ?? $this->translate('Unknown Version') ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Is virtual machine?'); ?>:</th>
+                            <td><?PHP echo $host->getIsVirtual() == null ? $this->translate('Unknown') : ($host->getIsVirtual() ? $this->translate('Yes') : $this->translate('No')); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('CPU Cores & Model'); ?>:</th>
+                            <td><?PHP echo ($host->getCpuCores() ?? $this->translate('Unknown')).' x '.($host->getCpuModel() ?? $this->translate('Unknown Model')); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('RAM'); ?>:</th>
+                            <td><?PHP if ($host->getRamSizeKb())
+                                        echo sprintf($this->translate('%s used of %s (%s (%.1f%%) free)'),HumanReadbleFilesize::humanBytes((($host->getRamSizeKb() - $host->getRamAvailableKb()) ?? 0)*1024),HumanReadbleFilesize::humanBytes(($host->getRamSizeKb() ?? 0)*1024),HumanReadbleFilesize::humanBytes(($host->getRamAvailableKb() ?? 0)*1024),(($host->getRamAvailableKb() / $host->getRamSizeKb())*100) );
+                                    else
+                                        echo "Unknown"
+                            ?></td>
+                        </tr>
+                        <?PHP if($host->getDisks() !== null): ?>
+                        <tr>
+                            <th><?= $this->translate('Disk');?>:</th>
+                            <td>
+                                <?PHP 
+                                    echo '<a href="#" data-uk-modal="{target:\'#modal_disks\'}">'.count($host->getDisks() ?? []).' '.$this->translate('mountpoints').'</a>';
+                                ?>
+                                <div class="uk-modal" id="modal_disks">
+                                    <div class="uk-modal-dialog">
+                                        <div class="uk-modal-header">
+                                            <h3 class="uk-modal-title"><?= $this->translate('Mounted drives') ?></h3>
+                                            <table class="uk-table" style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th><?= $this->translate('Mount'); ?></th>
+                                                        <th><?= $this->translate('FS'); ?></th>
+                                                        <th><?= $this->translate('Size'); ?></th>
+                                                        <th><?= $this->translate('Used'); ?></th>
+                                                        <th><?= $this->translate('Free'); ?></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?PHP foreach($host->getDisks() as $disk): ?>
+                                                    <tr>
+                                                        <td style="word-break: break-all;"><?= $disk['mount']; ?></td>
+                                                        <td><?= $disk['filesystem']; ?></td>
+                                                        <td><?= HumanReadbleFilesize::humanBytes($disk['size_kb']*1024); ?></td>
+                                                        <td><?= HumanReadbleFilesize::humanBytes($disk['used_kb']*1024); ?></td>
+                                                        <td><?= HumanReadbleFilesize::humanBytes($disk['free_kb']*1024); ?></td>
+                                                    </tr>
+                                                    <?PHP endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                            <div class="uk-modal-footer uk-text-right">
+                                                <button type="button" class="md-btn md-btn-flat uk-modal-close">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?PHP
+                                    foreach ($host->getDisks() as $disk) {
+                                        if ($disk['mount'] =="/")
+                                            echo ' ('.HumanReadbleFilesize::humanBytes($disk['free_kb']*1024).' ('.round(($disk['free_kb']/$disk['size_kb'])*100,2).'%) free on /)';
+                                    }
+                                ?>
+                            </td>
+                        </tr>
+                        <?PHP endif; ?>
+                        <tr>
+                            <th><?= $this->translate('Uptime'); ?>:</th>
+                            <td><?PHP echo sprintf($this->translate('%s days'),floor($host->getUptimeSeconds()/60/60/24)); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Network details'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="network_table" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <thead>
+                        <tr>
+                            <th><?= $this->translate('IP'); ?></th>
+                            <th><?= $this->translate('Interface'); ?></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP if(!empty($host->getInterfaces())): ?>
+                        <?PHP foreach($host->getInterfaces() as $interface => $ips): ?>
+                            <?PHP foreach($ips as $ip): ?>
+                            <tr>
+                                <td><?= $ip; ?></td>
+                                <td><?= $interface; ?></td>
+                                <td><?PHP
+                                    foreach($host->getAssignedIps() as $assignedIp)
+                                    {
+                                        /** @var AssignedIp $assignedIp */
+                                        if($assignedIp->getAddress()  == $ip)
+                                        {
+                                            echo '<a href="#" data-uk-modal="{target:\'#modal_assigned_ip_'.$assignedIp->getId().'\'}">Details</a>';
+                                            ?>
+                                            <div class="uk-modal" id="modal_assigned_ip_<?= $assignedIp->getId() ?>">
+                                                <div class="uk-modal-dialog">
+                                                    <div class="uk-modal-header">
+                                                        <h3 class="uk-modal-title"><?= $this->translate('IP-Details').': '.$assignedIp->getAddress(); ?></h3>
+                                                    </div>
+                                                    <table class="uk-table uk-table-hover uk-table-middle">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th><?= $this->translate('Part of subnet');?>:</th>
+                                                                <td><?PHP echo '<a href="'.$this->url('syshelper-frontend/ip-subnet/show',['id' => $assignedIp->getSubnet()->getId()]).'" target="_blank">'. $assignedIp->getSubnet()->getNetworkAddress().'/'.$assignedIp->getSubnet()->getNetworkCidrMask().'</a>'; ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th><?= $this->translate('Subnet type');?>:</th>
+                                                                <td><?= $assignedIp->getSubnet()->getImportSource() ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th><?= $this->translate('Open Ports TCP (external)');?>:</th>
+                                                                <td><?PHP
+                                                                if(empty($assignedIp->getOpenPortsExternal()) || empty($assignedIp->getOpenPortsExternal()['tcp'])) echo '-';
+                                                                $elm = [];
+                                                                $tcp_ports = $assignedIp->getOpenPortsExternal()['tcp'];
+                                                                foreach($tcp_ports as $port)
+                                                                {
+                                                                    $elm[] = '<span class="uk-badge">'.$port.'</span>';
+                                                                }
+                                                                echo implode(' ',$elm);                                                      
+                                                                ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th><?= $this->translate('Open Ports UDP (external)');?>:</th>
+                                                                <td><?PHP
+                                                                    if(empty($assignedIp->getOpenPortsExternal()) || empty($assignedIp->getOpenPortsExternal()['udp'])) 
+                                                                        echo '-';
+                                                                    else
+                                                                    {
+                                                                        $elm = [];
+                                                                        $tcp_ports = $assignedIp->getOpenPortsExternal()['udp'];
+                                                                        foreach($tcp_ports as $port)
+                                                                        {
+                                                                            $elm[] = '<span class="uk-badge">'.$port.'</span>';
+                                                                        }
+                                                                        echo implode(' ',$elm);     
+                                                                    }                                                           
+                                                                ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th><?= $this->translate('Last portscan (external)');?>:</th>
+                                                                <td><?PHP
+                                                                    if(empty($assignedIp->getOpenPortsExternalLastScanAt()))
+                                                                        echo '-';
+                                                                    else
+                                                                        echo $assignedIp->getOpenPortsExternalLastScanAt()->format('Y-m-d H:i:s');
+                                                                ?></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <div class="uk-modal-footer uk-text-right">
+                                                        <button type="button" class="md-btn md-btn-flat uk-modal-close">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <?PHP
+                                            echo '<a href="'.$this->url('syshelper-frontend/ip-subnet/show',['id' => $assignedIp->getSubnet()->getId()]).'">Subnet</a>';
+                                        }
+                                    }
+                                ?></td>
+                            </tr>
+                            <?PHP endforeach; ?>
+                        <?PHP endforeach; ?>
+                        <?PHP else: ?>
+                            <tr>
+                                <td colspan="2" class="uk-text-center"><?= $this->translate('There are no entries in this table.'); ?></td>
+                            </tr>
+                        <?PHP endif;?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="uk-width-medium-1-2 uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Other network info'); ?></h3>
+            </div>
+            <div class="md-card-content">
+
+                <table id="network_other_details" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <tr>
+                            <th><?= $this->translate('Resolving Nameserver');?>:</th>
+                            <td><?PHP echo $host->getNameservers() == null ? $this->translate('Unknown') : implode(', ',array_map(fn($value) : string => ( @gethostbyaddr($value) ? $value." (".@gethostbyaddr($value).")" : $value ),$host->getNameservers()));  ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('External IPv4');?>:</th>
+                            <td><?PHP echo $host->getExternalIpV4() ?? $this->translate('Unknown');  ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('External IPv6');?>:</th>
+                            <td><?PHP echo $host->getExternalIpV6() ?? $this->translate('Unknown');  ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Process list'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="process_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Process Name</th>
+                            <th>User</th>
+                            <th>CPU</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP if(!empty($host->getProcessesRunning())): ?>
+                        <?PHP foreach($host->getProcessesRunning() as $p): ?>
+                            <tr>
+                                <td style="word-break: break-all;"><?= $p['process'] ?></td>
+                                <td><?= $p['user'] ?></td>
+                                <td><?= ($p['cpu_percent']*100).'%' ?></td>
+                            </tr>
+                        <?PHP endforeach; ?>
+                        <?PHP endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Listening Services'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="services_listening_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Process Name</th>
+                            <th>Protocol</th>
+                            <th>Local</th>
+                            <th>Foreign</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP if(!empty($host->getServicesListening())): ?>
+                        <?PHP foreach($host->getServicesListening() as $s): ?>
+                            <tr <?php foreach ($host->getAssignedIps() as $a){
+                                        if ($a->getOpenPortsExternal() && $s['protocol'] && in_array($s['local_port'],$a->getOpenPortsExternal()[substr($s['protocol'],0,3)])) {
+                                            echo('style="color: green"');
+                                            break;
+                                        }
+                                    }?>>
+                                <td style="word-break: break-all;"><?= $s['pname'] ?></td>
+                                <td><?= $s['protocol'] ?></td>
+                                <td><?= ($s['local_address'] ?? $this->translate('unknown')).':'.($s['local_port'] ?? $this->translate('unknown')) ?></td>
+                                <td><?= ($s['foreign_address'] ?? $this->translate('unknown')).':'.($s['foreign_port'] ?? $this->translate('unknown')) ?></td>
+                            </tr>
+                        <?PHP endforeach; ?>
+                        <?PHP endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Domains'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="domain_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Domain Name</th>
+                            <th>Webserver</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP if(!empty($domains)): ?>
+                        <?PHP $myIPs=array();
+                            foreach($host->getAssignedIps() as $a) {
+                                $myIPs[]=$a->getAddress();
+                            }
+			    putenv('RES_OPTIONS=retrans:0 retry:0 timeout:0.2 attempts:1');
+			    foreach($domains as $domain_name => $webservers):
+				if (count($domains) <= 40)
+					$domain_ip=gethostbyname($domain_name);
+			?>
+                            <tr>
+                                <td style="word-break: break-all;<?php if (in_array($domain_ip,$myIPs)) echo("color: green");?>"><?= $domain_name ?></td>
+                                <td><?= implode(', ',$webservers) ?></td>
+                            </tr>
+                        <?PHP endforeach; ?>
+                        <?PHP endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Software-Details'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="software_details" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <tr>
+                            <th><?= $this->translate('Puppet-Version & -Status');?>:</th>
+                            <td><?PHP 
+                                echo ($host->getPuppetVersion() ?? $this->translate('Not installed'));
+                                if($host->getPuppetIsOK() === false) echo ' <span class="uk-badge uk-badge-danger">'.$this->translate('Last Puppet run had errors!').'</span>';  
+                                if($host->getPuppetIsOK() === true) echo ' <span class="uk-badge uk-badge-success">'.$this->translate('Last Puppet run succeeded!').'</span>';  
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Proxmox-Version & -Status');?>:</th>
+                            <td>
+                                <?PHP 
+                                    echo ($host->getProxmoxVersion() ?? $this->translate('Not installed'));
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Plesk-Version & -Status');?>:</th>
+                            <td>
+                                <?PHP 
+                                echo ($host->getPleskVersion() ?? $this->translate('Not installed'));
+                                if($host->getPleskBackupIsDone() === false) echo ' <span class="uk-badge uk-badge-danger">'.$this->translate('No plesk backup found!').'</span>';  
+                                if($host->getPleskBackupHasError() === true) echo ' <span class="uk-badge uk-badge-warn">'.$this->translate('Plesk backup has Error.').'</span>';  
+                                elseif($host->getPleskBackupIsDone() === true) echo ' <span class="uk-badge uk-badge-success">'.$this->translate('Plesk backups found.').'</span>';  
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Apache version');?>:</th>
+                            <td>
+                                <?PHP 
+                                echo ($host->getWebserverVersionApache() ?? $this->translate('Not installed'));
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Nginx version');?>:</th>
+                            <td>
+                                <?PHP 
+                                echo ($host->getWebserverVersionNginx() ?? $this->translate('Not installed'));
+                                ?>
+                            </td>
+                        </tr>
+                        <?PHP if($host->getPackagesAptMirrors() !== null): ?>
+                        <tr>
+                            <th><?= $this->translate('Apt Mirrors');?>:</th>
+                            <td>
+                                <?PHP 
+                                    echo '<a href="#" data-uk-modal="{target:\'#modal_mirrors\'}">'.count($host->getPackagesAptMirrors() ?? []).' '.$this->translate('Mirrors').'</a>';
+                                    if($host->getPackagesAptHasRepoError() === true) echo ' <span class="uk-badge uk-badge-danger">'.$this->translate('apt-get update had errors!').'</span>';  
+                                    if($host->getPackagesAptHasRepoError() === false) echo ' <span class="uk-badge uk-badge-success">'.$this->translate('apt-get update OK').'</span>';
+                                ?>
+                                <div class="uk-modal" id="modal_mirrors">
+                                    <div class="uk-modal-dialog">
+                                        <div class="uk-modal-header">
+                                            <h3 class="uk-modal-title"><?= $this->translate('Configured APT Mirrors on this host') ?></h3>
+                                            <table class="uk-table" style="width: 100%;">
+                                                <tbody>
+                                                    <?PHP foreach($host->getPackagesAptMirrors() as $mirror): ?>
+                                                    <tr>
+                                                        <td style="word-break: break-all;"><?= $mirror['url']; ?></td>
+                                                        <td><?= $mirror['distribution']; ?></td>
+                                                        <td><?= implode(', ', $mirror['components'] ?? []); ?></td>
+                                                    </tr>
+                                                    <?PHP endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                            <div class="uk-modal-footer uk-text-right">
+                                                <button type="button" class="md-btn md-btn-flat uk-modal-close">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?PHP endif; ?>
+                        <tr>
+                            <th><?= $this->translate('Mailq-Count');?>:</th>
+                            <td>
+                                <?PHP 
+                                echo ($host->getMailqCount() ?? $this->translate('No MTA is installed'));
+                                ?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Assigned SSH Keys'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="packages_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Env</th>
+                            <th>Comment</th>
+                            <th>Key Type</th>
+                            <th>Key Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP if(!empty($host->getSshPublicKeyHostMappings())): ?>
+                        <?PHP foreach($host->getSshPublicKeyHostMappings() as $mappedSshKey): ?>
+                            <tr>
+                                <td style="word-break: break-all;"><?= $mappedSshKey->getUserOnHost() ?></td>
+                                <td style="word-break: break-all;"><?= $mappedSshKey->getEnvironment() ?></td>
+                                <td style="word-break: break-all;"><?= $mappedSshKey->getComment() ?></td>
+                                <td style="word-break: break-all;"><?= $mappedSshKey->getSshPublicKey()->getKeyType() ?></td>
+                                <td style="word-break: break-all;"><?= substr($mappedSshKey->getSshPublicKey()->getKeyData(),0,10).'...'.substr($mappedSshKey->getSshPublicKey()->getKeyData(),-10) ?></td>
+                            </tr>
+                        <?PHP endforeach; ?>
+                        <?PHP endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Last SSH logins'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="packages_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Date/Time</th>
+                            <th>SSH Public Key</th>
+                            <th>User on host</th>
+                            <th>From IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP if(!empty($logins)): ?>
+                        <?PHP foreach($logins as $login): ?>
+                            <tr>
+                                <td style="word-break: break-all;"><?= $login->getLoggedInAt()->format('Y-m-d H:i:s') ?></td>
+                                <td style="word-break: break-all;">
+                                    <a href="<?= $this->url('syshelper-frontend/ssh-public-key/show',['id' => $login->getSshPublicKey()->getId()])?>" target="_blank">
+                                        <?= $login->getSshPublicKey()->getTitle() ?>
+                                    </a>
+                                </td>
+                                <td style="word-break: break-all;"><?= $login->getUser() ?></td>
+                                <td style="word-break: break-all;"><?= $login->getIp() ?></td>
+                            </tr>
+                        <?PHP endforeach; ?>
+                        <?PHP endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Packages installed'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="packages_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Package</th>
+                            <th>Version</th>
+                            <th>State</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP if(!empty($host->getPackagesInstalled())): ?>
+                        <?PHP foreach($host->getPackagesInstalled() as $p): ?>
+                            <tr>
+                                <td style="word-break: break-all;"><?= $p['name'] ?></td>
+                                <td style="word-break: break-all;"><?= $p['version'] ?></td>
+                                <td><?PHP 
+                                    if(!empty($p['current_state']))
+                                    {
+                                        echo $p['current_state'];
+                                        if(!stristr($p['current_state'],$p['wanted_state'])) echo ' <span class="uk-badge uk-badge-danger">'.$this->translate('State wanted:').' '.$p['wanted_state'].'</span>';
+                                    }
+                                    else
+                                        echo $this->translate("Unknown");
+                                    if(!empty($p['error_flag']) && $p['error_flag'] != 'ok') echo ' <span class="uk-badge uk-badge-danger">'.$this->translate('Package error!').' '.$p['error_flag'].'</span>';
+                                ?></td>
+                            </tr>
+                        <?PHP endforeach; ?>
+                        <?PHP endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Packages with updates'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="services_listening_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Package</th>
+                            <th>Current Version</th>
+                            <th>Update Version</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP if(!empty($host->getPackagesAptUpgradable())): ?>
+                            <?PHP foreach($host->getPackagesAptUpgradable() as $p): ?>
+                                <tr>
+                                    <td style="word-break: break-all;"><?= $p['name'] ?></td>
+                                    <td style="word-break: break-all;"><?= $p['version_from'] ?></td>
+                                    <td style="word-break: break-all;"><?= $p['version_to'] ?></td>
+                                </tr>
+                            <?PHP endforeach; ?>
+                        <?PHP else: ?>
+                            <tr>
+                                <td class="uk-text-center"><?= $this->translate('No updates available at the moment.'); ?></td>
+                            </tr>
+                        <?PHP endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

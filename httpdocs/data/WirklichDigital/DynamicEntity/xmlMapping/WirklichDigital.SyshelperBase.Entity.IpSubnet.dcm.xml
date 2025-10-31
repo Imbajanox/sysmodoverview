@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+  <entity name="WirklichDigital\SyshelperBase\Entity\IpSubnet" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <id name="id" type="uuid">
+      <generator strategy="CUSTOM"/>
+      <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+    </id>
+    <field name="networkAddress" type="ip"/>
+    <field name="networkCidrMask" type="integer"/>
+    <field name="importSource" type="string"/>
+    <field name="syshelperDescription" type="text" nullable="1"/>
+    <field name="externalUpIps" type="json" nullable="1"/>
+    <field name="externalUpIpLastScanAt" type="datetime" nullable="1"/>
+    <field name="isDynamic" type="boolean">
+      <options>
+        <option name="comment">Whether this subnet (or hosts that are connected to this subnet) are expected to appear for a short time only (e.g. metacloud or cloudcontrol instances).</option>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="isDynamicSetManually" type="boolean">
+      <options>
+        <option name="comment">Whether the "isDynamic"-status has been set manually and should not be updated in the future.</option>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <one-to-many field="assignedIps" target-entity="WirklichDigital\SyshelperBase\Entity\AssignedIp" mapped-by="subnet"/>
+    <one-to-many field="reachableIps" target-entity="WirklichDigital\SyshelperBase\Entity\ReachableIp" mapped-by="subnet">
+      <cascade>
+        <cascade-persist/>
+        <cascade-remove/>
+      </cascade>
+    </one-to-many>
+    <one-to-many field="alerts" target-entity="WirklichDigital\SyshelperAlerts\Entity\Alert" mapped-by="host"/>
+    <many-to-many field="tags" target-entity="WirklichDigital\SyshelperBase\Entity\SyshelperTag" inversed-by="ipSubnets"/>
+    <field name="createdAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="create"/>
+    </field>
+    <field name="updatedAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="update"/>
+    </field>
+  </entity>
+</doctrine-mapping>

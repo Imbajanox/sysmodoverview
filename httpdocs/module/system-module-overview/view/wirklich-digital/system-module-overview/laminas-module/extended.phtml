@@ -1,0 +1,57 @@
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="uk-accordion" data-uk-accordion="">
+            <h3 class="md-card uk-accordion-title uk-open-on-load"><?= $this->translate('Composer Modules'); ?></h3>
+            <div data-wrapper="true" style="overflow:hidden;height:0;position:relative;" aria-expanded="false">
+                <div class="uk-accordion-content uk-active">
+                    <?= $this->datatable('composerModuleExtendedTable', ["data-config-key" => "composerModuleExtendedTable", "data-no-global-search" => 1 ]); ?>
+                </div>
+            </div>
+            <h3 class="md-card uk-accordion-title"><?= $this->translate('NPM Modules'); ?></h3>
+            <div data-wrapper="true" style="overflow:hidden;height:0;position:relative;" aria-expanded="false">
+                <div class="uk-accordion-content uk-active">
+                    <?= $this->datatable('npmModuleExtendedTable', ["data-config-key" => "npmModuleExtendedTable", "data-no-global-search" => 1 ]); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .uk-accordion{
+        margin-top: 25px;
+    }
+    .uk-accordion-content {
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        margin-bottom: 20px;
+    }
+
+    .uk-open-on-load[aria-expanded="false"] + .uk-accordion-content-wrapper {
+        height: auto !important;
+        overflow: visible !important;
+    }
+</style>
+
+<script>
+    window.wirklichDigitalDataTableCurrentConfigs = window.wirklichDigitalDataTableCurrentConfigs || {};
+
+    window.wirklichDigitalDataTableCurrentConfigs["composerModuleExtendedTable"] = {
+        processing: true,
+        serverSide: true, 
+        stateSave: true,
+        ajax: <?= json_encode($this->url('sysModOverview/module/list/composerExtendedAjax',[],[])) ?>,
+        order: [[ 0, 'asc' ]],
+        columnDefs: <?= $this->datatableColumnDefinition($this->composerDatatable, ["visible"]); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+    window.wirklichDigitalDataTableCurrentConfigs["npmModuleExtendedTable"] = {
+        processing: true,
+        serverSide: true, 
+        stateSave: true,
+        ajax: <?= json_encode($this->url('sysModOverview/module/list/npmExtendedAjax',[],['query' => ['fullview' => $this->fullview]])) ?>,
+        order: [[ 0, 'asc' ]],
+        columnDefs: <?= $this->datatableColumnDefinition($this->npmDatatable, ["visible"]); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+</script>

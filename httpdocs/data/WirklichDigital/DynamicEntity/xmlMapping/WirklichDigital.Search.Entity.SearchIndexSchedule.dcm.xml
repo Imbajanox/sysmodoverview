@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+  <entity name="WirklichDigital\Search\Entity\SearchIndexSchedule" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <indexes>
+      <index name="objectclass" columns="objectClass,objectId"/>
+    </indexes>
+    <id name="id" type="integer">
+      <generator strategy="AUTO"/>
+    </id>
+    <field name="objectClass" type="string"/>
+    <field name="objectId" type="string"/>
+    <field name="updateType" type="string"/>
+    <field name="createdAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="create"/>
+    </field>
+    <field name="updatedAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="update"/>
+    </field>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,138 @@
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1 uk-grid-margin">
+        <h1><?= $this->translate('Module Installations'); ?></h1>
+        <div class="md-card md-card-success">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text">
+                    <?= $this->translate('Instructions'); ?>
+                </h3>
+            </div>
+            <div class="md-card-content">
+                <ul>
+                     <li><?= $this->translate('For a selected module (and a version), it is displayed for each existing system whether the module (in that version) is installed.'); ?></li>
+                </ul>
+            </div>
+        </div>    
+    
+        <div class="md-card">
+            <div class="md-card-toolbar" style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-weight: bold; font-size: 14pt;"><?= $this->translate('Currently selected');?> :</span>
+                <span id="currentModuleDisplay" style="font-weight: bold; font-size: 14pt;" ><?= str_replace("_","/",$moduleName) ?></span>
+                <span style="font-weight: bold; font-size: 14pt;"><?= $this->translate('version');?> : </span>
+                <span id="currentVersionDisplay" style="font-weight: bold; font-size: 14pt;"> <?= $moduleVersion ?></span>
+            </div>
+            <div class="md-card-content">
+                <?= $this->form()->openTag($form) ?>
+                <div class="modulename">
+                    <dt><?= $this->formLabel($form->get('modulename')) ?></dt>
+                    <dd><?= $this->formElement($form->get('modulename')) ?></dd>
+                </div>
+                <div class="moduleversion">
+                    <dt><?= $this->formLabel($form->get('moduleversion')) ?></dt>
+                    <dd><?= $this->formElement($form->get('moduleversion')) ?></dd>
+                    <?= $this->formSubmit($form->get('submit')) ?>
+                </div>
+                <?= $this->form()->closeTag($form) ?>
+
+                <?= $this->datatable()
+                    ->setTableClasses(['dataTable', 'uk-table', 'tablesorter-altair'])
+                    ->render($this->datatable); 
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #moduleForm {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+
+        .btn-success {
+            margin-top: 10px;
+        }
+
+        select {
+            padding: 5px;
+        }
+
+        .moduleversion {
+            margin-top: 10px;
+        }
+    }
+    .dataTable{
+        font-weight: 300;
+    }
+
+    @media(max-width:900px) {
+        #moduleForm {
+            flex-direction: row;
+        }
+    }
+
+    @media(max-width:500px) {
+        #moduleForm {
+            flex-direction: column;
+        }
+    }
+</style>
+<script type="text/javascript">
+    window.wirklichDigitalDataTableCurrentConfig = {
+        processing: true,
+        serverSide: true,
+        ajax: <?= json_encode($this->url('sysModOverview/module/negatedserver/composerListAjax', ['modulename' => urlencode($moduleName), 'moduleversion' => $this->moduleVersion], [])) ?>,
+        order: [
+            [0, 'asc']
+        ],
+        columnDefs: <?= $this->datatableColumnDefinition($this->datatable, []); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+
+    window.wirklichDigital = window.wirklichDigital || {};
+    window.wirklichDigital.ajaxURLs = window.wirklichDigital.ajaxURLs || {};
+    window.wirklichDigital.ajaxURLs.action = '<?= $this->url('sysModOverview/module/negatedserver/getModule', []); ?>';
+
+    function getSelectedModuleName() {
+        var url = window.wirklichDigital.ajaxURLs.action;
+
+        const moduleSelect = document.getElementById("modulename");
+        const versionSelect = document.getElementById("moduleversion");
+        const selectedName = moduleSelect.options[moduleSelect.selectedIndex].text;
+        const selectedValue = moduleSelect.options[moduleSelect.selectedIndex].value;
+
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                module: selectedName,
+                vendorModule: selectedValue
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    versionSelect.innerHTML = '';
+
+                    var defaultOption = document.createElement('option');
+                    defaultOption.value = 'noVersion';
+                    defaultOption.text = '-- keine Version --';
+                    versionSelect.appendChild(defaultOption);
+
+                    if (Array.isArray(response.versions)) {
+                        response.versions.forEach(function(version) {
+                            var option = document.createElement('option');
+                            option.value = version;
+                            option.text = version;
+                            versionSelect.appendChild(option);
+                        });
+                    }
+                } else {
+                    alert("Error: " + response.message);
+                }
+            }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        getSelectedModuleName();
+    });
+</script>

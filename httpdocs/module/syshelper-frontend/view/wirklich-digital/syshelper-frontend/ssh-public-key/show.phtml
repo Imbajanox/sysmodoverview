@@ -1,0 +1,120 @@
+<h1><?= $this->translate('Details of SSH Public Key'); ?></h1>
+<?PHP /** @var \WirklichDigital\SyshelperBase\Entity\SshPublicKey $sshPublicKey */ ?>
+<div class="uk-grid">
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Basic details'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="basic_details_table" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <tr>
+                            <th><?= $this->translate('Title');?>:</th>
+                            <td>
+                                <?PHP echo $sshPublicKey->getTitle(); ?><br/>
+                                <small><?= $this->translate('The title will be derived from the available environment vars and comments');?></small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Key Type');?>:</th>
+                            <td><?PHP echo $sshPublicKey->getKeyType(); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Key Data');?>:</th>
+                            <td><?PHP echo substr($sshPublicKey->getKeyData(),0,10).'...'.substr($sshPublicKey->getKeyData(),-10); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Fingerprint'); ?>:</th>
+                            <td><?PHP echo $sshPublicKey->getFingerprint(); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('First seen'); ?>:</th>
+                            <td><?PHP echo $sshPublicKey->getCreatedAt()->format('Y-m-d H:i:s'); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Assigned Hosts'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="packages_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Host</th>
+                            <th>User on host</th>
+                            <th>Env</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP if(!empty($sshPublicKey->getHostMappings())): ?>
+                        <?PHP foreach($sshPublicKey->getHostMappings() as $mapping): ?>
+                            <tr>
+                                <td style="word-break: break-all;">
+                                    <a href="<?= $this->url('syshelper-frontend/host/show',['id' => $mapping->getHost()->getId()])?>" target="_blank">
+                                        <?= $mapping->getHost()->getFqdn() ?>
+                                    </a>
+                                </td>
+                                <td style="word-break: break-all;"><?= $mapping->getUserOnHost() ?></td>
+                                <td style="word-break: break-all;"><?= $mapping->getEnvironment() ?></td>
+                                <td style="word-break: break-all;"><?= $mapping->getComment() ?></td>
+                            </tr>
+                        <?PHP endforeach; ?>
+                        <?PHP endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Last logins'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="packages_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Date/Time</th>
+                            <th>Host</th>
+                            <th>User on host</th>
+                            <th>From IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP if(!empty($logins)): ?>
+                        <?PHP foreach($logins as $login): ?>
+                            <tr>
+                                <td style="word-break: break-all;"><?= $login->getLoggedInAt()->format('Y-m-d H:i:s') ?></td>
+                                <td style="word-break: break-all;">
+                                    <a href="<?= $this->url('syshelper-frontend/host/show',['id' => $login->getHost()->getId()])?>" target="_blank">
+                                        <?= $login->getHost()->getFqdn() ?>
+                                    </a>
+                                </td>
+                                <td style="word-break: break-all;"><?= $login->getUser() ?></td>
+                                <td style="word-break: break-all;"><?= $login->getIp() ?></td>
+                            </tr>
+                        <?PHP endforeach; ?>
+                        <?PHP endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+

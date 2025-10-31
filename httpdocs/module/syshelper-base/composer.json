@@ -1,0 +1,49 @@
+{
+    "name": "wirklich-digital/syshelper-base",
+    "description": "SyshelperBase",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Wirklich Digital",
+            "email": "info@wirklich.digital"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "WirklichDigital\\SyshelperBase\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WirklichDigital\\SyshelperBaseTest\\": "test/"
+        }
+    },
+    "extra": {
+        "zf": {
+            "module": "WirklichDigital\\SyshelperBase"
+        }
+    },
+    "require": {
+        "zendframework/zend-modulemanager": "^2.8"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.3",
+        "phpunit/phpunit" : "^7.0"
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://h17.jarmedia.de/satis/packages"
+        }
+    ]
+}

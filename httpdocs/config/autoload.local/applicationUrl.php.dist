@@ -1,0 +1,14 @@
+<?php
+
+return [
+    'wirklich-digital' => [
+        'system-options' => [
+            'application.site.base-url' => [
+                // Default value of the base url of this application
+                // Change this to the base url of the live system
+                // Do not add a tailing slash
+                'default' => 'https://wirklich.digital',
+            ],
+        ],
+    ],
+];

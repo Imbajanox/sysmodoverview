@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1><?= $this->translate('Laminas Systems by Repository'); ?></h1>
+
+            <div class="md-card md-card-success">
+                <div class="md-card-toolbar">
+                    <h3 class="md-card-toolbar-heading-text">
+                        <?= $this->translate('Instructions'); ?>
+                    </h3>
+                </div>
+                <div class="md-card-content">
+                    <ul>
+                        <li><?= $this->translate('All Laminas system repositories are listed in this table'); ?></li>
+                        <li><?= $this->translate('For a repository to appear here, at least one Laminas system must have the module <b>"wirklich-digital/send-system-and-modules"</b> installed.'); ?></li>
+                        <li><?= $this->translate('Current info of the Laminas system is then regularly sent via cron job.'); ?></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="uk-grid">
+                <div class="uk-width-medium-1-1  uk-grid-margin">
+                    <div class="md-card">
+                        <div class="md-card-toolbar">
+                            <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Laminas System List'); ?></h3>
+                        </div>
+                        <div class="md-card-content">
+
+                            <?= $this->datatable()
+                                ->setTableClasses(['dataTable', 'uk-table'])
+                                ->render($this->datatable); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.wirklichDigitalDataTableCurrentConfig = {
+        processing: true,
+        serverSide: true,
+        stateSave: true,
+        ajax: <?= json_encode($this->url('sysModOverview/system/listAjax', [], ['query' => ['fullview' => $this->fullview]])) ?>,
+        order: [
+            [0, 'asc']
+        ],
+        columnDefs: <?= $this->datatableColumnDefinition($this->datatable, ["visible"]); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+</script>

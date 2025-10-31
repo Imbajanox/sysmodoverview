@@ -1,0 +1,48 @@
+{
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "Debug with XDebug",
+                "type": "php",
+                "request": "launch",
+                "hostname": "127.0.0.1",
+                "port": 9000
+            }
+        ],
+        "compounds": []
+    },
+    "intelephense.files.exclude": [
+        "**/.git/**",
+        "**/.svn/**",
+        "**/.hg/**",
+        "**/CVS/**",
+        "**/.DS_Store/**",
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/vendor/**/{Tests,tests}/**",
+        "**/.history/**",
+        "**/vendor/**/vendor/**",
+        "**/httpdocs/filecontent/**"
+    ],
+    "intelephense.references.exclude": [
+        "**/vendor/**",
+        "**/httpdocs/filecontent/**"
+    ],
+    "intelephense.rename.exclude": [
+        "**/vendor/**",
+        "**/httpdocs/filecontent/**"
+    ],
+    "terminal.integrated.cwd": "httpdocs",
+    "phpsab.composerJsonPath": "/git/httpdocs/composer.json",
+    "phpsab.executablePathCS": "/git/httpdocs/vendor/bin/phpcs",
+    "phpsab.executablePathCBF": "/git/httpdocs/vendor/bin/phpcbf",
+    "phpsab.snifferMode": "onType",
+    "phpsab.standard": "/git/httpdocs/phpcs.xml",
+    "phpsab.fixerEnable": true,
+    "phpsab.snifferEnable": true,
+    "[php]": {
+        "editor.defaultFormatter": "valeryanm.vscode-phpsab"
+    },
+    "phpsab.autoRulesetSearch": false
+}

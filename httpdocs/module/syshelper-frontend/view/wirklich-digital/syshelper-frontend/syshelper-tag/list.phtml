@@ -1,0 +1,33 @@
+
+<h1><?= $this->translate('Tag management'); ?></h1>
+
+<?php if ($this->isAllowedRoute('syshelper-frontend/syshelper-tag/create')) : ?>
+    <a class="fb_auto_small md-btn" href="<?= $this->url('syshelper-frontend/syshelper-tag/create', []) ?>"><?= $this->translate('Create new') ?></a>
+<?php endif; ?>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Tag list'); ?></h3>
+            </div>
+            <div class="md-card-content">
+    
+    <?= $this->datatable()
+             ->setTableClasses(['dataTable', 'uk-table'])
+             ->render($this->datatable); ?>
+    </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.wirklichDigitalDataTableCurrentConfig = {
+        processing: true,
+        serverSide: true,
+        ajax: <?= json_encode($this->url('syshelper-frontend/syshelper-tag/listAjax')) ?>,
+        order: [[ 0, 'asc' ]],
+        columnDefs: <?= $this->datatableColumnDefinition($this->datatable, []); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+</script>

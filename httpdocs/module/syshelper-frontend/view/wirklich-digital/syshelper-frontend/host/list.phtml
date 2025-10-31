@@ -1,0 +1,45 @@
+
+<h1><?= $this->translate('Hosts'); ?></h1>
+
+<div class="md-card md-card-success">
+    <div class="md-card-toolbar">
+        <h3 class="md-card-toolbar-heading-text">
+            Verwendungshinweise
+        </h3>
+    </div>
+    <div class="md-card-content">
+        <ul>
+            <li>Standardmäßig sind nun immer alle Spalten in dieser Tabelle verfügbar. Man kann die Spalten via "Spalten" ein/ausblenden.</li>
+            <li>Einige Spalten unterstützen noch keine Sortierung.</li>
+            <li>Spalten, die "(10n)" im Namen tragen, können mit "1" (Ja/True), "0" (Nein/False) und "null" (NULL / unbekannt) durchsucht werden.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Host list'); ?></h3>
+            </div>
+            <div class="md-card-content">
+    
+    <?= $this->datatable()
+             ->setTableClasses(['dataTable', 'uk-table'])
+             ->render($this->datatable); ?>
+    </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.wirklichDigitalDataTableCurrentConfig = {
+        processing: true,
+        serverSide: true, 
+        stateSave: true,
+        ajax: <?= json_encode($this->url('syshelper-frontend/host/listAjax',[],['query' => ['fullview' => $this->fullview]])) ?>,
+        order: [[ 0, 'asc' ]],
+        columnDefs: <?= $this->datatableColumnDefinition($this->datatable, ["visible"]); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+</script>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+  <entity name="WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <id name="id" type="integer">
+      <generator strategy="AUTO"/>
+    </id>
+    <field name="url" type="string" nullable="1"/>
+    <field name="ipAddress" type="string"/>
+    <field name="phpinfo" type="string" nullable="1"/>
+    <field name="config" type="string" nullable="1"/>
+    <field name="j77Config" type="text" nullable="1"/>
+    <field name="phpVersion" type="string" nullable="1"/>
+    <field name="isDeinPim" type="boolean" nullable="1"/>
+    <field name="isDevelopment" type="boolean" nullable="1"/>
+    <field name="hasMinorUpdates" type="boolean" nullable="1"/>
+    <field name="hasMajorUpdates" type="boolean" nullable="1"/>
+    <field name="hasWirklichDigitalMinorUpdates" type="boolean" nullable="1"/>
+    <field name="hasWirklichDigitalMajorUpdates" type="boolean" nullable="1"/>
+    <field name="lastUpdateValue" type="integer" nullable="1"/>
+    <many-to-many field="laminasSystemServerModule" target-entity="WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule" mapped-by="laminasSystemServer"/>
+    <one-to-many field="laminasSystemServerDatabaseInfo" target-entity="WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo" mapped-by="laminasSystemServer"/>
+    <one-to-many field="laminasSystemServerMigrationInfo" target-entity="WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerMigrationInfo" mapped-by="laminasSystemServer"/>
+    <one-to-many field="laminasSystemServerComposerOutdated" target-entity="WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated" mapped-by="laminasSystemServer"/>
+    <one-to-many field="npmModules" target-entity="WirklichDigital\SystemModuleOverview\Entity\NpmModules" mapped-by="laminasSystemServer"/>
+    <many-to-one field="laminasSystem" target-entity="WirklichDigital\SystemModuleOverview\Entity\LaminasSystem" inversed-by="laminasSystemServer"/>
+    <field name="createdAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="create"/>
+    </field>
+    <field name="updatedAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="update"/>
+    </field>
+  </entity>
+</doctrine-mapping>

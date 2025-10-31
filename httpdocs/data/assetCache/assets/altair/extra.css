@@ -1,0 +1,113 @@
+.sidebar_logo_large {
+    width: 70%;
+}
+
+.language_chooser .uk-dropdown {
+    min-width: 0;
+    width: auto;
+}
+
+.dataTables_wrapper .dt-buttons {
+    margin-left: 10px;
+    background-color: #EFEFEF;
+    padding: 4px 5px;
+    border-radius: 3px;
+}
+
+.dataTables_wrapper .dt-buttons button.dt-button {
+    padding: 0px 10px;
+    border: 0;
+    background: none;
+    text-decoration: underline;
+    color: #333;
+    margin: 0;
+    border-right: 1px solid #CCC;
+    display: block;
+    float: left;
+}
+
+.dataTables_wrapper table {
+    padding-top: 10px;
+}
+
+.dataTables_wrapper .dt-buttons button.dt-button:last-child {
+    border-right: none;
+}
+
+.dataTables_wrapper thead input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.dataTables_wrapper thead tr th {
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.dataTables_wrapper .dataTables_length {
+    margin-top: 0;
+}
+
+ul.help-block {
+    list-style-type: none;
+    color: #C11818;
+    padding-left: 5px;
+    font-size: 0.8em;
+}
+
+.main_logo_top .sSidebar_hide, .main_logo_top .logo_light {
+    display: none;
+}
+
+/* Anpassungen von 73739 */
+/* Change Language Chooser */
+
+.accessibility-mode .language_chooser .user_action_icon::before {
+    position: absolute;
+    content: '';
+    left: 5px;
+    top: 10px;
+    width: calc(100% + -10px);
+    height: calc(100% + -15px);
+    background: white;
+}
+
+@media only all and (max-width: 768px) { 
+    .accessibility-mode .language_chooser .user_action_icon::before {
+        height: calc(100% + -20px);
+    }   
+}
+
+.accessibility-mode .uk-navbar-nav li.toggle-accessibility-mode {
+    background: white;
+    height: 48px;
+}
+.accessibility-mode .uk-navbar-nav li.toggle-accessibility-mode i {
+    color: #000;
+}
+
+/* navigation changes */
+#sidebar_main nav.menu_section ul li a:hover, 
+#sidebar_main nav.menu_section ul li a:focus, 
+#sidebar_main nav.menu_section ul li a:hover span,
+#sidebar_main nav.menu_section ul li a:focus span {
+    text-decoration: underline;
+}
+
+.accessibility-mode #sidebar_main nav.menu_section > ul > li.current_section a, 
+.accessibility-mode #sidebar_main nav.menu_section > ul > li.current_section a span {
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+#sidebar_main .menu_section>ul>li>a {
+    display: flex;
+}
+
+#sidebar_main .menu_section>ul>li>a .menu_icon {
+    width: 20%;
+}
+
+#sidebar_main .menu_section>ul>li>a .menu_title {
+    width: 80%;
+}

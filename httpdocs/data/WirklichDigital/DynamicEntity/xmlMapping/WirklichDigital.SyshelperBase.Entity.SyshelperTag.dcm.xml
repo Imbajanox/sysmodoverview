@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+  <entity name="WirklichDigital\SyshelperBase\Entity\SyshelperTag" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <id name="id" type="uuid">
+      <generator strategy="CUSTOM"/>
+      <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+    </id>
+    <field name="name" type="string"/>
+    <field name="color" type="string"/>
+    <many-to-many field="hosts" target-entity="WirklichDigital\SyshelperBase\Entity\Host" mapped-by="tags"/>
+    <many-to-many field="ipSubnets" target-entity="WirklichDigital\SyshelperBase\Entity\IpSubnet" mapped-by="tags"/>
+    <many-to-many field="assignedIps" target-entity="WirklichDigital\SyshelperBase\Entity\AssignedIp" mapped-by="tags"/>
+    <field name="createdAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="create"/>
+    </field>
+    <field name="updatedAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="update"/>
+    </field>
+    <many-to-one field="createdBy" target-entity="WirklichDigital\Authentication\Entity\User">
+      <join-column on-delete="SET NULL"/>
+      <gedmo:blameable on="create"/>
+    </many-to-one>
+    <many-to-one field="updatedBy" target-entity="WirklichDigital\Authentication\Entity\User">
+      <join-column on-delete="SET NULL"/>
+      <gedmo:blameable on="update"/>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

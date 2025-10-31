@@ -1,0 +1,37 @@
+{
+  "name": "syshelper",
+  "pms_id": "1409",
+  "base_system": "j77-php81",
+  "vhost": {
+    "document_root": "/var/www/html/public"
+  },
+  "composer_version": "2.2",
+  "additional_vhosts": [],
+  "credentials": {
+    "ftp": "c903ca0c",
+    "mysql_root": "1c5987b89fcc",
+    "root": "4ed5a6c07c114746"
+  },
+  "mysql": {
+    "host": "localhost",
+    "db": "syshelper",
+    "user": "app_user",
+    "password": "ba781a29"
+  },
+  "setup_actions": {
+    "replace_db": [],
+    "replace_file": [],
+    "setup_cronjobs": [
+      "* * * * * root php /var/www/html/public/index.php cron-scheduler tick"
+    ]
+  },
+  "non_git_folders": [
+    "filecontent"
+  ],
+  "disable_auto_save": 0,
+  "disable_auto_pausing": "0",
+  "disable_auto_stop": "0",
+  "subgit_save": 1,
+  "add_readonly_git_key": 1,
+  "branch": "sysmodoverview2"
+}

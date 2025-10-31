@@ -1,0 +1,105 @@
+#!/bin/bash
+
+sendData () {
+    TYPE=$1
+    DATA=$2
+    echo -n "${DATA}" | curl -s -X POST --data-binary "@-" "$ENDPOINT?type=$TYPE&uuid=$UUID"
+}
+
+PATH="/opt/puppetlabs/bin:/opt/puppetlabs/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ENDPOINT="http://1409-syshelper-master.e5j.de/data-sink/host"
+UUID=$(dmidecode -t 1 | grep ID | sed 's/.*UUID://;s/ //g')
+if [ $UUID == "NotSettable" ]; then
+  UUID=$(cat /var/lib/dbus/machine-id 2>/dev/null)
+fi
+if [ $UUID == "NotPresent" ]; then
+  UUID=$(cat /var/lib/dbus/machine-id 2>/dev/null)
+fi
+if [ -z $UUID ]; then
+  UUID=$(cat /tmp/j77_uuid 2>/dev/null)
+fi
+if [ $? -ne 0 ]; then
+  cat /proc/sys/kernel/random/uuid > /tmp/j77_uuid
+  UUID=$(cat /tmp/j77_uuid)
+fi
+
+
+VERSION=0.0.7
+sendData "VERSION" "$VERSION"
+
+echo "Sammle Daten zu laufenden Prozessen."
+PS=$(ps aux)
+sendData "PS" "$PS"
+
+echo "Sammle Daten zum Netzwerk."
+HOSTNAME=$(hostname)
+sendData "HOSTNAME" "$HOSTNAME"
+
+FQDN=$(hostname --fqdn 2>/dev/null || hostname)
+sendData "FQDN" "$FQDN"
+IP_INFOS=$(ip -o addr 2>/dev/null | awk '!/^[0-9]*: ?lo|link\/ether|link\/void/ {print $2" "$4}' 2>/dev/null)
+sendData "IP_INFOS" "$IP_INFOS"
+IP_V4_EXT=$(curl https://v4-connecttest.bbbserver.de/get-ip 2>/dev/null)
+sendData "IP_V4_EXT" "$IP_V4_EXT"
+IP_V6_EXT=$(curl https://v6-connecttest.bbbserver.de/get-ip 2>/dev/null)
+sendData "IP_V6_EXT" "$IP_V6_EXT"
+RESOLVE=$(cat /etc/resolv.conf)
+sendData "RESOLVE" "$RESOLVE"
+NETSTAT=$(netstat -tulpn 2>/dev/null)
+sendData "NETSTAT" "$NETSTAT"
+
+echo "Sammle Daten zu Puppet."
+PUPPET_VERSION=$(puppet agent --version 2>/dev/null)
+if [[ $? == 0 ]]; then PUPPET_LASTLOG=$(cat /opt/puppetlabs/puppet/cache/state/last_run_report.yaml); fi
+sendData "PUPPET_VERSION" "$PUPPET_VERSION"
+sendData "PUPPET_LASTLOG" "$PUPPET_LASTLOG"
+
+echo "Sammle Daten zu: Webserver."
+APACHE_STATUS="NULL"
+APACHE_VERSION=$(apache2 -v 2>/dev/null)
+if [[ $? == 0 ]]; then APACHE_STATUS=$(apachectl -S); fi
+sendData "APACHE_VERSION" "$APACHE_VERSION"
+sendData "APACHE_STATUS" "$APACHE_STATUS"
+NGINX_STATUS="NULL"
+NGINX_VERSION=$(nginx -v 2>&1)
+if [[ $? == 0 ]]; then NGINX_STATUS=$(nginx -T); fi
+sendData "NGINX_VERSION" "$NGINX_VERSION"
+sendData "NGINX_STATUS" "$NGINX_STATUS"
+
+echo "Sammle Daten zu den Specs."
+CPU=$(cat /proc/cpuinfo 2>/dev/null)
+sendData "CPU" "$CPU"
+RAM=$(cat /proc/meminfo 2>/dev/null)
+sendData "RAM" "$RAM"
+DF=$(df)
+sendData "DF" "$DF"
+
+echo "Sammle Daten zur Distro."
+OS=$(cat /etc/os-release 2>/dev/null)
+if [[ -f /etc/debian_version ]]; then
+    DEBIAN_VERSION=$(cat /etc/debian_version 2>/dev/null)
+    OS=$(echo -e "${OS}\nDEBIAN_VERSION=\"${DEBIAN_VERSION}\"")
+fi
+sendData "OS" "$OS"
+KERNEL=$(uname -a)
+sendData "KERNEL" "$KERNEL"
+
+echo "Sammle Daten zu APT."
+MIRRORS=$(cat /etc/apt/sources.list /etc/apt/sources.list.d/* 2>/dev/null)
+sendData "MIRRORS" "$MIRRORS"
+APT_ERROR=$(apt-get update -y 2>/dev/null 1>&2; echo $? 2>/dev/null)
+sendData "APT_ERROR" "$APT_ERROR"
+APT_UPGRADABLE=$(apt-get --dry-run -V upgrade --assume-no 2>/dev/null)
+sendData "APT_UPGRADABLE" "$APT_UPGRADABLE"
+DPKG=$(dpkg-query -W -f='${binary:Package};${Version};${db:Status-Status};${db:Status-Want};${db:Status-Eflag}\n' 2>/dev/null)
+sendData "DPKG" "$DPKG"
+
+echo "Sammle Daten zu Plesk."
+PLESK_BACKUPS="NULL"
+PLESK_VERSION=$(plesk version 2>/dev/null)
+if [[ $? == 0 ]]; then PLESK_BACKUPS=$(find /var/log/plesk/PMM/ -maxdepth 2 -mtime -7 -name backup.log -printf '%T@ %p\n' | wc -l); fi
+sendData "PLESK_VERSION" "$PLESK_VERSION"
+sendData "PLESK_BACKUPS" "$PLESK_BACKUPS"
+
+echo "Verwendete Befehle: [apache2, apachectl, apt-get, awk, cat, curl, df, dpkg-query, echo, exit, find, hostname, ip, netstat, nginx, plesk, puppet, sed, uname, wc]"
+

@@ -1,0 +1,27 @@
+<?php
+/**
+ * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
+ * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ */
+
+// Development config
+// When a link from this the "development.config.php.dist" is made to "development.config.php", the system will run in development mode.
+// You can use composer to change this mode aswell:
+//   $ composer development-enable
+//   $ composer development-disable
+// In live environments the development mode should really be disabled
+
+return [
+    // Additional modules to include when in development mode
+    'modules' => [
+        'ZendDeveloperTools',
+        'WirklichDigital\DeveloperTools',
+    ],
+    // Configuration overrides during development mode
+    'module_listener_options' => [
+        'config_glob_paths' => [realpath(__DIR__) . '/autoload.development/*.php'],
+        'config_cache_enabled' => false,
+        'module_map_cache_enabled' => false,
+    ],
+];

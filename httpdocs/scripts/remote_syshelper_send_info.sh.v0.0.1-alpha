@@ -1,0 +1,55 @@
+#! /bin/bash
+
+
+echo Sammle Daten zu: Netzwerk
+HOSTNAME=$(hostname)
+FQDN=$(hostname --fqdn)
+IP_INFOS=$(ip addr)
+IP_v4_EXT=$(curl https://v4-connecttest.bbbserver.de/get-ip 2>/dev/null)
+IP_v6_EXT=$(curl https://v6-connecttest.bbbserver.de/get-ip 2>/dev/null)
+RESOLVE=$(cat /etc/resolv.conf)
+NETSTAT=$(netstat -tulpn)
+
+
+
+echo Sammle Daten zu: Puppet
+PUPPET_VERSION=$(puppet agent --version 2>/dev/null)
+if [[ $? == 0 ]]; then PUPPET_LASTLOG=$(cat /opt/puppetlabs/puppet/cache/state/last_run_report.yaml); fi
+
+
+
+echo Sammle Daten zu: Webserver
+APACHE_v=$(apache2 -v 2>/dev/null)
+if [[ $? == 0 ]]; then APACHE_STATUS=$(apachectl -S); fi
+NGINX_v=$(nginx -v 2>/dev/null)
+if [[ $? == 0 ]]; then NGINX_STATUS=$(nginx -T); fi
+
+
+
+echo Sammle Daten zu: Specs
+CPU=$(lscpu)
+RAM=$(cat /proc/meminfo)
+DF=$(df -h)
+
+
+
+echo Sammle Daten zu: Distro
+OS=$(cat /etc/os-release)
+KERNEL=$(uname -a)
+
+
+
+echo Sammle Daten zu: APT
+MIRRORS=$(cat /etc/apt/sources.list /etc/apt/sources.list.d/*)
+APT_ERROR=$(apt-get update -y 2>/dev/null 1>&2; echo $?)
+APT_UPGRADABLE=$(apt-get --dry-run -V upgrade --assume-no)
+DPKG=$(dpkg --list)
+
+echo Sammle Daten zu: Plesk
+PLESK_VERS=$(plesk version 2>/dev/null)
+if [[ $? == 0 ]]; then PLESK_BACKUPS=$(find /var/log/plesk/PMM/ -maxdepth 2 -mtime -7 -name backup.log -printf '%T@ %p\n' | wc -l); fi
+
+
+echo 'TODO: abschicken der Daten an den Endpoint.';
+
+echo "Verwendete Befehle: [apache2, apachectl, apt-get, cat, curl, df, dpkg, echo, find, hostname, ip, lscpu, netstat, nginx, plesk, puppet, uname, wc]"

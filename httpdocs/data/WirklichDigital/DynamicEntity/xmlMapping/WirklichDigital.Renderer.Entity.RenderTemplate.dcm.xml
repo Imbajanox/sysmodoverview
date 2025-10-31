@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+  <entity name="WirklichDigital\Renderer\Entity\RenderTemplate" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <indexes>
+      <index name="index_component" columns="component"/>
+    </indexes>
+    <id name="id" type="integer">
+      <generator strategy="AUTO"/>
+    </id>
+    <field name="name" type="string" unique="1">
+      <gedmo:versioned/>
+    </field>
+    <field name="template" type="text">
+      <options>
+        <option name="default"></option>
+      </options>
+      <gedmo:translatable/>
+      <gedmo:versioned/>
+    </field>
+    <field name="renderer" type="string">
+      <gedmo:versioned/>
+    </field>
+    <field name="lastData" type="json" nullable="1">
+      <gedmo:versioned/>
+    </field>
+    <field name="component" type="string">
+      <gedmo:versioned/>
+    </field>
+    <field name="createdAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="create"/>
+      <gedmo:versioned/>
+    </field>
+    <field name="updatedAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="update"/>
+      <gedmo:versioned/>
+    </field>
+    <gedmo:translation entity="WirklichDigital\DynamicEntityTranslatableModule\Entity\Translation" locale="translatableLocale"/>
+    <many-to-one field="createdBy" target-entity="WirklichDigital\Authentication\Entity\User">
+      <join-column on-delete="SET NULL"/>
+      <gedmo:blameable on="create"/>
+      <gedmo:versioned/>
+    </many-to-one>
+    <many-to-one field="updatedBy" target-entity="WirklichDigital\Authentication\Entity\User">
+      <join-column on-delete="SET NULL"/>
+      <gedmo:blameable on="update"/>
+      <gedmo:versioned/>
+    </many-to-one>
+    <gedmo:loggable log-entry-class="WirklichDigital\DynamicEntityLoggableModule\Entity\LogEntry"/>
+  </entity>
+</doctrine-mapping>

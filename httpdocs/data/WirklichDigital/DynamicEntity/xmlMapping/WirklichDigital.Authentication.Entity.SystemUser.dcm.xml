@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+  <entity name="WirklichDigital\Authentication\Entity\SystemUser" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <id name="id" type="integer">
+      <generator strategy="AUTO"/>
+    </id>
+    <field name="name" type="string">
+      <gedmo:versioned/>
+    </field>
+    <one-to-one field="user" target-entity="WirklichDigital\Authentication\Entity\User" inversed-by="systemUser">
+      <gedmo:versioned/>
+    </one-to-one>
+    <field name="createdAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="create"/>
+      <gedmo:versioned/>
+    </field>
+    <field name="updatedAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="update"/>
+      <gedmo:versioned/>
+    </field>
+    <many-to-one field="createdBy" target-entity="WirklichDigital\Authentication\Entity\User">
+      <join-column on-delete="SET NULL"/>
+      <gedmo:blameable on="create"/>
+      <gedmo:versioned/>
+    </many-to-one>
+    <many-to-one field="updatedBy" target-entity="WirklichDigital\Authentication\Entity\User">
+      <join-column on-delete="SET NULL"/>
+      <gedmo:blameable on="update"/>
+      <gedmo:versioned/>
+    </many-to-one>
+    <gedmo:loggable log-entry-class="WirklichDigital\DynamicEntityLoggableModule\Entity\LogEntry"/>
+  </entity>
+</doctrine-mapping>

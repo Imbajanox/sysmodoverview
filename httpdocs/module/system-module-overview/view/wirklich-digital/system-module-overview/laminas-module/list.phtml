@@ -1,0 +1,72 @@
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card md-card-success">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text">
+                    <?= $this->translate('Instructions'); ?>
+                </h3>
+            </div>
+            <div class="md-card-content">
+                <ul>
+                    <li><?= $this->translate('This table lists all Composer modules that are used in our systems.'); ?></li>
+                    <li><?= $this->translate('A system is considered outdated as soon as a minor or major update is possible.'); ?></li>
+                    <li><?= $this->translate('A list of systems using this module can be accessed via "Show Details".'); ?></li>
+                </ul>
+            </div>
+        </div>
+        <div class="uk-accordion" data-uk-accordion="">
+            <h3 class="md-card uk-accordion-title uk-open-on-load"><?= $this->translate('Composer Modules'); ?></h3>
+            <div data-wrapper="true" style="overflow:hidden;height:0;position:relative;" aria-expanded="false">
+                <div class="uk-accordion-content uk-active">
+                    <?= $this->datatable('composerModuleTable', ["data-config-key" => "composerModuleTable", "data-no-global-search" => 1 ]); ?>
+                </div>
+            </div>
+            <h3 class="md-card uk-accordion-title"><?= $this->translate('NPM Modules'); ?></h3>
+            <div data-wrapper="true" style="overflow:hidden;height:0;position:relative;" aria-expanded="false">
+                <div class="uk-accordion-content">
+                    <?= $this->datatable('npmModuleTable', ["data-config-key" => "npmModuleTable", "data-no-global-search" => 1 ]); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .uk-accordion{
+        margin-top: 25px;
+    }
+    .uk-accordion-content {
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        margin-bottom: 20px;
+    }
+
+    .uk-open-on-load[aria-expanded="false"] + .uk-accordion-content-wrapper {
+        height: auto !important;
+        overflow: visible !important;
+    }
+</style>
+
+<script>
+    window.wirklichDigitalDataTableCurrentConfigs = window.wirklichDigitalDataTableCurrentConfigs || {};
+    // Composer Datatable
+    window.wirklichDigitalDataTableCurrentConfigs['composerModuleTable'] = {
+        processing: true,
+        serverSide: true,
+        stateSave: true,
+        ajax: <?= json_encode($this->url('sysModOverview/module/composerListAjax',[],[])) ?>,
+        order: [[ 0, 'asc' ]],
+        columnDefs: <?= $this->datatableColumnDefinition($this->composerDatatable, ["visible"]); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+    // NPM Datatable
+    window.wirklichDigitalDataTableCurrentConfigs["npmModuleTable"] = {
+        processing: true,
+        serverSide: true, 
+        stateSave: true,
+        ajax: <?= json_encode($this->url('sysModOverview/module/npmListAjax',[],[])) ?>,
+        order: [[ 0, 'asc' ]],
+        columnDefs: <?= $this->datatableColumnDefinition($this->npmDatatable, ["visible"]); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+</script>

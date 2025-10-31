@@ -1,0 +1,125 @@
+{
+    "name": "wirklich.digital/skeleton-application",
+    "description": "Skeleton Application for new ZF3 apps at wirklich.digital",
+    "type": "project",
+    "license": "",
+    "keywords": [
+        "framework",
+        "mvc",
+        "zf"
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://h17.jarmedia.de/satis/packages"
+        }
+    ],
+    "homepage": "https://wirklich.digital",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.1",
+        "azatoth/php-pgettext": "^1.0",
+        "darsyn/ip": "^4.0",
+        "doctrine/migrations": "^3.9",
+        "laminas/laminas-component-installer": "^3.1",
+        "laminas/laminas-development-mode": "^3.0",
+        "laminas/laminas-math": "^3.2",
+        "mustache/mustache": "^2.12",
+        "wirklich-digital/admin-base-assets": "^2.0",
+        "wirklich-digital/admin-user-management": "^2.0",
+        "wirklich-digital/altair-theme": "^1.0",
+        "wirklich-digital/altair-theme-jarmedia": "^1.0",
+        "wirklich-digital/application-url-system-option": "^1.0",
+        "wirklich-digital/array-filters": "^1.0",
+        "wirklich-digital/authentication-blameable-entity-module": "^1.0",
+        "wirklich-digital/authentication-loggable-entity-module": "^1.0",
+        "wirklich-digital/authentication-mail": "^2.2",
+        "wirklich-digital/authentication-mail-forgot-password": "^2.0",
+        "wirklich-digital/authentication-timestampable-entity-module": "^1.0",
+        "wirklich-digital/cache-redis": "^2.1",
+        "wirklich-digital/code-sniffer": "^1.0",
+        "wirklich-digital/controller-events": "^1.0",
+        "wirklich-digital/cron-scheduler": "^1.0",
+        "wirklich-digital/cron-scheduler-frontend": "^1.0",
+        "wirklich-digital/default-user": "^1.0",
+        "wirklich-digital/doctrine-cache": "^1.4",
+        "wirklich-digital/doctrine-uuid-type": "^1.0",
+        "wirklich-digital/email-connection-tester": "^1.0",
+        "wirklich-digital/entity-translation": "^3.0",
+        "wirklich-digital/error-logger": "^2.2",
+        "wirklich-digital/exception-logger-frontend": "^1.4",
+        "wirklich-digital/gettext-tools": "^1.0",
+        "wirklich-digital/global-available-config": "^1.0",
+        "wirklich-digital/global-available-redis-mutex": "^2.0",
+        "wirklich-digital/laminas-migration": "^1.0",
+        "wirklich-digital/logger": "^4.0",
+        "wirklich-digital/logger-monolog": "^1.0",
+        "wirklich-digital/messagehub-connector": "^2.0",
+        "wirklich-digital/migrations": "^2.2",
+        "wirklich-digital/modulebuilder": "^3.0",
+        "wirklich-digital/notification": "^2.0",
+        "wirklich-digital/object-select": "^2.0",
+        "wirklich-digital/rename-upload": "^1.0",
+        "wirklich-digital/scaffold": "^1.3",
+        "wirklich-digital/search": "^2.0",
+        "wirklich-digital/static-form-element": "^1.0",
+        "wirklich-digital/system-options": "^1.5",
+        "wirklich-digital/system-translation": "^3.0",
+        "xelax90/zf-mail-config": "^2.0"
+    },
+    "require-dev": {
+        "kint-php/kint": "^5.0",
+        "phpspec/prophecy": "^1.8",
+        "phpunit/phpunit": "^10.0",
+        "squizlabs/php_codesniffer": "^3.3",
+        "wirklich-digital/config-print": "^1.0",
+        "wirklich-digital/developer-tools": "^2.0",
+        "laminas/laminas-developer-tools": "^2.3",
+        "wirklich-digital/coding-standard": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Application\\": "module/Application/src/",
+            "ApplicationAuthorization\\": "module/ApplicationAuthorization/src/",
+            "WirklichDigital\\SyshelperBase\\": "./module/syshelper-base/src/",
+            "WirklichDigital\\SyshelperDataSink\\": "./module/syshelper-data-sink/src/",
+            "WirklichDigital\\SyshelperScanner\\": "./module/syshelper-scanner/src/",
+            "WirklichDigital\\SyshelperFrontend\\": "./module/syshelper-frontend/src/",
+            "WirklichDigital\\SyshelperAlerts\\": "./module/syshelper-alerts/src/",
+            "WirklichDigital\\SystemModuleOverview\\": "./module/system-module-overview/src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ApplicationTest\\": "module/Application/test/",
+            "WirklichDigital\\SyshelperBaseTest\\": "./module/syshelper-base/test/src/",
+            "WirklichDigital\\SyshelperDataSinkTest\\": "./module/syshelper-data-sink/test/src/",
+            "WirklichDigital\\SyshelperScannerTest\\": "./module/syshelper-scanner/test/src/",
+            "WirklichDigital\\SyshelperFrontendTest\\": "./module/syshelper-frontend/test/src/",
+            "WirklichDigital\\SyshelperAlertsTest\\": "./module/syshelper-alerts/test/src/",
+            "WirklichDigital\\SystemModuleOverviewTest\\": "./module/system-module-overview/test/src/"
+        }
+    },
+    "extra": {},
+    "scripts": {
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "development-disable": "laminas-development-mode disable",
+        "development-enable": "laminas-development-mode enable",
+        "development-status": "laminas-development-mode status",
+        "post-create-project-cmd": [
+            "@development-enable"
+        ],
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "ocramius/package-versions": true,
+            "laminas/laminas-dependency-plugin": true,
+            "laminas/laminas-component-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

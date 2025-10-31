@@ -1,0 +1,152 @@
+<?PHP
+
+use WirklichDigital\StdLib\FileUtils\HumanReadbleFilesize;
+use WirklichDigital\SyshelperBase\Entity\AssignedIp;
+use WirklichDigital\SyshelperBase\Entity\Host;
+use WirklichDigital\SyshelperBase\Entity\IpSubnet;
+use WirklichDigital\SyshelperBase\Entity\ReachableIp;
+
+/** @var IpSubnet $subnet */
+?>
+<h1><?= $this->translate('IP Subnet'); ?>: <?= $subnet->getNetworkAddress().'/'.$subnet->getNetworkCidrMask(); ?></h1>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Basic details'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="basic_details_table" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <tr>
+                            <th><?= $this->translate('Network Address');?>:</th>
+                            <td><?PHP echo $subnet->getNetworkAddress(); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('CIDR Mask');?>:</th>
+                            <td><?PHP 
+                                echo $subnet->getNetworkCidrMask(); 
+                                if($subnet->getNetworkCidrMask() == $maxCidr)
+                                    echo ' <span class="uk-badge uk-badge-danger">'.$this->translate('Single IP / Host').'</span>';
+                                else
+                                    echo ' <span class="uk-badge">'.$maxIps.' '.$this->translate('IPs').'</span>';
+                            ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('IP-Version'); ?>:</th>
+                            <td><?PHP echo $subnet->getNetworkAddress()->getVersion(); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('ImportSource'); ?>:</th>
+                            <td><?PHP echo $subnet->getImportSource(); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Is this a dynamic subnet?'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <?PHP if($subnet->getIsDynamic()): ?>
+                    <p><?= $this->translate('This subnet <strong>is</strong> marked as dynamic.'); ?></p>
+                <?PHP else: ?>
+                    <p><?= $this->translate('This subnet <strong>is NOT</strong> marked as dynamic.'); ?></p>
+                <?PHP endif; ?>
+                
+                <p>
+                    <?= $this->translate('If a subnet is marked as dynamic, the system will:'); ?>
+                    <ul>
+                        <li><?= $this->translate('Delete the subnet and its ip assignments, if the subnet is not included in the import data anymore'); ?></li>
+                        <li><?= $this->translate('Delete hosts of the subnet, if they are only assigned to this subnet and the subnet is not included in the import data anymore'); ?></li>
+                        <li><?= $this->translate('Display reachable IPs of this subnet as "OK", even if we do not have host data for them.'); ?></li>
+                    </ul>
+                </p>
+
+                <div class="uk-text-right">
+                    <a href="<?= $this->url('syshelper-frontend/ip-subnet/toggle-is-dynamic',['id' => $subnet->getId()]); ?>" class="md-btn md-btn-primary"><?= $this->translate('Toggle this'); ?></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Assigned IPs'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="process_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>IP</th>
+                            <th>Host-FQDN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP foreach($subnet->getAssignedIps() as $aIP): ?>
+                            <tr>
+                                <td><?= $aIP->getAddress(); ?></td>
+                                <td><?PHP echo '<a href="'.$this->url('syshelper-frontend/host/show',['id' => $aIP->getHost()->getId()]).'">'.$aIP->getHost()->getFqdn().'</a>'; ?></td>
+                            </tr>
+                        <?PHP endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Reachable IPs'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="services_listening_details" class="dataTable">
+                    <thead>
+                        <tr>
+                            <th>IP</th>
+                            <th>Status</th>
+                            <th>Host</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?PHP foreach($subnet->getReachableIps() as $rIP): 
+                            /** @var ReachableIp $rIP */
+                        ?>
+                            <tr>
+                                <td><?= $rIP->getAddress(); ?></td>
+                                <td><?PHP
+                                    if($rIP->getAssignedIp() == null)
+                                    {
+                                        if($subnet->getIsDynamic())
+                                            echo $this->translate('OK / DYN');
+                                        else
+                                            echo $this->translate('NOT ASSIGNED');
+                                    }
+                                    else
+                                        echo "ASSIGNED";
+                                ?></td>
+                                <td><?PHP
+                                    if($rIP->getAssignedIp() == null)
+                                        echo "-";
+                                    else
+                                        echo '<a href="'.$this->url('syshelper-frontend/host/show',['id' => $rIP->getAssignedIp()->getHost()->getId()]).'" target="_blank">'.$rIP->getAssignedIp()->getHost()->getFqdn().'</a>';
+                                ?></td>
+                            </tr>
+                        <?PHP endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

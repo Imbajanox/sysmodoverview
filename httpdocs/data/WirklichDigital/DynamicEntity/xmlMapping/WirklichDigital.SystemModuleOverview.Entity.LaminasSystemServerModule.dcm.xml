@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <id name="id" type="integer">
+      <generator strategy="AUTO"/>
+    </id>
+    <field name="moduleName" type="string" nullable="1"/>
+    <field name="moduleVersion" type="string" nullable="1"/>
+    <field name="moduleVersionNormalized" type="string" nullable="1"/>
+    <field name="moduleSource" type="json" nullable="1"/>
+    <field name="moduleDist" type="json" nullable="1"/>
+    <field name="moduleRequire" type="json" nullable="1"/>
+    <field name="moduleConflict" type="json" nullable="1"/>
+    <field name="moduleProvide" type="json" nullable="1"/>
+    <field name="moduleReplace" type="json" nullable="1"/>
+    <field name="moduleRequiredev" type="json" nullable="1"/>
+    <field name="moduleSuggest" type="json" nullable="1"/>
+    <field name="moduleTime" type="string" nullable="1"/>
+    <field name="moduleBin" type="json" nullable="1"/>
+    <field name="moduleType" type="string" nullable="1"/>
+    <field name="moduleExtra" type="json" nullable="1"/>
+    <field name="moduleInstallationsource" type="string" nullable="1"/>
+    <field name="moduleAutoload" type="json" nullable="1"/>
+    <field name="moduleAutoloaddev" type="json" nullable="1"/>
+    <field name="moduleScripts" type="json" nullable="1"/>
+    <field name="moduleNotificationurl" type="string" nullable="1"/>
+    <field name="moduleLicense" type="json" nullable="1"/>
+    <field name="moduleIncludepath" type="json" nullable="1"/>
+    <field name="moduleAuthors" type="json" nullable="1"/>
+    <field name="moduleDescription" type="string" nullable="1"/>
+    <field name="moduleHomepage" type="string" nullable="1"/>
+    <field name="moduleKeywords" type="json" nullable="1"/>
+    <field name="moduleSupport" type="json" nullable="1"/>
+    <field name="moduleFunding" type="json" nullable="1"/>
+    <field name="moduleAbandoned" type="string" nullable="1"/>
+    <field name="moduleInstallpath" type="string" nullable="1"/>
+    <many-to-many field="laminasSystemServer" target-entity="WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer" inversed-by="laminasSystemServerModule"/>
+    <many-to-one field="composerModule" target-entity="WirklichDigital\SystemModuleOverview\Entity\ComposerModule" inversed-by="laminasSystemServerModule"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,94 @@
+
+<h1><?= $this->translate('Syshelper Tag'); ?></h1>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1 uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text">
+                    <?= $this->translate('Edit Tag'); ?>
+                </h3>
+            </div>
+            <div class="md-card-content">
+                <?= $this->form()->openTag($this->form); ?>
+                <?PHP $fieldset = $this->form->getBaseFieldset(); $fieldsetName=$fieldset->getAttribute('name');?>
+                <div class="uk-grid">
+                    <div class="uk-width-1-1">
+
+                        <div class="uk-form-row">
+                            <?php
+                            $elementName = 'name';
+                            $element = $fieldset->get($elementName);
+                            $element
+                            ->setAttribute('id', 'elm-'.$fieldsetName.'-'.$elementName)
+                                ->setAttribute('name', $fieldsetName.'['.$elementName.']')
+                                ->setAttribute('class', 'md-input')
+                                ->setAttribute('tabindex', 1)
+                                ->setAttribute('autofocus', 'on')
+                                ->setAttribute('autocomplete', 'off')
+                                ->setAttribute('required', 'required');
+                            ?>
+                            <?= $this->formLabel($element); ?>
+                            <?= $this->formElement($element); ?>
+                            <?= $this->formElementErrors($element); ?>
+                        </div>
+
+                        <div class="uk-form-row">
+                            <?php
+                            $elementName = 'color';
+                            $element = $fieldset->get($elementName);
+                            $element
+                                ->setAttribute('id', 'elm-'.$fieldsetName.'-'.$elementName)
+                                ->setAttribute('name', $fieldsetName.'['.$elementName.']')
+                                ->setAttribute('class', 'md-input label-fixed')
+                                ->setAttribute('tabindex', 1)
+                                ->setAttribute('autofocus', 'on')
+                                ->setAttribute('autocomplete', 'off')
+                                ->setAttribute('required', 'required');
+                            ?>
+                            <?= $this->formLabel($element); ?>
+                            <?= $this->formElement($element); ?>
+                            <div id="sht-colorPicker"></div>
+
+                            <?= $this->formElementErrors($element); ?>
+
+                        </div>
+
+                        <div class="uk-form-row" style="text-align: right">
+                            <?= $this->formElement($this->form->get($fieldsetName.'_csrf')); ?>
+                            <?php
+                            $this->form->get('submit')
+                                ->setAttribute('id', 'submit')
+                                ->setAttribute('class', 'md-btn md-btn-primary');
+                            ?>
+                            <?= $this->formElement($this->form->get('submit')); ?>
+                        </div>
+                    </div>
+                </div>
+                <?= $this->form()->closeTag(); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    jQuery(function(){
+        // color palette
+        $("#sht-colorPicker").kendoColorPalette({
+        columns: 5,
+        tileSize: {
+            width: 24,
+            height: 16
+        },
+        palette: [
+            "#e53935", "#d81b60", "#8e24aa", "#5e35b1", "#3949ab",
+            "#1e88e5", "#039be5", "#00acc1", "#00897b", "#43a047",
+            "#7cb342", "#c0ca33", "#fdd835", "#ffb300", "#fb8c00",
+            "#f4511e", "#6d4c41", "#757575", "#546e7a"
+        ],
+        change: function(e){
+            jQuery('#elm-syshelperTag-color').val(e.value);
+        }
+        });
+    });
+</script>

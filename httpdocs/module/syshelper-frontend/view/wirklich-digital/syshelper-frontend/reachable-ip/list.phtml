@@ -1,0 +1,46 @@
+
+<h1><?= $this->translate('Reachable Ips'); ?></h1>
+
+<div class="md-card md-card-success">
+    <div class="md-card-toolbar">
+        <h3 class="md-card-toolbar-heading-text">
+            Verwendungshinweise
+        </h3>
+    </div>
+    <div class="md-card-content">
+        <ul>
+            <li>Diese Liste zeigt alle IPs, die unserem System als "reachable" bekannt sind (antwortet auf PINGs).</li>
+            <li>Zu jeder ReachableIP wird außerdem angezeigt, ob diese IP einem bekannten Host zugewiesen ist, zu dem unser System Daten vorliegen hat (Status: "OK / ASSIGNED").</li>
+            <li>Sollte eine IP nicht einem Host zugewiesen sein, wird angegeben, ob es sich um eine IP aus einem dynamischen Subnet (z.B. Metacloud / Cloudcontrol) handelt. Wir erwarten von diesen Hosts keine Daten, weswegen diese als "OK / DYN" angezeigt werden.</li>
+            <li>ReachableIPs, deren Subnet nicht als dynamisch gekennzeichnet ist und zu der trotzdem keine Host-Daten vorliegen, werden als "NOT ASSIGNED" angezeigt. Hier fehlen Daten über den Host, z.B. weil das Daten-Sende-Script nicht auf diesen Hosts läuft.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('IP list'); ?></h3>
+            </div>
+            <div class="md-card-content">
+    
+                <?= $this->datatable()
+                        ->setTableClasses(['dataTable', 'uk-table'])
+                        ->render($this->datatable); ?>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.wirklichDigitalDataTableCurrentConfig = {
+        processing: true,
+        serverSide: true,
+        ajax: <?= json_encode($this->url('syshelper-frontend/reachable-ip/listAjax')) ?>,
+        order: [[ 0, 'asc' ]],
+        columnDefs: <?= $this->datatableColumnDefinition($this->datatable, []); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+</script>

@@ -1,0 +1,1 @@
+altair_forms.parsley_validation_config();

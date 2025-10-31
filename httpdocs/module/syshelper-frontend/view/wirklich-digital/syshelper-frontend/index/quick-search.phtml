@@ -1,0 +1,59 @@
+<h1><?= $this->translate('Quick search result'); ?></h1>
+
+<div class="uk-grid">
+
+<?PHP if(empty($this->result_entries)): ?>
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('No result...'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <?= $this->translate('We were not able to find any results.'); ?>
+                <div class="uk-text-right">
+                    <a class="md-btn" href="<?= $this->url('syshelper-frontend/dashboard'); ?>"><?= $this->translate('Back'); ?></a>
+                </div>
+            </div>
+        </div>
+    </div>
+<?PHP else: ?>
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Search results'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="search_results_table" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <?PHP foreach($this->result_entries as $result_entry): ?>
+                        
+                            <?PHP if($result_entry['type'] == "host"): ?>
+                                <tr>
+                                    <th><?= $this->translate('Host');?></th>
+                                    <td><?= $result_entry['name']; ?></td>
+                                    <td class="uk-text-right"><a href="<?= $result_entry['url']; ?>"><i class="material-icons"></i></a></td>
+                                </tr>
+                            <?PHP elseif($result_entry['type'] == "subnet"): ?>
+                                <tr>
+                                    <th><?= $this->translate('Subnet');?></th>
+                                    <td>
+                                        <?= sprintf($this->translate('The ip %s is part of our subnet <strong>%s</strong> (Source: "%s"). The ip is <strong>%s</strong> for external viewers.'),$result_entry['ip'],$result_entry['name'],$result_entry['o']->getImportSource(),$result_entry['isUp'] ? $this->translate('reachable / up') : $this->translate('unreachable / down')); ?><br/>
+                                        <?= sprintf($this->translate('The hostname for this IP (acc. to rev. DNS lookup) is <strong>%s</strong>.'),$result_entry['hostname']); ?><br/>
+                                        <?= $this->translate('In case this IP is a linux host, you should find another search result with that host. If not, the IP is either not a normal linux host or it is not yet integrated with this syshelper tool.');?>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            <?PHP endif; ?>
+
+                        <?PHP endforeach; ?>
+                    </tbody>
+                </table>
+                <div class="uk-text-right">
+                    <a class="md-btn" href="<?= $this->url('syshelper-frontend/dashboard'); ?>"><?= $this->translate('Back'); ?></a>
+                </div>
+            </div>
+        </div>
+    </div>
+<?PHP endif; ?>
+
+</div>

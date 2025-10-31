@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+  <entity name="WirklichDigital\SyshelperBase\Entity\ReachableIp" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <id name="id" type="uuid">
+      <generator strategy="CUSTOM"/>
+      <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+    </id>
+    <field name="address" type="ip"/>
+    <field name="ptr" type="string" nullable="1"/>
+    <many-to-one field="subnet" target-entity="WirklichDigital\SyshelperBase\Entity\IpSubnet" inversed-by="reachableIps"/>
+    <one-to-one field="assignedIp" target-entity="WirklichDigital\SyshelperBase\Entity\AssignedIp" inversed-by="reachableIp"/>
+    <one-to-many field="alerts" target-entity="WirklichDigital\SyshelperAlerts\Entity\Alert" mapped-by="host"/>
+    <field name="createdAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="create"/>
+    </field>
+    <field name="updatedAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="update"/>
+    </field>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,171 @@
+<h1><?= $this->translate('Syshelper dashboard'); ?></h1>
+
+<div class="uk-grid">
+
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><span class="material-icons">search</span> <?= $this->translate('Quick search'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="dashboard_table" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <tr>
+                            <td style="border-bottom: 0;">
+                                <div class="uk-input-group">
+                                    <div class="md-input-wrapper"><input type="text" id="quick_search_hostname_input" class="md-input" placeholder="<?= $this->translate('IP, hostname or domain...'); ?>"><span class="md-input-bar "></span></div>
+                                    <span class="uk-input-group-addon">
+                                        <a href="#" id="quick_search_hostname"><i class="material-icons"></i></a>
+                                    </span>
+                                    <script>
+                                        jQuery(function() {
+                                            jQuery('#quick_search_hostname').on('click', quickSearchHostname);
+                                            jQuery('#quick_search_hostname_input').on('keypress', function(e) {
+                                                if (e.keyCode == 13) quickSearchHostname(e);
+                                            });
+                                        });
+
+                                        function quickSearchHostname(e) {
+                                            e.preventDefault();
+                                            window.location.href = "<?= $this->url('syshelper-frontend/dashboard/quickSearch'); ?>?type=hostname&v=" + encodeURIComponent(jQuery('#quick_search_hostname_input').val());
+                                        }
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><span class="material-icons">trending_up</span> <?= $this->translate('Database statistics'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="dashboard_table" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <tr>
+                            <th><?= $this->translate('Number of imported subnets'); ?>:</th>
+                            <td><span style="float: right;"><?PHP echo number_format($this->stats['subnets'] ?? 0, 0, ",", "."); ?></span></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Number of hosts'); ?>:</th>
+                            <td><span style="float: right;"><?PHP echo number_format($this->stats['hosts'] ?? 0, 0, ",", "."); ?></span></td>
+                        </tr>
+                        <tr>
+                            <th><?= $this->translate('Number of assigned IPs'); ?>:</th>
+                            <td><span style="float: right;"><?PHP echo number_format($this->stats['assigned_ips'] ?? 0, 0, ",", "."); ?></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="uk-width-medium-1-2  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><span class="material-icons">notifications_active</span> <?= $this->translate('Alerts'); ?></h3>
+            </div>
+            <div class="md-card-content">
+                <table id="dashboard_table" data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                    <tbody>
+                        <?PHP foreach ($this->stats['alerts'] as $a) : ?>
+                          <?PHP if ($a['cnt'] - $a['cnt_muted'] != 0) : ?>
+                            <tr>
+                                <th> 
+                                    <a style="text-decoration: none;" href="<?= $this->url('syshelper-frontend/dashboard', [], ['query' => ['name' => $a['cronjobClass']::ALERT_NAME]]); ?>" title="Show type">
+                                        <?= $this->translate('Alert of type') . " \"" . $a['cronjobClass']::ALERT_NAME . "\""; ?>: 
+                                    </a>
+                                </th>
+                                <td>
+                                    <?PHP echo number_format($a['cnt'] - $a['cnt_muted'] ?? 0, 0, ",", ".")." (+".number_format($a['cnt_muted'] ?? 0, 0, ",", ".").")"; ?>
+                                    <a style="margin-left: auto; float: right;" href="<?= $this->url('syshelper-frontend/dashboard/alert-type-acknowledge', [], ['query' => ['cronjobClass' => $a['cronjobClass']]]); ?>" title="Acknowledge all"><span class="material-icons">done</span></a>
+                                </td>
+                            </tr>
+                          <?PHP endif; ?>
+                        <?PHP endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Alert list'); ?></h3>
+                <div class="md-card-toolbar-actions">
+                    <!-- div class="md-card-dropdown" data-uk-dropdown="{pos:'bottom-right'}" aria-haspopup="true" aria-expanded="false">
+                        <i class="md-icon material-icons"></i>
+                        <div class="uk-dropdown uk-dropdown-bottom" aria-hidden="true" tabindex="" style="min-width: 200px; top: 32px; left: -168px;">
+                            <ul class="uk-nav">
+                                <?PHP if ($_GET['showMuted'] ?? 0) : ?>
+                                    <li><a href="<?= $this->url('syshelper-frontend/dashboard', [], ['query' => ['showMuted' => 0]]); ?>">Show normal alerts</a></li>
+                                <?PHP else : ?>
+                                    <li><a href="<?= $this->url('syshelper-frontend/dashboard', [], ['query' => ['showMuted' => 1]]); ?>">Show muted alerts</a></li>
+                                <?PHP endif; ?>
+                            </ul>
+                        </div>
+                    </div -->
+                    <?PHP if ($_GET['name'] ?? false) : ?>
+                        <span class="filter-badge">
+                            <?= sprintf($this->translate('Filter: %s'), $_GET['name']);?>
+                            <a href="<?= $this->url('syshelper-frontend/dashboard', [], ['query' => ['showMuted' => $_GET['showMuted'] ?? 0]]); ?>">
+                                <span class="material-icons">close</span>
+                            </a>
+                        </span>
+                    <?PHP endif; ?>
+                    <?PHP if ($_GET['showMuted'] ?? 0) : ?>
+                        <a href="<?= $this->url('syshelper-frontend/dashboard', [], ['query' => ['showMuted' => 0, 'name' => $_GET['name'] ?? null]]); ?>">Show normal alerts</a>
+                    <?PHP else : ?>
+                        <a href="<?= $this->url('syshelper-frontend/dashboard', [], ['query' => ['showMuted' => 1, 'name' => $_GET['name'] ?? null]]); ?>">Show muted alerts</a>
+                    <?PHP endif; ?>
+                </div>
+            </div>
+            <div class="md-card-content">
+                <table data-sortlist="[[0,0]]" class="uk-table uk-table-hover uk-table-middle tablesorter tablesorter-altair">
+                <?= $this->datatable()
+                    ->setTableClasses(['dataTable', 'uk-table', 'tablesorter-altair' ])
+                    ->render($this->datatable); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.wirklichDigitalDataTableCurrentConfig = {
+        processing: true,
+        serverSide: true,
+        stateSave: true,
+        ajax: <?= json_encode($this->url('syshelper-frontend/dashboard/listAjax', [], ['query' => ['showMuted' => $_GET['showMuted'] ?? 0, 'name' => $_GET['name'] ?? 0]])) ?>,
+        order: [
+            [6, 'desc']
+        ],
+        columnDefs: <?= $this->datatableColumnDefinition($this->datatable, ["visible"]); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+</script>
+
+<style>
+    table.dataTable tbody tr.not-acknowledged {
+        background-color: #f0baa5;
+    }
+
+    table.dataTable tbody tr.muted {
+        background-color: #d1f6ff;
+    }
+
+    .filter-badge {
+        background-color: #90ee90; 
+        padding: 5px; 
+        border-radius: 20px; 
+        margin-right: 10px;
+    }
+</style>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd" xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+  <entity name="WirklichDigital\SyshelperAlerts\Entity\Alert" repository-class="WirklichDigital\DynamicEntityModule\Repository\DynamicEntityRepository">
+    <id name="id" type="uuid">
+      <generator strategy="CUSTOM"/>
+      <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+    </id>
+    <field name="name" type="string"/>
+    <field name="description" type="string" length="512"/>
+    <field name="lastSeenAt" type="datetime" nullable="1"/>
+    <field name="cronjobClass" type="string"/>
+    <field name="alertIdentifier" type="string"/>
+    <field name="isAcknowledged" type="boolean">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="isMuted" type="boolean">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <many-to-one field="host" target-entity="WirklichDigital\SyshelperBase\Entity\Host" inversed-by="alerts"/>
+    <many-to-one field="ipSubnet" target-entity="WirklichDigital\SyshelperBase\Entity\IpSubnet" inversed-by="alerts"/>
+    <many-to-one field="assignedIp" target-entity="WirklichDigital\SyshelperBase\Entity\AssignedIp" inversed-by="alerts"/>
+    <many-to-one field="reachableIp" target-entity="WirklichDigital\SyshelperBase\Entity\ReachableIp" inversed-by="alerts"/>
+    <field name="createdAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="create"/>
+    </field>
+    <field name="updatedAt" type="datetime" nullable="1">
+      <gedmo:timestampable on="update"/>
+    </field>
+  </entity>
+</doctrine-mapping>

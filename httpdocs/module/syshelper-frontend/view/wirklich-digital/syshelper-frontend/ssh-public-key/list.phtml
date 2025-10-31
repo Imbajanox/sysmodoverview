@@ -1,0 +1,50 @@
+
+<h1><?= $this->translate('SSH Public Keys'); ?></h1>
+
+<div class="uk-grid">
+    <div class="uk-width-medium-1-1  uk-grid-margin">
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <h3 class="md-card-toolbar-heading-text"><?= $this->translate('Key list'); ?></h3>
+
+                <div class="md-card-toolbar-actions">
+                    <?php if ($this->isAllowedRoute('syshelper-frontend/ssh-public-key/create')) : ?>
+                        <a href="<?= $this->url('syshelper-frontend/ssh-public-key/create', [], []) ?>">
+                            <i class="md-icon material-icons">add</i>
+                        </a>
+                    <?php endif; ?>
+                </div>
+
+            </div>
+            <div class="md-card-content">
+                <div style="text-align: right">
+                    <label for="includeUnassignedCheckbox">
+                        <input type="checkbox" id="includeUnassignedCheckbox" name="includeUnassignedCheckbox" value="1" <?= $this->includeUnassigned ? 'checked' : ''; ?>>
+                        <?= $this->translate('Include unassigned keys'); ?>
+                    </label>
+                </div>
+                <?= $this->datatable()
+                        ->setTableClasses(['dataTable', 'uk-table'])
+                        ->render($this->datatable); ?>
+                </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.wirklichDigitalDataTableCurrentConfig = {
+        processing: true,
+        serverSide: true,
+        stateSave: true,
+        ajax: <?= json_encode($this->url('syshelper-frontend/ssh-public-key/listAjax',[],['query' => ['includeUnassigned' => $this->includeUnassigned]])) ?>,
+        order: [[ 3, 'asc' ]],
+        columnDefs: <?= $this->datatableColumnDefinition($this->datatable, ["visible"]); ?>,
+        language: <?= $this->datatableLanguageDefinition(); ?>,
+    };
+
+    jQuery(document).ready(function() {
+        jQuery('#includeUnassignedCheckbox').change(function() {
+            window.location.href="<?= $this->url('syshelper-frontend/ssh-public-key/list',[],['query' => ['includeUnassigned' => '']]) ?>" + (jQuery(this).is(':checked') ? '1' : '0');
+        });
+    });
+</script>
