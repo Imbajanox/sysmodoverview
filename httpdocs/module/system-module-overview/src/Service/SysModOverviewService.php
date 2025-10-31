@@ -27,6 +27,8 @@ use function is_string;
 use function is_writable;
 use function json_decode;
 use function json_encode;
+use function json_last_error;
+use function json_last_error_msg;
 use function key;
 use function lcfirst;
 use function method_exists;
@@ -36,6 +38,7 @@ use function sprintf;
 use function str_replace;
 use function ucfirst;
 
+use const JSON_ERROR_NONE;
 use const PREG_SPLIT_NO_EMPTY;
 
 class SysModOverviewService
@@ -193,8 +196,17 @@ class SysModOverviewService
 
         foreach ($modules as $module) {
             /** @var NpmModules $module */
-            $npmComposerModuleName = $npmModules[$module->getModule()];
-            if (isset($npmComposerModuleName) && ! empty($npmComposerModuleName) && isset($npmComposerModuleName[$module->getName()])) {
+            $moduleKey = $module->getModule();
+            $moduleName = $module->getName();
+            
+            if (!isset($npmModules[$moduleKey])) {
+                // Module key doesn't exist in new data, remove it
+                $this->entityManager->remove($module);
+                continue;
+            }
+            
+            $npmComposerModuleName = $npmModules[$moduleKey];
+            if (isset($npmComposerModuleName) && !empty($npmComposerModuleName) && isset($npmComposerModuleName[$moduleName])) {
                 continue;
             } else {
                 $this->entityManager->remove($module);
@@ -206,7 +218,17 @@ class SysModOverviewService
     public function createNpmModuleIfnotExists($npmModules, $installedModule, $laminasSystemServer)
     {
         $existingModules = [];
+        
+        if (!is_array($npmModules) || empty($npmModules)) {
+            return $existingModules;
+        }
+        
         foreach ($npmModules as $npmModuleName => $npmModule) {
+            if (!is_array($npmModule)) {
+                error_log("Invalid NPM module data for: " . $npmModuleName);
+                continue;
+            }
+            
             $module = $this->entityManager->getRepository(NpmModules::class)->findOneBy([
                 "laminasSystemServer" => $laminasSystemServer,
                 "module"              => $installedModule,
@@ -244,22 +266,32 @@ class SysModOverviewService
 
     private function createNpmArray($npmModules)
     {
+        if (!is_array($npmModules)) {
+            return [];
+        }
+        
         foreach ($npmModules as $key => $module) {
             if (is_array($module)) {
                 $modules = [];
                 if (is_integer(key($module))) {
                     $dependencies = [];
                     foreach ($module as $depModule) {
-                        $dependencies[] = $depModule["dependent"];
+                        if (is_array($depModule) && isset($depModule["dependent"])) {
+                            $dependencies[] = $depModule["dependent"];
+                        }
                     }
-                    $dependencies           = array_unique($dependencies);
-                    $module[0]["dependent"] = $dependencies;
-                    $module                 = $module[0];
-                    $modules[$key]          = $module;
+                    $dependencies = array_unique($dependencies);
+                    if (isset($module[0])) {
+                        $module[0]["dependent"] = $dependencies;
+                        $module = $module[0];
+                        $modules[$key] = $module;
+                    }
                 } else {
                     $modules[$key] = $module;
                 }
-                $npmModules[$key] = $modules[$key];
+                if (isset($modules[$key])) {
+                    $npmModules[$key] = $modules[$key];
+                }
             }
         }
 
