@@ -7,6 +7,7 @@ use Laminas\Http\Request;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\JsonModel;
 use Symfony\Component\Filesystem\Path;
+use WirklichDigital\SystemModuleOverview\Service\LaminasSystemLogService;
 use WirklichDigital\SystemModuleOverview\Service\SysModOverviewService;
 
 use function basename;
@@ -27,46 +28,17 @@ use const JSON_ERROR_NONE;
 class IndexController extends AbstractActionController
 {
     private const SYSTEMS_DIR = 'data/sysmoddatas/systems';
-    private $logFile = ''; // Speichert den absoluten Log-Pfad
 
     public function __construct(
         protected EntityManager $entityManager,
         protected SysModOverviewService $sysModOverviewService,
+        protected LaminasSystemLogService $logService,
     ) {
     }
 
     private function request()
     {
         return $this->getRequest();
-    }
-
-    /**
-     * Schreibt eine Nachricht mit Zeitstempel in die Log-Datei.
-     *
-     * @param string $message Die zu protokollierende Nachricht.
-     */
-    private function logMessage(string $message): void
-    {
-        $logDir        = 'data/log/cron.log';
-        $this->logFile = $logDir;
-
-        $timestamp = date('[Y-m-d H:i:s] ');
-        $logEntry  = $timestamp . $message . PHP_EOL;
-
-        if (! file_exists($logDir)) {
-        // The file does not exist, so create it
-            $fileHandle = fopen($logDir, 'w');
-
-            if ($fileHandle) {
-                // Optionally write some initial content
-                fwrite($fileHandle, "");
-                // Close the file handle
-                fclose($fileHandle);
-            }
-        }
-
-        // Fügt den Eintrag ans Ende der Datei an
-        file_put_contents($this->logFile, $logEntry, FILE_APPEND);
     }
 
     public function receiveSystemInfosAction()
@@ -108,13 +80,19 @@ class IndexController extends AbstractActionController
         }
 
         if (! is_writable($path)) {
-            $this->logMessage("Warning: Directory '$path' is not writable");
+            $this->logService->warning(
+                "Directory '$path' is not writable",
+                'IndexController::putDataInFile'
+            );
             return;
         }
 
         // IP address is required for proper system identification
         if (! isset($data["ipaddress"]) || empty($data["ipaddress"])) {
-            $this->logMessage("Warning: Missing IP address in received data, using unique identifier");
+            $this->logService->warning(
+                "Missing IP address in received data, using unique identifier",
+                'IndexController::putDataInFile'
+            );
             $ipaddress = "no-ip-" . uniqid();
         } else {
             // Sanitize IP address for filename safety
@@ -131,6 +109,9 @@ class IndexController extends AbstractActionController
         $systemPath = Path::join($path, "$systemName-($ipaddress).json");
         file_put_contents($systemPath, $jsonData);
 
-        $this->logMessage(sprintf("IndexController: Saved data file '%s' for processing", basename($systemPath)));
+        $this->logService->info(
+            sprintf("Saved data file '%s' for processing", basename($systemPath)),
+            'IndexController::putDataInFile'
+        );
     }
 }

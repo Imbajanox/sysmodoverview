@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Exception;
 use WirklichDigital\CronScheduler\CronTask\CronTaskExecutable;
 use WirklichDigital\SystemModuleOverview\Entity\ProcessedFile;
+use WirklichDigital\SystemModuleOverview\Service\LaminasSystemLogService;
 use WirklichDigital\SystemModuleOverview\Service\SysModOverviewService;
 
 use function array_diff;
@@ -44,8 +45,6 @@ use const PHP_EOL;
 
 class SaveSystemdatasTask implements CronTaskExecutable
 {
-    private $logFile = ''; // Speichert den absoluten Log-Pfad
-
     // Default batch processing configuration
     private const DEFAULT_MAX_FILES_PER_RUN = 50;
 
@@ -63,40 +62,12 @@ class SaveSystemdatasTask implements CronTaskExecutable
     public function __construct(
         protected EntityManager $entityManager,
         protected SysModOverviewService $sysModOverviewService,
+        protected LaminasSystemLogService $logService,
         protected array $config
     ) {
         $processingConfig            = $config['wirklich-digital']['system-module-overview']['processing'] ?? [];
         $this->maxFilesPerRun        = $processingConfig['max_files_per_run'] ?? self::DEFAULT_MAX_FILES_PER_RUN;
         $this->archiveProcessedFiles = $processingConfig['archive_processed_files'] ?? true;
-    }
-
-    /**
-     * Schreibt eine Nachricht mit Zeitstempel in die Log-Datei.
-     *
-     * @param string $message Die zu protokollierende Nachricht.
-     */
-    private function logMessage(string $message): void
-    {
-        $logDir        = 'data/log/cron.log';
-        $this->logFile = $logDir;
-
-        $timestamp = date('[Y-m-d H:i:s] ');
-        $logEntry  = $timestamp . $message . PHP_EOL;
-
-        if (! file_exists($logDir)) {
-        // The file does not exist, so create it
-            $fileHandle = fopen($logDir, 'w');
-
-            if ($fileHandle) {
-                // Optionally write some initial content
-                fwrite($fileHandle, "");
-                // Close the file handle
-                fclose($fileHandle);
-            }
-        }
-
-        // Fügt den Eintrag ans Ende der Datei an
-        file_put_contents($this->logFile, $logEntry, FILE_APPEND);
     }
 
     public function run()
@@ -105,7 +76,10 @@ class SaveSystemdatasTask implements CronTaskExecutable
         $processedDir = self::PROCESSED_DIR;
 
         if (! is_dir($systemsDir)) {
-            $this->logMessage(sprintf("SaveSystemdatasTask: Directory '%s' does not exist", $systemsDir));
+            $this->logService->error(
+                sprintf("Directory '%s' does not exist", $systemsDir),
+                'SaveSystemdatasTask::run'
+            );
             return false;
         }
 
@@ -116,7 +90,10 @@ class SaveSystemdatasTask implements CronTaskExecutable
 
         $files = scandir($systemsDir);
         if ($files === false) {
-            $this->logMessage(sprintf("SaveSystemdatasTask: Failed to scan directory '%s'", $systemsDir));
+            $this->logService->error(
+                sprintf("Failed to scan directory '%s'", $systemsDir),
+                'SaveSystemdatasTask::run'
+            );
             return false;
         }
 
@@ -133,12 +110,15 @@ class SaveSystemdatasTask implements CronTaskExecutable
         $errorCount     = 0;
         $skippedCount   = count($unprocessedFiles) - count($filesToProcess);
 
-        $this->logMessage(sprintf(
-            "SaveSystemdatasTask: Found %d unprocessed files, processing %d (batch limit: %d)",
-            count($unprocessedFiles),
-            count($filesToProcess),
-            $this->maxFilesPerRun
-        ));
+        $this->logService->info(
+            sprintf(
+                "Found %d unprocessed files, processing %d (batch limit: %d)",
+                count($unprocessedFiles),
+                count($filesToProcess),
+                $this->maxFilesPerRun
+            ),
+            'SaveSystemdatasTask::run'
+        );
 
         foreach ($filesToProcess as $fileInfo) {
             $file     = $fileInfo['name'];
@@ -149,7 +129,10 @@ class SaveSystemdatasTask implements CronTaskExecutable
                 $jsonContent = file_get_contents($filePath);
                 if ($jsonContent === false) {
                     $this->markFileAsProcessed($file, $filePath, $fileHash, self::STATUS_ERROR, "Failed to read file");
-                    $this->logMessage(sprintf("SaveSystemdatasTask: Failed to read file '%s'", $filePath));
+                    $this->logService->error(
+                        sprintf("Failed to read file '%s'", $filePath),
+                        'SaveSystemdatasTask::run'
+                    );
                     $errorCount++;
                     continue;
                 }
@@ -158,14 +141,20 @@ class SaveSystemdatasTask implements CronTaskExecutable
                 if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
                     $errorMessage = sprintf("Invalid JSON: %s", json_last_error_msg());
                     $this->markFileAsProcessed($file, $filePath, $fileHash, self::STATUS_ERROR, $errorMessage);
-                    $this->logMessage(sprintf("SaveSystemdatasTask: Invalid JSON in file '%s': %s", $filePath, json_last_error_msg()));
+                    $this->logService->error(
+                        sprintf("Invalid JSON in file '%s': %s", $filePath, json_last_error_msg()),
+                        'SaveSystemdatasTask::run'
+                    );
                     $errorCount++;
                     continue;
                 }
 
                 if (! is_array($data)) {
                     $this->markFileAsProcessed($file, $filePath, $fileHash, self::STATUS_ERROR, "Invalid data format");
-                    $this->logMessage(sprintf("SaveSystemdatasTask: Invalid data format in file '%s'", $filePath));
+                    $this->logService->error(
+                        sprintf("Invalid data format in file '%s'", $filePath),
+                        'SaveSystemdatasTask::run'
+                    );
                     $errorCount++;
                     continue;
                 }
@@ -179,20 +168,29 @@ class SaveSystemdatasTask implements CronTaskExecutable
                     $this->archiveFile($filePath, $processedDir, $file);
                 }
 
-                $this->logMessage(sprintf("SaveSystemdatasTask: Successfully processed file '%s'", $file));
+                $this->logService->info(
+                    sprintf("Successfully processed file '%s'", $file),
+                    'SaveSystemdatasTask::run'
+                );
             } catch (Exception $e) {
                 $this->markFileAsProcessed($file, $filePath, $fileHash, self::STATUS_ERROR, $e->getMessage());
-                $this->logMessage(sprintf("SaveSystemdatasTask: Error processing file '%s': %s", $filePath, $e->getMessage()));
+                $this->logService->error(
+                    sprintf("Error processing file '%s': %s", $filePath, $e->getMessage()),
+                    'SaveSystemdatasTask::run'
+                );
                 $errorCount++;
             }
         }
 
-        $this->logMessage(sprintf(
-            "SaveSystemdatasTask: Processed %d files successfully, %d errors, %d skipped (will be processed in next run)",
-            $processedCount,
-            $errorCount,
-            $skippedCount
-        ));
+        $this->logService->info(
+            sprintf(
+                "Processed %d files successfully, %d errors, %d skipped (will be processed in next run)",
+                $processedCount,
+                $errorCount,
+                $skippedCount
+            ),
+            'SaveSystemdatasTask::run'
+        );
 
         return true;
     }
@@ -218,7 +216,10 @@ class SaveSystemdatasTask implements CronTaskExecutable
             // Calculate file hash
             $fileHash = md5_file($filePath);
             if ($fileHash === false) {
-                $this->logMessage(sprintf("SaveSystemdatasTask: Failed to calculate hash for file '%s'", $filePath));
+                $this->logService->warning(
+                    sprintf("Failed to calculate hash for file '%s'", $filePath),
+                    'SaveSystemdatasTask::getUnprocessedFiles'
+                );
                 continue;
             }
 
@@ -279,27 +280,26 @@ class SaveSystemdatasTask implements CronTaskExecutable
             $this->entityManager->flush();
         } catch (UniqueConstraintViolationException $e) {
             // File was already marked by another process - this is OK (race condition)
-            $this->logMessage(sprintf(
-                "SaveSystemdatasTask: File '%s' already marked as processed (race condition handled)",
-                $filename
-            ));
+            $this->logService->info(
+                sprintf("File '%s' already marked as processed (race condition handled)", $filename),
+                'SaveSystemdatasTask::markFileAsProcessed'
+            );
         } catch (Exception $e) {
             // Check for generic duplicate entry errors as fallback
             if (
                 strpos($e->getMessage(), 'Duplicate entry') !== false ||
                 strpos($e->getMessage(), 'SQLSTATE[23000]') !== false
             ) {
-                $this->logMessage(sprintf(
-                    "SaveSystemdatasTask: File '%s' already marked as processed (race condition handled)",
-                    $filename
-                ));
+                $this->logService->info(
+                    sprintf("File '%s' already marked as processed (race condition handled)", $filename),
+                    'SaveSystemdatasTask::markFileAsProcessed'
+                );
             } else {
                 // Re-throw other errors
-                $this->logMessage(sprintf(
-                    "SaveSystemdatasTask: Error marking file '%s' as processed: %s",
-                    $filename,
-                    $e->getMessage()
-                ));
+                $this->logService->error(
+                    sprintf("Error marking file '%s' as processed: %s", $filename, $e->getMessage()),
+                    'SaveSystemdatasTask::markFileAsProcessed'
+                );
                 throw $e;
             }
         }
@@ -327,12 +327,21 @@ class SaveSystemdatasTask implements CronTaskExecutable
             }
 
             if (rename($filePath, $archivePath)) {
-                $this->logMessage(sprintf("SaveSystemdatasTask: Archived file '%s' to '%s'", $filename, $archivePath));
+                $this->logService->info(
+                    sprintf("Archived file '%s' to '%s'", $filename, $archivePath),
+                    'SaveSystemdatasTask::archiveFile'
+                );
             } else {
-                $this->logMessage(sprintf("SaveSystemdatasTask: Failed to archive file '%s'", $filename));
+                $this->logService->error(
+                    sprintf("Failed to archive file '%s'", $filename),
+                    'SaveSystemdatasTask::archiveFile'
+                );
             }
         } catch (Exception $e) {
-            $this->logMessage(sprintf("SaveSystemdatasTask: Error archiving file '%s': %s", $filename, $e->getMessage()));
+            $this->logService->error(
+                sprintf("Error archiving file '%s': %s", $filename, $e->getMessage()),
+                'SaveSystemdatasTask::archiveFile'
+            );
         }
     }
 }

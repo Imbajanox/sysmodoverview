@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 use Exception;
 use WirklichDigital\SystemModuleOverview\Entity\ProcessedFile;
+use WirklichDigital\SystemModuleOverview\Service\LaminasSystemLogService;
 
 use function array_diff;
 use function filemtime;
@@ -20,7 +21,6 @@ use function unlink;
  */
 class ProcessedFileCleanupService
 {
-    private $logFile = '';
     // Default retention period in days
     private const DEFAULT_RETENTION_DAYS = 30;
 
@@ -29,37 +29,9 @@ class ProcessedFileCleanupService
 
     public function __construct(
         protected EntityManager $entityManager,
+        protected LaminasSystemLogService $logService,
         protected array $config,
     ) {
-    }
-
-    /**
-     * Schreibt eine Nachricht mit Zeitstempel in die Log-Datei.
-     *
-     * @param string $message Die zu protokollierende Nachricht.
-     */
-    private function logMessage(string $message): void
-    {
-        $logDir        = 'data/log/cron.log';
-        $this->logFile = $logDir;
-
-        $timestamp = date('[Y-m-d H:i:s] ');
-        $logEntry  = $timestamp . $message . PHP_EOL;
-
-        if (! file_exists($logDir)) {
-        // The file does not exist, so create it
-            $fileHandle = fopen($logDir, 'w');
-
-            if ($fileHandle) {
-                // Optionally write some initial content
-                fwrite($fileHandle, "");
-                // Close the file handle
-                fclose($fileHandle);
-            }
-        }
-
-        // Fügt den Eintrag ans Ende der Datei an
-        file_put_contents($this->logFile, $logEntry, FILE_APPEND);
     }
 
     /**
@@ -83,11 +55,10 @@ class ProcessedFileCleanupService
 
         $deletedCount = $query->execute();
 
-        $this->logMessage(sprintf(
-            "ProcessedFileCleanupService: Deleted %d old processed file records (older than %d days)",
-            $deletedCount,
-            $daysToKeep
-        ));
+        $this->logService->info(
+            sprintf("Deleted %d old processed file records (older than %d days)", $deletedCount, $daysToKeep),
+            'ProcessedFileCleanupService::cleanupOldRecords'
+        );
 
         return $deletedCount;
     }
@@ -104,13 +75,19 @@ class ProcessedFileCleanupService
         $processedDir = self::PROCESSED_DIR;
 
         if (! is_dir($processedDir)) {
-            $this->logMessage("ProcessedFileCleanupService: Processed directory does not exist");
+            $this->logService->warning(
+                "Processed directory does not exist",
+                'ProcessedFileCleanupService::cleanupArchivedFiles'
+            );
             return 0;
         }
 
         $files = scandir($processedDir);
         if ($files === false) {
-            $this->logMessage("ProcessedFileCleanupService: Failed to scan processed directory");
+            $this->logService->error(
+                "Failed to scan processed directory",
+                'ProcessedFileCleanupService::cleanupArchivedFiles'
+            );
             return 0;
         }
 
@@ -128,32 +105,39 @@ class ProcessedFileCleanupService
             try {
                 $fileTime = filemtime($filePath);
                 if ($fileTime === false) {
-                    $this->logMessage(sprintf("ProcessedFileCleanupService: Could not get modification time for '%s'", $filePath));
+                    $this->logService->warning(
+                        sprintf("Could not get modification time for '%s'", $filePath),
+                        'ProcessedFileCleanupService::cleanupArchivedFiles'
+                    );
                     continue;
                 }
 
                 if ($fileTime < $cutoffTimestamp) {
                     if (unlink($filePath)) {
                         $deletedCount++;
-                        $this->logMessage(sprintf("ProcessedFileCleanupService: Deleted old archived file '%s'", $file));
+                        $this->logService->info(
+                            sprintf("Deleted old archived file '%s'", $file),
+                            'ProcessedFileCleanupService::cleanupArchivedFiles'
+                        );
                     } else {
-                        $this->logMessage(sprintf("ProcessedFileCleanupService: Failed to delete archived file '%s'", $file));
+                        $this->logService->error(
+                            sprintf("Failed to delete archived file '%s'", $file),
+                            'ProcessedFileCleanupService::cleanupArchivedFiles'
+                        );
                     }
                 }
             } catch (Exception $e) {
-                $this->logMessage(sprintf(
-                    "ProcessedFileCleanupService: Error processing file '%s': %s",
-                    $file,
-                    $e->getMessage()
-                ));
+                $this->logService->error(
+                    sprintf("Error processing file '%s': %s", $file, $e->getMessage()),
+                    'ProcessedFileCleanupService::cleanupArchivedFiles'
+                );
             }
         }
 
-        $this->logMessage(sprintf(
-            "ProcessedFileCleanupService: Deleted %d old archived files (older than %d days)",
-            $deletedCount,
-            $daysToKeep
-        ));
+        $this->logService->info(
+            sprintf("Deleted %d old archived files (older than %d days)", $deletedCount, $daysToKeep),
+            'ProcessedFileCleanupService::cleanupArchivedFiles'
+        );
 
         return $deletedCount;
     }
