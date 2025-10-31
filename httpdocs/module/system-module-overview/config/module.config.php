@@ -42,6 +42,7 @@ return  [
             Service\LaminasSystemServerService::class => ReflectionBasedAbstractFactory::class,
             Service\ComposerModuleService::class => ReflectionBasedAbstractFactory::class,
             Service\LaminasModuleService::class => ReflectionBasedAbstractFactory::class,
+            Service\ProcessedFileCleanupService::class => ReflectionBasedAbstractFactory::class,
         ],
     ],
 
@@ -77,6 +78,7 @@ return  [
             'processing' => [
                 'max_files_per_run' => 50, // Maximum number of files to process per cronjob run
                 'archive_processed_files' => true, // Whether to move processed files to archive
+                'retention_days' => 30, // Number of days to keep processed files and records
             ],
         ],
         'data-tables' => [
@@ -103,10 +105,18 @@ return  [
                         'enabled' => true,
                     ],
                 ],
+                CronTask\CleanupProcessedFilesTask::class => [ 
+                    'defaults' => [
+                        'cronString' => '0 2 * * *', // Run daily at 2 AM
+                        'autoRestartAfter' => '300',
+                        'enabled' => false, // Disabled by default, enable when needed
+                    ],
+                ],
             ],
             'plugin_manager' => [ 
                 'factories' => [
                     CronTask\SaveSystemdatasTask::class => ReflectionBasedAbstractFactory::class,
+                    CronTask\CleanupProcessedFilesTask::class => ReflectionBasedAbstractFactory::class,
                 ],
             ],
         ],
