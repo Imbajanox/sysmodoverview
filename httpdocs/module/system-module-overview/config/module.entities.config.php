@@ -6,6 +6,43 @@ use WirklichDigital\DynamicEntityTimestampableModule\Entity\TimestampableInterfa
 use WirklichDigital\SyshelperAlerts\Entity\Alert;
 
 return [
+    Entity\ProcessedFile::class => [
+        'metadata_definition' => [
+            'id' => [
+                'id' => [
+                    'type' => 'integer',
+                    'generator' => [
+                        'strategy' => 'AUTO'
+                    ],
+                ],
+            ],
+            'fields' => [
+                'filename' => [
+                    'type' => 'string',
+                ],
+                'filePath' => [
+                    'type' => 'string',
+                    'nullable' => true,
+                ],
+                'fileHash' => [
+                    'type' => 'string',
+                    'nullable' => false,
+                ],
+                'processedAt' => [
+                    'type' => 'datetime',
+                    'nullable' => false,
+                ],
+                'status' => [
+                    'type' => 'string',
+                    'nullable' => false,
+                ],
+                'errorMessage' => [
+                    'type' => 'text',
+                    'nullable' => true,
+                ],
+            ],
+        ],
+    ],
     Entity\LaminasSystem::class => [
         'metadata_definition' => [
             'id' => [

@@ -73,6 +73,12 @@ return  [
     ],
 
     'wirklich-digital' => [
+        'system-module-overview' => [
+            'processing' => [
+                'max_files_per_run' => 50, // Maximum number of files to process per cronjob run
+                'archive_processed_files' => true, // Whether to move processed files to archive
+            ],
+        ],
         'data-tables' => [
             'tables' => [
                 'factories' => [
