@@ -4,6 +4,22 @@ namespace WirklichDigital\SystemModuleOverview\CronTask;
 use WirklichDigital\CronScheduler\CronTask\CronTaskExecutable;
 use Doctrine\ORM\EntityManager;
 use WirklichDigital\SystemModuleOverview\Service\SysModOverviewService;
+use Exception;
+
+use function array_diff;
+use function file_get_contents;
+use function is_dir;
+use function is_file;
+use function json_decode;
+use function json_last_error;
+use function json_last_error_msg;
+use function pathinfo;
+use function scandir;
+use function sprintf;
+use function strtolower;
+
+use const JSON_ERROR_NONE;
+use const PATHINFO_EXTENSION;
 
 class SaveSystemdatasTask implements CronTaskExecutable
 {
@@ -15,14 +31,67 @@ class SaveSystemdatasTask implements CronTaskExecutable
 
     public function run()
     {
-        $files = scandir("data/sysmoddatas/systems");
-        array_splice($files,0,2);
-        print_r($files);
-        return true;
-        // if()
-        $data = json_decode(file_get_contents(""),true);
+        $systemsDir = "data/sysmoddatas/systems";
         
-        $this->sysModOverviewService->setInfos($data);
+        if (!is_dir($systemsDir)) {
+            error_log(sprintf("SaveSystemdatasTask: Directory '%s' does not exist", $systemsDir));
+            return false;
+        }
+
+        $files = scandir($systemsDir);
+        if ($files === false) {
+            error_log(sprintf("SaveSystemdatasTask: Failed to scan directory '%s'", $systemsDir));
+            return false;
+        }
+
+        // Remove . and .. from the list
+        $files = array_diff($files, ['.', '..']);
+        
+        $processedCount = 0;
+        $errorCount = 0;
+
+        foreach ($files as $file) {
+            $filePath = $systemsDir . '/' . $file;
+            
+            // Only process JSON files (case-insensitive)
+            $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+            if (!is_file($filePath) || $extension !== 'json') {
+                continue;
+            }
+
+            try {
+                $jsonContent = file_get_contents($filePath);
+                if ($jsonContent === false) {
+                    error_log(sprintf("SaveSystemdatasTask: Failed to read file '%s'", $filePath));
+                    $errorCount++;
+                    continue;
+                }
+
+                $data = json_decode($jsonContent, true);
+                if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+                    error_log(sprintf("SaveSystemdatasTask: Invalid JSON in file '%s': %s", $filePath, json_last_error_msg()));
+                    $errorCount++;
+                    continue;
+                }
+
+                if (!is_array($data)) {
+                    error_log(sprintf("SaveSystemdatasTask: Invalid data format in file '%s'", $filePath));
+                    $errorCount++;
+                    continue;
+                }
+
+                $this->sysModOverviewService->setInfos($data);
+                $processedCount++;
+                
+                error_log(sprintf("SaveSystemdatasTask: Successfully processed file '%s'", $file));
+            } catch (Exception $e) {
+                error_log(sprintf("SaveSystemdatasTask: Error processing file '%s': %s", $filePath, $e->getMessage()));
+                $errorCount++;
+            }
+        }
+
+        error_log(sprintf("SaveSystemdatasTask: Processed %d files, %d errors", $processedCount, $errorCount));
+        
         return true;
     }
 }
