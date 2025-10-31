@@ -279,7 +279,7 @@ class SysModOverviewService
                 if (is_integer(key($module))) {
                     $dependencies = [];
                     foreach ($module as $depModule) {
-                        if (is_array($depModule) && isset($depModule["dependent"]) && !empty($depModule["dependent"])) {
+                        if (is_array($depModule) && isset($depModule["dependent"]) && is_string($depModule["dependent"]) && !empty($depModule["dependent"])) {
                             $dependencies[] = $depModule["dependent"];
                         }
                     }
@@ -321,7 +321,7 @@ class SysModOverviewService
             }
 
             if (!is_array($data) || empty($data)) {
-                error_log("setInfosInEntity: Empty or invalid data provided for entity: " . $entity);
+                error_log("setInfosInEntity: Empty or invalid data provided for entity class: " . $entity);
                 return $em;
             }
 
@@ -505,7 +505,8 @@ class SysModOverviewService
                         error_log("Failed to update entity for module: " . $module["name"]);
                         continue;
                     }
-                    if (! $entity->getLaminasSystemServer()->contains($server)) {
+                    $serverCollection = $entity->getLaminasSystemServer();
+                    if ($serverCollection && !$serverCollection->contains($server)) {
                         $entity->addLaminasSystemServer([$server]);
                     }
                     $modules[] = $entity;
