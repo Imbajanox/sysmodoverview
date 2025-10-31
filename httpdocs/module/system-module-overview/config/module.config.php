@@ -41,6 +41,7 @@ return [
             Service\ComposerModuleService::class       => ReflectionBasedAbstractFactory::class,
             Service\LaminasModuleService::class        => ReflectionBasedAbstractFactory::class,
             Service\ProcessedFileCleanupService::class => ReflectionBasedAbstractFactory::class,
+            Service\LaminasSystemLogService::class     => ReflectionBasedAbstractFactory::class,
         ],
     ],
     'controllers'      => [

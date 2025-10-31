@@ -40,41 +40,12 @@ use const PREG_SPLIT_NO_EMPTY;
 
 class SysModOverviewService
 {
-    private $logFile = '';
     public function __construct(
         protected EntityManager $entityManager,
         protected LaminasSystemServerService $laminasSystemServerService,
-        protected ComposerModuleService $composerModuleService
+        protected ComposerModuleService $composerModuleService,
+        protected LaminasSystemLogService $logService
     ) {
-    }
-
-    /**
-     * Schreibt eine Nachricht mit Zeitstempel in die Log-Datei.
-     *
-     * @param string $message Die zu protokollierende Nachricht.
-     */
-    private function logMessage(string $message): void
-    {
-        $logDir        = 'data/log/cron.log';
-        $this->logFile = $logDir;
-
-        $timestamp = date('[Y-m-d H:i:s] ');
-        $logEntry  = $timestamp . $message . PHP_EOL;
-
-        if (! file_exists($logDir)) {
-        // The file does not exist, so create it
-            $fileHandle = fopen($logDir, 'w');
-
-            if ($fileHandle) {
-                // Optionally write some initial content
-                fwrite($fileHandle, "");
-                // Close the file handle
-                fclose($fileHandle);
-            }
-        }
-
-        // Fügt den Eintrag ans Ende der Datei an
-        file_put_contents($this->logFile, $logEntry, FILE_APPEND);
     }
 
     private function checkIfEntityIsSet($entity, $server)
@@ -252,7 +223,7 @@ class SysModOverviewService
         
         foreach ($npmModules as $npmModuleName => $npmModule) {
             if (!is_array($npmModule)) {
-                $this->logMessage("Invalid NPM module data for: " . $npmModuleName);
+                $this->logService->warning("Invalid NPM module data for: " . $npmModuleName, "SysModOverviewService");
                 continue;
             }
             
@@ -345,7 +316,7 @@ class SysModOverviewService
             }
 
             if (!is_array($data) || empty($data)) {
-                $this->logMessage("setInfosInEntity: Empty or invalid data provided for entity class: " . $entity);
+                $this->logService->warning("setInfosInEntity: Empty or invalid data provided for entity class: " . $entity, "SysModOverviewService");
                 return $em;
             }
 
@@ -380,7 +351,7 @@ class SysModOverviewService
             $this->entityManager->persist($em);
             return $em;
         } catch (Exception $e) {
-            $this->logMessage("Error in setInfosInEntity: " . $e->getMessage());
+            $this->logService->warning("Error in setInfosInEntity: " . $e->getMessage(), "SysModOverviewService");
             throw $e;
         }
     }
@@ -388,7 +359,7 @@ class SysModOverviewService
     public function setInfos(array $data)
     {
         try {
-            $this->logMessage("SysModOverviewService::setInfos: Processing data for server with IP " . ($data['ipaddress'] ?? 'unknown'));
+            $this->logService->warning("SysModOverviewService::setInfos: Processing data for server with IP " . ($data['ipaddress'] ?? 'unknown'), "SysModOverviewService");
             // Validate required data
             if (!isset($data['ipaddress']) || empty($data['ipaddress'])) {
                 throw new Exception("Missing required field: ipaddress");
@@ -409,16 +380,16 @@ class SysModOverviewService
             $this->runFinalServices($server);
 
             $this->entityManager->commit();
-            $this->logMessage("SysModOverviewService::setInfos: Successfully processed data for server with IP " . $data['ipaddress']);
+            $this->logService->warning("SysModOverviewService::setInfos: Successfully processed data for server with IP " . $data['ipaddress'], "SysModOverviewService");
         } catch (Exception $e) {
             if ($this->entityManager->getConnection()->isTransactionActive()) {
                 try {
                     $this->entityManager->rollback();
                 } catch (Exception $rollbackException) {
-                    $this->logMessage("SysModOverviewService::setInfos Rollback Error: " . $rollbackException->getMessage() . " (Original error: " . $e->getMessage() . ")");
+                    $this->logService->warning("SysModOverviewService::setInfos Rollback Error: " . $rollbackException->getMessage() . " (Original error: " . $e->getMessage() . ")", "SysModOverviewService");
                 }
             }
-            $this->logMessage("SysModOverviewService::setInfos Error: " . $e->getMessage());
+            $this->logService->warning("SysModOverviewService::setInfos Error: " . $e->getMessage(), "SysModOverviewService");
             throw $e;
         }
     }
@@ -508,14 +479,14 @@ class SysModOverviewService
             foreach ($datas["LaminasSystemServerModule"] as $module) {
                 // Validate required fields
                 if (!isset($module["name"]) || !isset($module["version_normalized"])) {
-                    $this->logMessage("Skipping module due to missing required fields: " . json_encode($module));
+                    $this->logService->warning("Skipping module due to missing required fields: " . json_encode($module), "SysModOverviewService");
                     continue;
                 }
 
                 if (! $this->checkIfModuleIsSet($module["name"], $module["version_normalized"], $serverIpAddress)) {
                     $entity = $this->setInfosInEntity($module, "LaminasSystemServerModule");
                     if (!$entity) {
-                        $this->logMessage("Failed to create entity for module: " . $module["name"]);
+                        $this->logService->warning("Failed to create entity for module: " . $module["name"], "SysModOverviewService");
                         continue;
                     }
                     $entity->addLaminasSystemServer([$server]);
@@ -523,12 +494,12 @@ class SysModOverviewService
                 } else {
                     $entity = $this->getModule($module["name"], $module["version_normalized"], $server);
                     if (!$entity) {
-                        $this->logMessage("Failed to get existing module: " . $module["name"]);
+                        $this->logService->warning("Failed to get existing module: " . $module["name"], "SysModOverviewService");
                         continue;
                     }
                     $entity = $this->setInfosInEntity($module, "LaminasSystemServerModule", $entity);
                     if (!$entity) {
-                        $this->logMessage("Failed to update entity for module: " . $module["name"]);
+                        $this->logService->warning("Failed to update entity for module: " . $module["name"], "SysModOverviewService");
                         continue;
                     }
                     $serverCollection = $entity->getLaminasSystemServer();
@@ -558,7 +529,7 @@ class SysModOverviewService
             if (isset($datas[$key]) && is_array($datas[$key])) {
                 foreach ($datas[$key] as $data) {
                     if (!is_array($data) || empty($data)) {
-                        $this->logMessage("Skipping invalid data for " . $key);
+                        $this->logService->warning("Skipping invalid data for " . $key, "SysModOverviewService");
                         continue;
                     }
 
@@ -569,13 +540,13 @@ class SysModOverviewService
 
                     if ($key === "LaminasSystemServerComposerOutdated") {
                         if (!isset($data['name'])) {
-                            $this->logMessage("Skipping ComposerOutdated entry without name");
+                            $this->logService->warning("Skipping ComposerOutdated entry without name", "SysModOverviewService");
                             continue;
                         }
                         $findCriteria['name'] = $data['name'];
                     } elseif ($key === "LaminasSystemServerDatabaseInfo") {
                         if (!isset($data['Name'])) {
-                            $this->logMessage("Skipping DatabaseInfo entry without Name");
+                            $this->logService->warning("Skipping DatabaseInfo entry without Name", "SysModOverviewService");
                             continue;
                         }
                         // Hier wird der Datenbankname als Kriterium hinzugefügt
@@ -594,7 +565,7 @@ class SysModOverviewService
                     }
 
                     if (!$entity) {
-                        $this->logMessage("Failed to create/update entity for " . $key);
+                        $this->logService->warning("Failed to create/update entity for " . $key, "SysModOverviewService");
                         continue;
                     }
 
@@ -642,13 +613,13 @@ class SysModOverviewService
         $npmModules = [];
         foreach ($datas["NpmModules"] as $key => $module) {
             if (!is_string($module)) {
-                $this->logMessage("Skipping invalid NPM module data for key: " . $key);
+                $this->logService->warning("Skipping invalid NPM module data for key: " . $key, "SysModOverviewService");
                 continue;
             }
             
             $decoded = json_decode($module, true);
             if ($decoded === null && json_last_error() !== JSON_ERROR_NONE) {
-                $this->logMessage("Invalid JSON for NPM module " . $key . ": " . json_last_error_msg());
+                $this->logService->warning("Invalid JSON for NPM module " . $key . ": " . json_last_error_msg(), "SysModOverviewService");
                 continue;
             }
             
@@ -678,7 +649,7 @@ class SysModOverviewService
         }
 
         if (! is_writable($fileFolder)) {
-            $this->logMessage("Warning: Directory '$fileFolder' is not writable");
+            $this->logService->warning("Warning: Directory '$fileFolder' is not writable", "SysModOverviewService");
             return;
         }
 
@@ -700,7 +671,7 @@ class SysModOverviewService
                 $server->setPhpVersion($phpVersion);
             }
         } else {
-            $this->logMessage("Warning: No PHP-Info found for server ID: " . $serverId);
+            $this->logService->warning("Warning: No PHP-Info found for server ID: " . $serverId, "SysModOverviewService");
         }
 
         // Config
@@ -709,7 +680,7 @@ class SysModOverviewService
             file_put_contents($configPath, json_encode($datas["LaminasSystemServerconfig"]));
             $server->setConfig($configPath);
         } else {
-            $this->logMessage("Warning: No Serverconfig found for server ID: " . $serverId);
+            $this->logService->warning("Warning: No Serverconfig found for server ID: " . $serverId, "SysModOverviewService");
         }
     }
 
