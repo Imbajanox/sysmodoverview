@@ -19,10 +19,13 @@ use function class_exists;
 use function count;
 use function explode;
 use function file_put_contents;
+use function get_class;
+use function gettype;
 use function implode;
 use function is_array;
 use function is_dir;
 use function is_integer;
+use function is_object;
 use function is_string;
 use function is_writable;
 use function json_decode;
@@ -313,7 +316,8 @@ class SysModOverviewService
             } elseif ($entityObject instanceof $className) {
                 $em = $entityObject;
             } else {
-                throw new Exception("Invalid entity object provided");
+                $providedType = is_object($entityObject) ? get_class($entityObject) : gettype($entityObject);
+                throw new Exception("Invalid entity object provided. Expected: " . $className . ", got: " . $providedType);
             }
 
             if (!is_array($data) || empty($data)) {
@@ -382,7 +386,11 @@ class SysModOverviewService
             $this->entityManager->commit();
         } catch (Exception $e) {
             if ($this->entityManager->getConnection()->isTransactionActive()) {
-                $this->entityManager->rollback();
+                try {
+                    $this->entityManager->rollback();
+                } catch (Exception $rollbackException) {
+                    error_log("SysModOverviewService::setInfos Rollback Error: " . $rollbackException->getMessage());
+                }
             }
             error_log("SysModOverviewService::setInfos Error: " . $e->getMessage());
             throw $e;

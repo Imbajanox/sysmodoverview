@@ -6,12 +6,16 @@ use Doctrine\ORM\EntityManager;
 use WirklichDigital\SystemModuleOverview\Service\SysModOverviewService;
 use Exception;
 
+use function array_diff;
 use function file_get_contents;
 use function is_dir;
 use function is_file;
 use function json_decode;
+use function json_last_error;
+use function json_last_error_msg;
 use function scandir;
 use function sprintf;
+use function str_ends_with;
 
 use const JSON_ERROR_NONE;
 
