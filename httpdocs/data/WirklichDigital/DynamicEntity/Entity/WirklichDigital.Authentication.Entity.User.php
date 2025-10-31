@@ -2,77 +2,56 @@
 
 namespace WirklichDigital\Authentication\Entity;
 
-use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
-use WirklichDigital\Authorization\Role\HierarchicalRoleInterface;
-use WirklichDigital\Authorization\Entity\UserAsHierarchicalRoleTrait;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use WirklichDigital\Authentication\Entity\SystemUser;
+use WirklichDigital\AuthenticationMail\Entity\AuthenticationMail;
+use WirklichDigital\Authorization\Entity\UserAsHierarchicalRoleTrait;
+use WirklichDigital\Authorization\Role\HierarchicalRoleInterface;
+use WirklichDigital\DefaultUser\Entity\DefaultUser;
+use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 
 class User extends AbstractEntity implements HierarchicalRoleInterface
 {
     use UserAsHierarchicalRoleTrait;
 
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $type = null;
+    /** @var null|string */
+    protected $type;
 
-    /**
-     * @var null|bool
-     */
+    /** @var null|bool */
     protected $isHidden = 0;
 
-    /**
-     * @var null|bool
-     */
+    /** @var null|bool */
     protected $canLogin = true;
 
-    protected $roles = null;
+    protected $roles;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @var null|\WirklichDigital\Authentication\Entity\SystemUser
-     */
-    protected $systemUser = null;
+    /** @var null|SystemUser */
+    protected $systemUser;
 
-    /**
-     * @var null|\WirklichDigital\DefaultUser\Entity\DefaultUser
-     */
-    protected $defaultUser = null;
+    /** @var null|DefaultUser */
+    protected $defaultUser;
 
-    /**
-     * @var \WirklichDigital\AuthenticationMail\Entity\AuthenticationMail[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $authenticationMails = null;
+    /** @var AuthenticationMail[]|Collection */
+    protected $authenticationMails;
 
-    /**
-     * @var null|\WirklichDigital\Authentication\Entity\User
-     */
-    protected $createdBy = null;
+    /** @var null|User */
+    protected $createdBy;
 
-    /**
-     * @var null|\WirklichDigital\Authentication\Entity\User
-     */
-    protected $updatedBy = null;
+    /** @var null|User */
+    protected $updatedBy;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -80,16 +59,13 @@ class User extends AbstractEntity implements HierarchicalRoleInterface
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\Authentication\Entity\User
+    public function setId($id): User
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getType() : ?string
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -97,16 +73,13 @@ class User extends AbstractEntity implements HierarchicalRoleInterface
     /**
      * @param null|string $type
      */
-    public function setType($type) : \WirklichDigital\Authentication\Entity\User
+    public function setType($type): User
     {
         $this->type = $type;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getIsHidden() : ?bool
+    public function getIsHidden(): ?bool
     {
         return $this->isHidden;
     }
@@ -114,16 +87,13 @@ class User extends AbstractEntity implements HierarchicalRoleInterface
     /**
      * @param null|bool $isHidden
      */
-    public function setIsHidden($isHidden) : \WirklichDigital\Authentication\Entity\User
+    public function setIsHidden($isHidden): User
     {
         $this->isHidden = $isHidden;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getCanLogin() : ?bool
+    public function getCanLogin(): ?bool
     {
         return $this->canLogin;
     }
@@ -131,7 +101,7 @@ class User extends AbstractEntity implements HierarchicalRoleInterface
     /**
      * @param null|bool $canLogin
      */
-    public function setCanLogin($canLogin) : \WirklichDigital\Authentication\Entity\User
+    public function setCanLogin($canLogin): User
     {
         $this->canLogin = $canLogin;
         return $this;
@@ -142,58 +112,40 @@ class User extends AbstractEntity implements HierarchicalRoleInterface
         return $this->roles;
     }
 
-    public function setRoles($roles) : \WirklichDigital\Authentication\Entity\User
+    public function setRoles($roles): User
     {
         $this->roles = $roles;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\Authentication\Entity\User
+    public function setCreatedAt(?DateTime $createdAt): User
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\Authentication\Entity\User
+    public function setUpdatedAt(?DateTime $updatedAt): User
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\Authentication\Entity\SystemUser
-     */
-    public function getSystemUser() : ?\WirklichDigital\Authentication\Entity\SystemUser
+    public function getSystemUser(): ?SystemUser
     {
         return $this->systemUser;
     }
 
-    /**
-     * @param null|\WirklichDigital\Authentication\Entity\SystemUser $systemUser
-     */
-    public function setSystemUser(?\WirklichDigital\Authentication\Entity\SystemUser $systemUser) : \WirklichDigital\Authentication\Entity\User
+    public function setSystemUser(?SystemUser $systemUser): User
     {
         $this->systemUser = $systemUser;
         if ($this->systemUser) {
@@ -202,18 +154,12 @@ class User extends AbstractEntity implements HierarchicalRoleInterface
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\DefaultUser\Entity\DefaultUser
-     */
-    public function getDefaultUser() : ?\WirklichDigital\DefaultUser\Entity\DefaultUser
+    public function getDefaultUser(): ?DefaultUser
     {
         return $this->defaultUser;
     }
 
-    /**
-     * @param null|\WirklichDigital\DefaultUser\Entity\DefaultUser $defaultUser
-     */
-    public function setDefaultUser(?\WirklichDigital\DefaultUser\Entity\DefaultUser $defaultUser) : \WirklichDigital\Authentication\Entity\User
+    public function setDefaultUser(?DefaultUser $defaultUser): User
     {
         $this->defaultUser = $defaultUser;
         if ($this->defaultUser) {
@@ -223,17 +169,17 @@ class User extends AbstractEntity implements HierarchicalRoleInterface
     }
 
     /**
-     * @return \WirklichDigital\AuthenticationMail\Entity\AuthenticationMail[]|\Doctrine\Common\Collections\Collection
+     * @return AuthenticationMail[]|Collection
      */
-    public function getAuthenticationMails() : \Doctrine\Common\Collections\Collection
+    public function getAuthenticationMails(): Collection
     {
         return $this->authenticationMails;
     }
 
     /**
-     * @param \WirklichDigital\AuthenticationMail\Entity\AuthenticationMail[]|\Doctrine\Common\Collections\Collection $authenticationMails
+     * @param AuthenticationMail[]|Collection $authenticationMails
      */
-    public function setAuthenticationMails(\Doctrine\Common\Collections\Collection $authenticationMails) : \WirklichDigital\Authentication\Entity\User
+    public function setAuthenticationMails(Collection $authenticationMails): User
     {
         $this->authenticationMails = $authenticationMails;
         if ($this->authenticationMails) {
@@ -245,9 +191,9 @@ class User extends AbstractEntity implements HierarchicalRoleInterface
     }
 
     /**
-     * @param \WirklichDigital\AuthenticationMail\Entity\AuthenticationMail[]|\Doctrine\Common\Collections\Collection $authenticationMails
+     * @param AuthenticationMail[]|Collection $authenticationMails
      */
-    public function addAuthenticationMails($authenticationMails) : \WirklichDigital\Authentication\Entity\User
+    public function addAuthenticationMails($authenticationMails): User
     {
         foreach ($authenticationMails as $_authenticationMails) {
             $_authenticationMails->setUser($this);
@@ -257,9 +203,9 @@ class User extends AbstractEntity implements HierarchicalRoleInterface
     }
 
     /**
-     * @param \WirklichDigital\AuthenticationMail\Entity\AuthenticationMail[]|\Doctrine\Common\Collections\Collection $authenticationMails
+     * @param AuthenticationMail[]|Collection $authenticationMails
      */
-    public function removeAuthenticationMails($authenticationMails) : \WirklichDigital\Authentication\Entity\User
+    public function removeAuthenticationMails($authenticationMails): User
     {
         foreach ($authenticationMails as $_authenticationMails) {
             $_authenticationMails->setUser(null);
@@ -268,35 +214,23 @@ class User extends AbstractEntity implements HierarchicalRoleInterface
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\Authentication\Entity\User
-     */
-    public function getCreatedBy() : ?\WirklichDigital\Authentication\Entity\User
+    public function getCreatedBy(): ?User
     {
         return $this->createdBy;
     }
 
-    /**
-     * @param null|\WirklichDigital\Authentication\Entity\User $createdBy
-     */
-    public function setCreatedBy(?\WirklichDigital\Authentication\Entity\User $createdBy) : \WirklichDigital\Authentication\Entity\User
+    public function setCreatedBy(?User $createdBy): User
     {
         $this->createdBy = $createdBy;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\Authentication\Entity\User
-     */
-    public function getUpdatedBy() : ?\WirklichDigital\Authentication\Entity\User
+    public function getUpdatedBy(): ?User
     {
         return $this->updatedBy;
     }
 
-    /**
-     * @param null|\WirklichDigital\Authentication\Entity\User $updatedBy
-     */
-    public function setUpdatedBy(?\WirklichDigital\Authentication\Entity\User $updatedBy) : \WirklichDigital\Authentication\Entity\User
+    public function setUpdatedBy(?User $updatedBy): User
     {
         $this->updatedBy = $updatedBy;
         return $this;
@@ -314,4 +248,3 @@ class User extends AbstractEntity implements HierarchicalRoleInterface
         $this->authenticationMails = clone $this->authenticationMails;
     }
 }
-

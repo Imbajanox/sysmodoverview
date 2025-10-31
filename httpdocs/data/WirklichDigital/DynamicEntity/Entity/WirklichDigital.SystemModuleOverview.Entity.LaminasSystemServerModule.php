@@ -2,124 +2,94 @@
 
 namespace WirklichDigital\SystemModuleOverview\Entity;
 
-use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SystemModuleOverview\Entity\ComposerModule;
 
 class LaminasSystemServerModule extends AbstractEntity
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $moduleName = null;
+    /** @var null|string */
+    protected $moduleName;
 
-    /**
-     * @var null|string
-     */
-    protected $moduleVersion = null;
+    /** @var null|string */
+    protected $moduleVersion;
 
-    /**
-     * @var null|string
-     */
-    protected $moduleVersionNormalized = null;
+    /** @var null|string */
+    protected $moduleVersionNormalized;
 
-    protected $moduleSource = null;
+    protected $moduleSource;
 
-    protected $moduleDist = null;
+    protected $moduleDist;
 
-    protected $moduleRequire = null;
+    protected $moduleRequire;
 
-    protected $moduleConflict = null;
+    protected $moduleConflict;
 
-    protected $moduleProvide = null;
+    protected $moduleProvide;
 
-    protected $moduleReplace = null;
+    protected $moduleReplace;
 
-    protected $moduleRequiredev = null;
+    protected $moduleRequiredev;
 
-    protected $moduleSuggest = null;
+    protected $moduleSuggest;
 
-    /**
-     * @var null|string
-     */
-    protected $moduleTime = null;
+    /** @var null|string */
+    protected $moduleTime;
 
-    protected $moduleBin = null;
+    protected $moduleBin;
 
-    /**
-     * @var null|string
-     */
-    protected $moduleType = null;
+    /** @var null|string */
+    protected $moduleType;
 
-    protected $moduleExtra = null;
+    protected $moduleExtra;
 
-    /**
-     * @var null|string
-     */
-    protected $moduleInstallationsource = null;
+    /** @var null|string */
+    protected $moduleInstallationsource;
 
-    protected $moduleAutoload = null;
+    protected $moduleAutoload;
 
-    protected $moduleAutoloaddev = null;
+    protected $moduleAutoloaddev;
 
-    protected $moduleScripts = null;
+    protected $moduleScripts;
 
-    /**
-     * @var null|string
-     */
-    protected $moduleNotificationurl = null;
+    /** @var null|string */
+    protected $moduleNotificationurl;
 
-    protected $moduleLicense = null;
+    protected $moduleLicense;
 
-    protected $moduleIncludepath = null;
+    protected $moduleIncludepath;
 
-    protected $moduleAuthors = null;
+    protected $moduleAuthors;
 
-    /**
-     * @var null|string
-     */
-    protected $moduleDescription = null;
+    /** @var null|string */
+    protected $moduleDescription;
 
-    /**
-     * @var null|string
-     */
-    protected $moduleHomepage = null;
+    /** @var null|string */
+    protected $moduleHomepage;
 
-    protected $moduleKeywords = null;
+    protected $moduleKeywords;
 
-    protected $moduleSupport = null;
+    protected $moduleSupport;
 
-    protected $moduleFunding = null;
+    protected $moduleFunding;
 
-    /**
-     * @var null|string
-     */
-    protected $moduleAbandoned = null;
+    /** @var null|string */
+    protected $moduleAbandoned;
 
-    /**
-     * @var null|string
-     */
-    protected $moduleInstallpath = null;
+    /** @var null|string */
+    protected $moduleInstallpath;
 
-    /**
-     * @var \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $laminasSystemServer = null;
+    /** @var LaminasSystemServer[]|Collection */
+    protected $laminasSystemServer;
 
-    /**
-     * @var null|\WirklichDigital\SystemModuleOverview\Entity\ComposerModule
-     */
-    protected $composerModule = null;
+    /** @var null|ComposerModule */
+    protected $composerModule;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -127,16 +97,13 @@ class LaminasSystemServerModule extends AbstractEntity
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setId($id): LaminasSystemServerModule
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getModuleName() : ?string
+    public function getModuleName(): ?string
     {
         return $this->moduleName;
     }
@@ -144,16 +111,13 @@ class LaminasSystemServerModule extends AbstractEntity
     /**
      * @param null|string $moduleName
      */
-    public function setModuleName($moduleName) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleName($moduleName): LaminasSystemServerModule
     {
         $this->moduleName = $moduleName;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getModuleVersion() : ?string
+    public function getModuleVersion(): ?string
     {
         return $this->moduleVersion;
     }
@@ -161,16 +125,13 @@ class LaminasSystemServerModule extends AbstractEntity
     /**
      * @param null|string $moduleVersion
      */
-    public function setModuleVersion($moduleVersion) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleVersion($moduleVersion): LaminasSystemServerModule
     {
         $this->moduleVersion = $moduleVersion;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getModuleVersionNormalized() : ?string
+    public function getModuleVersionNormalized(): ?string
     {
         return $this->moduleVersionNormalized;
     }
@@ -178,7 +139,7 @@ class LaminasSystemServerModule extends AbstractEntity
     /**
      * @param null|string $moduleVersionNormalized
      */
-    public function setModuleVersionNormalized($moduleVersionNormalized) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleVersionNormalized($moduleVersionNormalized): LaminasSystemServerModule
     {
         $this->moduleVersionNormalized = $moduleVersionNormalized;
         return $this;
@@ -189,7 +150,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleSource;
     }
 
-    public function setModuleSource($moduleSource) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleSource($moduleSource): LaminasSystemServerModule
     {
         $this->moduleSource = $moduleSource;
         return $this;
@@ -200,7 +161,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleDist;
     }
 
-    public function setModuleDist($moduleDist) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleDist($moduleDist): LaminasSystemServerModule
     {
         $this->moduleDist = $moduleDist;
         return $this;
@@ -211,7 +172,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleRequire;
     }
 
-    public function setModuleRequire($moduleRequire) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleRequire($moduleRequire): LaminasSystemServerModule
     {
         $this->moduleRequire = $moduleRequire;
         return $this;
@@ -222,7 +183,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleConflict;
     }
 
-    public function setModuleConflict($moduleConflict) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleConflict($moduleConflict): LaminasSystemServerModule
     {
         $this->moduleConflict = $moduleConflict;
         return $this;
@@ -233,7 +194,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleProvide;
     }
 
-    public function setModuleProvide($moduleProvide) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleProvide($moduleProvide): LaminasSystemServerModule
     {
         $this->moduleProvide = $moduleProvide;
         return $this;
@@ -244,7 +205,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleReplace;
     }
 
-    public function setModuleReplace($moduleReplace) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleReplace($moduleReplace): LaminasSystemServerModule
     {
         $this->moduleReplace = $moduleReplace;
         return $this;
@@ -255,7 +216,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleRequiredev;
     }
 
-    public function setModuleRequiredev($moduleRequiredev) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleRequiredev($moduleRequiredev): LaminasSystemServerModule
     {
         $this->moduleRequiredev = $moduleRequiredev;
         return $this;
@@ -266,16 +227,13 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleSuggest;
     }
 
-    public function setModuleSuggest($moduleSuggest) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleSuggest($moduleSuggest): LaminasSystemServerModule
     {
         $this->moduleSuggest = $moduleSuggest;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getModuleTime() : ?string
+    public function getModuleTime(): ?string
     {
         return $this->moduleTime;
     }
@@ -283,7 +241,7 @@ class LaminasSystemServerModule extends AbstractEntity
     /**
      * @param null|string $moduleTime
      */
-    public function setModuleTime($moduleTime) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleTime($moduleTime): LaminasSystemServerModule
     {
         $this->moduleTime = $moduleTime;
         return $this;
@@ -294,16 +252,13 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleBin;
     }
 
-    public function setModuleBin($moduleBin) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleBin($moduleBin): LaminasSystemServerModule
     {
         $this->moduleBin = $moduleBin;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getModuleType() : ?string
+    public function getModuleType(): ?string
     {
         return $this->moduleType;
     }
@@ -311,7 +266,7 @@ class LaminasSystemServerModule extends AbstractEntity
     /**
      * @param null|string $moduleType
      */
-    public function setModuleType($moduleType) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleType($moduleType): LaminasSystemServerModule
     {
         $this->moduleType = $moduleType;
         return $this;
@@ -322,16 +277,13 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleExtra;
     }
 
-    public function setModuleExtra($moduleExtra) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleExtra($moduleExtra): LaminasSystemServerModule
     {
         $this->moduleExtra = $moduleExtra;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getModuleInstallationsource() : ?string
+    public function getModuleInstallationsource(): ?string
     {
         return $this->moduleInstallationsource;
     }
@@ -339,7 +291,7 @@ class LaminasSystemServerModule extends AbstractEntity
     /**
      * @param null|string $moduleInstallationsource
      */
-    public function setModuleInstallationsource($moduleInstallationsource) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleInstallationsource($moduleInstallationsource): LaminasSystemServerModule
     {
         $this->moduleInstallationsource = $moduleInstallationsource;
         return $this;
@@ -350,7 +302,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleAutoload;
     }
 
-    public function setModuleAutoload($moduleAutoload) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleAutoload($moduleAutoload): LaminasSystemServerModule
     {
         $this->moduleAutoload = $moduleAutoload;
         return $this;
@@ -361,7 +313,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleAutoloaddev;
     }
 
-    public function setModuleAutoloaddev($moduleAutoloaddev) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleAutoloaddev($moduleAutoloaddev): LaminasSystemServerModule
     {
         $this->moduleAutoloaddev = $moduleAutoloaddev;
         return $this;
@@ -372,16 +324,13 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleScripts;
     }
 
-    public function setModuleScripts($moduleScripts) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleScripts($moduleScripts): LaminasSystemServerModule
     {
         $this->moduleScripts = $moduleScripts;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getModuleNotificationurl() : ?string
+    public function getModuleNotificationurl(): ?string
     {
         return $this->moduleNotificationurl;
     }
@@ -389,7 +338,7 @@ class LaminasSystemServerModule extends AbstractEntity
     /**
      * @param null|string $moduleNotificationurl
      */
-    public function setModuleNotificationurl($moduleNotificationurl) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleNotificationurl($moduleNotificationurl): LaminasSystemServerModule
     {
         $this->moduleNotificationurl = $moduleNotificationurl;
         return $this;
@@ -400,7 +349,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleLicense;
     }
 
-    public function setModuleLicense($moduleLicense) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleLicense($moduleLicense): LaminasSystemServerModule
     {
         $this->moduleLicense = $moduleLicense;
         return $this;
@@ -411,7 +360,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleIncludepath;
     }
 
-    public function setModuleIncludepath($moduleIncludepath) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleIncludepath($moduleIncludepath): LaminasSystemServerModule
     {
         $this->moduleIncludepath = $moduleIncludepath;
         return $this;
@@ -422,16 +371,13 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleAuthors;
     }
 
-    public function setModuleAuthors($moduleAuthors) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleAuthors($moduleAuthors): LaminasSystemServerModule
     {
         $this->moduleAuthors = $moduleAuthors;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getModuleDescription() : ?string
+    public function getModuleDescription(): ?string
     {
         return $this->moduleDescription;
     }
@@ -439,16 +385,13 @@ class LaminasSystemServerModule extends AbstractEntity
     /**
      * @param null|string $moduleDescription
      */
-    public function setModuleDescription($moduleDescription) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleDescription($moduleDescription): LaminasSystemServerModule
     {
         $this->moduleDescription = $moduleDescription;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getModuleHomepage() : ?string
+    public function getModuleHomepage(): ?string
     {
         return $this->moduleHomepage;
     }
@@ -456,7 +399,7 @@ class LaminasSystemServerModule extends AbstractEntity
     /**
      * @param null|string $moduleHomepage
      */
-    public function setModuleHomepage($moduleHomepage) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleHomepage($moduleHomepage): LaminasSystemServerModule
     {
         $this->moduleHomepage = $moduleHomepage;
         return $this;
@@ -467,7 +410,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleKeywords;
     }
 
-    public function setModuleKeywords($moduleKeywords) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleKeywords($moduleKeywords): LaminasSystemServerModule
     {
         $this->moduleKeywords = $moduleKeywords;
         return $this;
@@ -478,7 +421,7 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleSupport;
     }
 
-    public function setModuleSupport($moduleSupport) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleSupport($moduleSupport): LaminasSystemServerModule
     {
         $this->moduleSupport = $moduleSupport;
         return $this;
@@ -489,16 +432,13 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this->moduleFunding;
     }
 
-    public function setModuleFunding($moduleFunding) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleFunding($moduleFunding): LaminasSystemServerModule
     {
         $this->moduleFunding = $moduleFunding;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getModuleAbandoned() : ?string
+    public function getModuleAbandoned(): ?string
     {
         return $this->moduleAbandoned;
     }
@@ -506,16 +446,13 @@ class LaminasSystemServerModule extends AbstractEntity
     /**
      * @param null|string $moduleAbandoned
      */
-    public function setModuleAbandoned($moduleAbandoned) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleAbandoned($moduleAbandoned): LaminasSystemServerModule
     {
         $this->moduleAbandoned = $moduleAbandoned;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getModuleInstallpath() : ?string
+    public function getModuleInstallpath(): ?string
     {
         return $this->moduleInstallpath;
     }
@@ -523,33 +460,33 @@ class LaminasSystemServerModule extends AbstractEntity
     /**
      * @param null|string $moduleInstallpath
      */
-    public function setModuleInstallpath($moduleInstallpath) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setModuleInstallpath($moduleInstallpath): LaminasSystemServerModule
     {
         $this->moduleInstallpath = $moduleInstallpath;
         return $this;
     }
 
     /**
-     * @return \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer[]|\Doctrine\Common\Collections\Collection
+     * @return LaminasSystemServer[]|Collection
      */
-    public function getLaminasSystemServer() : \Doctrine\Common\Collections\Collection
+    public function getLaminasSystemServer(): Collection
     {
         return $this->laminasSystemServer;
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer[]|\Doctrine\Common\Collections\Collection $laminasSystemServer
+     * @param LaminasSystemServer[]|Collection $laminasSystemServer
      */
-    public function setLaminasSystemServer(\Doctrine\Common\Collections\Collection $laminasSystemServer) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setLaminasSystemServer(Collection $laminasSystemServer): LaminasSystemServerModule
     {
         $this->laminasSystemServer = $laminasSystemServer;
         return $this;
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer[]|\Doctrine\Common\Collections\Collection $laminasSystemServer
+     * @param LaminasSystemServer[]|Collection $laminasSystemServer
      */
-    public function addLaminasSystemServer($laminasSystemServer) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function addLaminasSystemServer($laminasSystemServer): LaminasSystemServerModule
     {
         foreach ($laminasSystemServer as $_laminasSystemServer) {
             $this->laminasSystemServer->add($_laminasSystemServer);
@@ -558,9 +495,9 @@ class LaminasSystemServerModule extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer[]|\Doctrine\Common\Collections\Collection $laminasSystemServer
+     * @param LaminasSystemServer[]|Collection $laminasSystemServer
      */
-    public function removeLaminasSystemServer($laminasSystemServer) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function removeLaminasSystemServer($laminasSystemServer): LaminasSystemServerModule
     {
         foreach ($laminasSystemServer as $_laminasSystemServer) {
             $this->laminasSystemServer->removeElement($_laminasSystemServer);
@@ -568,18 +505,12 @@ class LaminasSystemServerModule extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SystemModuleOverview\Entity\ComposerModule
-     */
-    public function getComposerModule() : ?\WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function getComposerModule(): ?ComposerModule
     {
         return $this->composerModule;
     }
 
-    /**
-     * @param null|\WirklichDigital\SystemModuleOverview\Entity\ComposerModule $composerModule
-     */
-    public function setComposerModule(?\WirklichDigital\SystemModuleOverview\Entity\ComposerModule $composerModule) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule
+    public function setComposerModule(?ComposerModule $composerModule): LaminasSystemServerModule
     {
         $this->composerModule = $composerModule;
         return $this;
@@ -597,4 +528,3 @@ class LaminasSystemServerModule extends AbstractEntity
         $this->laminasSystemServer = clone $this->laminasSystemServer;
     }
 }
-

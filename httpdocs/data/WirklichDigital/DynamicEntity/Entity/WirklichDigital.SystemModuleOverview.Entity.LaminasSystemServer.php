@@ -2,126 +2,86 @@
 
 namespace WirklichDigital\SystemModuleOverview\Entity;
 
-use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SystemModuleOverview\Entity\LaminasSystem;
+use WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated;
+use WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo;
+use WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerMigrationInfo;
+use WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule;
+use WirklichDigital\SystemModuleOverview\Entity\NpmModules;
 
 class LaminasSystemServer extends AbstractEntity
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $url = null;
+    /** @var null|string */
+    protected $url;
 
-    /**
-     * @var null|string
-     */
-    protected $ipAddress = null;
+    /** @var null|string */
+    protected $ipAddress;
 
-    /**
-     * @var null|string
-     */
-    protected $phpinfo = null;
+    /** @var null|string */
+    protected $phpinfo;
 
-    /**
-     * @var null|string
-     */
-    protected $config = null;
+    /** @var null|string */
+    protected $config;
 
-    /**
-     * @var null|string
-     */
-    protected $j77Config = null;
+    /** @var null|string */
+    protected $j77Config;
 
-    /**
-     * @var null|string
-     */
-    protected $phpVersion = null;
+    /** @var null|string */
+    protected $phpVersion;
 
-    /**
-     * @var null|bool
-     */
-    protected $isDeinPim = null;
+    /** @var null|bool */
+    protected $isDeinPim;
 
-    /**
-     * @var null|bool
-     */
-    protected $isDevelopment = null;
+    /** @var null|bool */
+    protected $isDevelopment;
 
-    /**
-     * @var null|bool
-     */
-    protected $hasMinorUpdates = null;
+    /** @var null|bool */
+    protected $hasMinorUpdates;
 
-    /**
-     * @var null|bool
-     */
-    protected $hasMajorUpdates = null;
+    /** @var null|bool */
+    protected $hasMajorUpdates;
 
-    /**
-     * @var null|bool
-     */
-    protected $hasWirklichDigitalMinorUpdates = null;
+    /** @var null|bool */
+    protected $hasWirklichDigitalMinorUpdates;
 
-    /**
-     * @var null|bool
-     */
-    protected $hasWirklichDigitalMajorUpdates = null;
+    /** @var null|bool */
+    protected $hasWirklichDigitalMajorUpdates;
 
-    /**
-     * @var null|int
-     */
-    protected $lastUpdateValue = null;
+    /** @var null|int */
+    protected $lastUpdateValue;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @var \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $laminasSystemServerDatabaseInfo = null;
+    /** @var LaminasSystemServerDatabaseInfo[]|Collection */
+    protected $laminasSystemServerDatabaseInfo;
 
-    /**
-     * @var \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerMigrationInfo[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $laminasSystemServerMigrationInfo = null;
+    /** @var LaminasSystemServerMigrationInfo[]|Collection */
+    protected $laminasSystemServerMigrationInfo;
 
-    /**
-     * @var \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $laminasSystemServerComposerOutdated = null;
+    /** @var LaminasSystemServerComposerOutdated[]|Collection */
+    protected $laminasSystemServerComposerOutdated;
 
-    /**
-     * @var \WirklichDigital\SystemModuleOverview\Entity\NpmModules[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $npmModules = null;
+    /** @var NpmModules[]|Collection */
+    protected $npmModules;
 
-    /**
-     * @var \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $laminasSystemServerModule = null;
+    /** @var LaminasSystemServerModule[]|Collection */
+    protected $laminasSystemServerModule;
 
-    /**
-     * @var null|\WirklichDigital\SystemModuleOverview\Entity\LaminasSystem
-     */
-    protected $laminasSystem = null;
+    /** @var null|LaminasSystem */
+    protected $laminasSystem;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -129,16 +89,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setId($id): LaminasSystemServer
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getUrl() : ?string
+    public function getUrl(): ?string
     {
         return $this->url;
     }
@@ -146,16 +103,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|string $url
      */
-    public function setUrl($url) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setUrl($url): LaminasSystemServer
     {
         $this->url = $url;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getIpAddress() : ?string
+    public function getIpAddress(): ?string
     {
         return $this->ipAddress;
     }
@@ -163,16 +117,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|string $ipAddress
      */
-    public function setIpAddress($ipAddress) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setIpAddress($ipAddress): LaminasSystemServer
     {
         $this->ipAddress = $ipAddress;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getPhpinfo() : ?string
+    public function getPhpinfo(): ?string
     {
         return $this->phpinfo;
     }
@@ -180,16 +131,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|string $phpinfo
      */
-    public function setPhpinfo($phpinfo) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setPhpinfo($phpinfo): LaminasSystemServer
     {
         $this->phpinfo = $phpinfo;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getConfig() : ?string
+    public function getConfig(): ?string
     {
         return $this->config;
     }
@@ -197,16 +145,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|string $config
      */
-    public function setConfig($config) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setConfig($config): LaminasSystemServer
     {
         $this->config = $config;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getJ77Config() : ?string
+    public function getJ77Config(): ?string
     {
         return $this->j77Config;
     }
@@ -214,16 +159,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|string $j77Config
      */
-    public function setJ77Config($j77Config) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setJ77Config($j77Config): LaminasSystemServer
     {
         $this->j77Config = $j77Config;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getPhpVersion() : ?string
+    public function getPhpVersion(): ?string
     {
         return $this->phpVersion;
     }
@@ -231,16 +173,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|string $phpVersion
      */
-    public function setPhpVersion($phpVersion) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setPhpVersion($phpVersion): LaminasSystemServer
     {
         $this->phpVersion = $phpVersion;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getIsDeinPim() : ?bool
+    public function getIsDeinPim(): ?bool
     {
         return $this->isDeinPim;
     }
@@ -248,16 +187,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|bool $isDeinPim
      */
-    public function setIsDeinPim($isDeinPim) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setIsDeinPim($isDeinPim): LaminasSystemServer
     {
         $this->isDeinPim = $isDeinPim;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getIsDevelopment() : ?bool
+    public function getIsDevelopment(): ?bool
     {
         return $this->isDevelopment;
     }
@@ -265,16 +201,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|bool $isDevelopment
      */
-    public function setIsDevelopment($isDevelopment) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setIsDevelopment($isDevelopment): LaminasSystemServer
     {
         $this->isDevelopment = $isDevelopment;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getHasMinorUpdates() : ?bool
+    public function getHasMinorUpdates(): ?bool
     {
         return $this->hasMinorUpdates;
     }
@@ -282,16 +215,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|bool $hasMinorUpdates
      */
-    public function setHasMinorUpdates($hasMinorUpdates) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setHasMinorUpdates($hasMinorUpdates): LaminasSystemServer
     {
         $this->hasMinorUpdates = $hasMinorUpdates;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getHasMajorUpdates() : ?bool
+    public function getHasMajorUpdates(): ?bool
     {
         return $this->hasMajorUpdates;
     }
@@ -299,16 +229,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|bool $hasMajorUpdates
      */
-    public function setHasMajorUpdates($hasMajorUpdates) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setHasMajorUpdates($hasMajorUpdates): LaminasSystemServer
     {
         $this->hasMajorUpdates = $hasMajorUpdates;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getHasWirklichDigitalMinorUpdates() : ?bool
+    public function getHasWirklichDigitalMinorUpdates(): ?bool
     {
         return $this->hasWirklichDigitalMinorUpdates;
     }
@@ -316,16 +243,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|bool $hasWirklichDigitalMinorUpdates
      */
-    public function setHasWirklichDigitalMinorUpdates($hasWirklichDigitalMinorUpdates) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setHasWirklichDigitalMinorUpdates($hasWirklichDigitalMinorUpdates): LaminasSystemServer
     {
         $this->hasWirklichDigitalMinorUpdates = $hasWirklichDigitalMinorUpdates;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getHasWirklichDigitalMajorUpdates() : ?bool
+    public function getHasWirklichDigitalMajorUpdates(): ?bool
     {
         return $this->hasWirklichDigitalMajorUpdates;
     }
@@ -333,16 +257,13 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|bool $hasWirklichDigitalMajorUpdates
      */
-    public function setHasWirklichDigitalMajorUpdates($hasWirklichDigitalMajorUpdates) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setHasWirklichDigitalMajorUpdates($hasWirklichDigitalMajorUpdates): LaminasSystemServer
     {
         $this->hasWirklichDigitalMajorUpdates = $hasWirklichDigitalMajorUpdates;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getLastUpdateValue() : ?int
+    public function getLastUpdateValue(): ?int
     {
         return $this->lastUpdateValue;
     }
@@ -350,58 +271,46 @@ class LaminasSystemServer extends AbstractEntity
     /**
      * @param null|int $lastUpdateValue
      */
-    public function setLastUpdateValue($lastUpdateValue) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setLastUpdateValue($lastUpdateValue): LaminasSystemServer
     {
         $this->lastUpdateValue = $lastUpdateValue;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setCreatedAt(?DateTime $createdAt): LaminasSystemServer
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setUpdatedAt(?DateTime $updatedAt): LaminasSystemServer
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
     /**
-     * @return \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo[]|\Doctrine\Common\Collections\Collection
+     * @return LaminasSystemServerDatabaseInfo[]|Collection
      */
-    public function getLaminasSystemServerDatabaseInfo() : \Doctrine\Common\Collections\Collection
+    public function getLaminasSystemServerDatabaseInfo(): Collection
     {
         return $this->laminasSystemServerDatabaseInfo;
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo[]|\Doctrine\Common\Collections\Collection $laminasSystemServerDatabaseInfo
+     * @param LaminasSystemServerDatabaseInfo[]|Collection $laminasSystemServerDatabaseInfo
      */
-    public function setLaminasSystemServerDatabaseInfo(\Doctrine\Common\Collections\Collection $laminasSystemServerDatabaseInfo) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setLaminasSystemServerDatabaseInfo(Collection $laminasSystemServerDatabaseInfo): LaminasSystemServer
     {
         $this->laminasSystemServerDatabaseInfo = $laminasSystemServerDatabaseInfo;
         if ($this->laminasSystemServerDatabaseInfo) {
@@ -413,9 +322,9 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo[]|\Doctrine\Common\Collections\Collection $laminasSystemServerDatabaseInfo
+     * @param LaminasSystemServerDatabaseInfo[]|Collection $laminasSystemServerDatabaseInfo
      */
-    public function addLaminasSystemServerDatabaseInfo($laminasSystemServerDatabaseInfo) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function addLaminasSystemServerDatabaseInfo($laminasSystemServerDatabaseInfo): LaminasSystemServer
     {
         foreach ($laminasSystemServerDatabaseInfo as $_laminasSystemServerDatabaseInfo) {
             $_laminasSystemServerDatabaseInfo->setLaminasSystemServer($this);
@@ -425,9 +334,9 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo[]|\Doctrine\Common\Collections\Collection $laminasSystemServerDatabaseInfo
+     * @param LaminasSystemServerDatabaseInfo[]|Collection $laminasSystemServerDatabaseInfo
      */
-    public function removeLaminasSystemServerDatabaseInfo($laminasSystemServerDatabaseInfo) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function removeLaminasSystemServerDatabaseInfo($laminasSystemServerDatabaseInfo): LaminasSystemServer
     {
         foreach ($laminasSystemServerDatabaseInfo as $_laminasSystemServerDatabaseInfo) {
             $_laminasSystemServerDatabaseInfo->setLaminasSystemServer(null);
@@ -437,17 +346,17 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerMigrationInfo[]|\Doctrine\Common\Collections\Collection
+     * @return LaminasSystemServerMigrationInfo[]|Collection
      */
-    public function getLaminasSystemServerMigrationInfo() : \Doctrine\Common\Collections\Collection
+    public function getLaminasSystemServerMigrationInfo(): Collection
     {
         return $this->laminasSystemServerMigrationInfo;
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerMigrationInfo[]|\Doctrine\Common\Collections\Collection $laminasSystemServerMigrationInfo
+     * @param LaminasSystemServerMigrationInfo[]|Collection $laminasSystemServerMigrationInfo
      */
-    public function setLaminasSystemServerMigrationInfo(\Doctrine\Common\Collections\Collection $laminasSystemServerMigrationInfo) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setLaminasSystemServerMigrationInfo(Collection $laminasSystemServerMigrationInfo): LaminasSystemServer
     {
         $this->laminasSystemServerMigrationInfo = $laminasSystemServerMigrationInfo;
         if ($this->laminasSystemServerMigrationInfo) {
@@ -459,9 +368,9 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerMigrationInfo[]|\Doctrine\Common\Collections\Collection $laminasSystemServerMigrationInfo
+     * @param LaminasSystemServerMigrationInfo[]|Collection $laminasSystemServerMigrationInfo
      */
-    public function addLaminasSystemServerMigrationInfo($laminasSystemServerMigrationInfo) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function addLaminasSystemServerMigrationInfo($laminasSystemServerMigrationInfo): LaminasSystemServer
     {
         foreach ($laminasSystemServerMigrationInfo as $_laminasSystemServerMigrationInfo) {
             $_laminasSystemServerMigrationInfo->setLaminasSystemServer($this);
@@ -471,9 +380,9 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerMigrationInfo[]|\Doctrine\Common\Collections\Collection $laminasSystemServerMigrationInfo
+     * @param LaminasSystemServerMigrationInfo[]|Collection $laminasSystemServerMigrationInfo
      */
-    public function removeLaminasSystemServerMigrationInfo($laminasSystemServerMigrationInfo) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function removeLaminasSystemServerMigrationInfo($laminasSystemServerMigrationInfo): LaminasSystemServer
     {
         foreach ($laminasSystemServerMigrationInfo as $_laminasSystemServerMigrationInfo) {
             $_laminasSystemServerMigrationInfo->setLaminasSystemServer(null);
@@ -483,17 +392,17 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated[]|\Doctrine\Common\Collections\Collection
+     * @return LaminasSystemServerComposerOutdated[]|Collection
      */
-    public function getLaminasSystemServerComposerOutdated() : \Doctrine\Common\Collections\Collection
+    public function getLaminasSystemServerComposerOutdated(): Collection
     {
         return $this->laminasSystemServerComposerOutdated;
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated[]|\Doctrine\Common\Collections\Collection $laminasSystemServerComposerOutdated
+     * @param LaminasSystemServerComposerOutdated[]|Collection $laminasSystemServerComposerOutdated
      */
-    public function setLaminasSystemServerComposerOutdated(\Doctrine\Common\Collections\Collection $laminasSystemServerComposerOutdated) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setLaminasSystemServerComposerOutdated(Collection $laminasSystemServerComposerOutdated): LaminasSystemServer
     {
         $this->laminasSystemServerComposerOutdated = $laminasSystemServerComposerOutdated;
         if ($this->laminasSystemServerComposerOutdated) {
@@ -505,9 +414,9 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated[]|\Doctrine\Common\Collections\Collection $laminasSystemServerComposerOutdated
+     * @param LaminasSystemServerComposerOutdated[]|Collection $laminasSystemServerComposerOutdated
      */
-    public function addLaminasSystemServerComposerOutdated($laminasSystemServerComposerOutdated) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function addLaminasSystemServerComposerOutdated($laminasSystemServerComposerOutdated): LaminasSystemServer
     {
         foreach ($laminasSystemServerComposerOutdated as $_laminasSystemServerComposerOutdated) {
             $_laminasSystemServerComposerOutdated->setLaminasSystemServer($this);
@@ -517,9 +426,9 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated[]|\Doctrine\Common\Collections\Collection $laminasSystemServerComposerOutdated
+     * @param LaminasSystemServerComposerOutdated[]|Collection $laminasSystemServerComposerOutdated
      */
-    public function removeLaminasSystemServerComposerOutdated($laminasSystemServerComposerOutdated) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function removeLaminasSystemServerComposerOutdated($laminasSystemServerComposerOutdated): LaminasSystemServer
     {
         foreach ($laminasSystemServerComposerOutdated as $_laminasSystemServerComposerOutdated) {
             $_laminasSystemServerComposerOutdated->setLaminasSystemServer(null);
@@ -529,17 +438,17 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SystemModuleOverview\Entity\NpmModules[]|\Doctrine\Common\Collections\Collection
+     * @return NpmModules[]|Collection
      */
-    public function getNpmModules() : \Doctrine\Common\Collections\Collection
+    public function getNpmModules(): Collection
     {
         return $this->npmModules;
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\NpmModules[]|\Doctrine\Common\Collections\Collection $npmModules
+     * @param NpmModules[]|Collection $npmModules
      */
-    public function setNpmModules(\Doctrine\Common\Collections\Collection $npmModules) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setNpmModules(Collection $npmModules): LaminasSystemServer
     {
         $this->npmModules = $npmModules;
         if ($this->npmModules) {
@@ -551,9 +460,9 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\NpmModules[]|\Doctrine\Common\Collections\Collection $npmModules
+     * @param NpmModules[]|Collection $npmModules
      */
-    public function addNpmModules($npmModules) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function addNpmModules($npmModules): LaminasSystemServer
     {
         foreach ($npmModules as $_npmModules) {
             $_npmModules->setLaminasSystemServer($this);
@@ -563,9 +472,9 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\NpmModules[]|\Doctrine\Common\Collections\Collection $npmModules
+     * @param NpmModules[]|Collection $npmModules
      */
-    public function removeNpmModules($npmModules) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function removeNpmModules($npmModules): LaminasSystemServer
     {
         foreach ($npmModules as $_npmModules) {
             $_npmModules->setLaminasSystemServer(null);
@@ -575,26 +484,26 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule[]|\Doctrine\Common\Collections\Collection
+     * @return LaminasSystemServerModule[]|Collection
      */
-    public function getLaminasSystemServerModule() : \Doctrine\Common\Collections\Collection
+    public function getLaminasSystemServerModule(): Collection
     {
         return $this->laminasSystemServerModule;
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule[]|\Doctrine\Common\Collections\Collection $laminasSystemServerModule
+     * @param LaminasSystemServerModule[]|Collection $laminasSystemServerModule
      */
-    public function setLaminasSystemServerModule(\Doctrine\Common\Collections\Collection $laminasSystemServerModule) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setLaminasSystemServerModule(Collection $laminasSystemServerModule): LaminasSystemServer
     {
         $this->laminasSystemServerModule = $laminasSystemServerModule;
         return $this;
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule[]|\Doctrine\Common\Collections\Collection $laminasSystemServerModule
+     * @param LaminasSystemServerModule[]|Collection $laminasSystemServerModule
      */
-    public function addLaminasSystemServerModule($laminasSystemServerModule) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function addLaminasSystemServerModule($laminasSystemServerModule): LaminasSystemServer
     {
         foreach ($laminasSystemServerModule as $_laminasSystemServerModule) {
             $_laminasSystemServerModule->addLaminasSystemServer([$this]);
@@ -604,9 +513,9 @@ class LaminasSystemServer extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule[]|\Doctrine\Common\Collections\Collection $laminasSystemServerModule
+     * @param LaminasSystemServerModule[]|Collection $laminasSystemServerModule
      */
-    public function removeLaminasSystemServerModule($laminasSystemServerModule) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function removeLaminasSystemServerModule($laminasSystemServerModule): LaminasSystemServer
     {
         foreach ($laminasSystemServerModule as $_laminasSystemServerModule) {
             $_laminasSystemServerModule->removeLaminasSystemServer([$this]);
@@ -615,18 +524,12 @@ class LaminasSystemServer extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SystemModuleOverview\Entity\LaminasSystem
-     */
-    public function getLaminasSystem() : ?\WirklichDigital\SystemModuleOverview\Entity\LaminasSystem
+    public function getLaminasSystem(): ?LaminasSystem
     {
         return $this->laminasSystem;
     }
 
-    /**
-     * @param null|\WirklichDigital\SystemModuleOverview\Entity\LaminasSystem $laminasSystem
-     */
-    public function setLaminasSystem(?\WirklichDigital\SystemModuleOverview\Entity\LaminasSystem $laminasSystem) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function setLaminasSystem(?LaminasSystem $laminasSystem): LaminasSystemServer
     {
         $this->laminasSystem = $laminasSystem;
         return $this;
@@ -635,21 +538,20 @@ class LaminasSystemServer extends AbstractEntity
     public function __construct()
     {
         parent::__construct();
-        $this->laminasSystemServerDatabaseInfo = new ArrayCollection();
-        $this->laminasSystemServerMigrationInfo = new ArrayCollection();
+        $this->laminasSystemServerDatabaseInfo     = new ArrayCollection();
+        $this->laminasSystemServerMigrationInfo    = new ArrayCollection();
         $this->laminasSystemServerComposerOutdated = new ArrayCollection();
-        $this->npmModules = new ArrayCollection();
-        $this->laminasSystemServerModule = new ArrayCollection();
+        $this->npmModules                          = new ArrayCollection();
+        $this->laminasSystemServerModule           = new ArrayCollection();
     }
 
     public function __clone()
     {
         parent::__clone();
-        $this->laminasSystemServerDatabaseInfo = clone $this->laminasSystemServerDatabaseInfo;
-        $this->laminasSystemServerMigrationInfo = clone $this->laminasSystemServerMigrationInfo;
+        $this->laminasSystemServerDatabaseInfo     = clone $this->laminasSystemServerDatabaseInfo;
+        $this->laminasSystemServerMigrationInfo    = clone $this->laminasSystemServerMigrationInfo;
         $this->laminasSystemServerComposerOutdated = clone $this->laminasSystemServerComposerOutdated;
-        $this->npmModules = clone $this->npmModules;
-        $this->laminasSystemServerModule = clone $this->laminasSystemServerModule;
+        $this->npmModules                          = clone $this->npmModules;
+        $this->laminasSystemServerModule           = clone $this->laminasSystemServerModule;
     }
 }
-

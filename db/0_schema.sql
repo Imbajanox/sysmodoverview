@@ -174,7 +174,7 @@ CREATE TABLE `CronScheduledJob` (
   KEY `index_name` (`name`),
   KEY `index_priority` (`priority`),
   KEY `index_isRunning` (`isRunning`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `DefaultUser`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -487,6 +487,20 @@ CREATE TABLE `NpmModules` (
   KEY `IDX_A4D28CEFA1F143F2` (`laminasSystemServer_id`),
   CONSTRAINT `FK_A4D28CEFA1F143F2` FOREIGN KEY (`laminasSystemServer_id`) REFERENCES `LaminasSystemServer` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `ProcessedFile`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ProcessedFile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `filename` varchar(255) NOT NULL,
+  `filePath` varchar(255) NOT NULL,
+  `fileHash` varchar(255) NOT NULL,
+  `processedAt` datetime NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `errorMessage` longtext DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `ReachableIp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

@@ -2,54 +2,42 @@
 
 namespace WirklichDigital\MessagehubConnector\Entity;
 
+use DateTime;
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 
 class MessagehubQueue extends AbstractEntity
 {
-    protected $id = null;
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $channel = null;
+    /** @var null|string */
+    protected $channel;
 
-    protected $messageData = null;
+    protected $messageData;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $lastRequestAttempt = null;
+    /** @var null|DateTime */
+    protected $lastRequestAttempt;
 
-    /**
-     * @var null|int
-     */
+    /** @var null|int */
     protected $failedRequets = 0;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id) : \WirklichDigital\MessagehubConnector\Entity\MessagehubQueue
+    public function setId($id): MessagehubQueue
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getChannel() : ?string
+    public function getChannel(): ?string
     {
         return $this->channel;
     }
@@ -57,7 +45,7 @@ class MessagehubQueue extends AbstractEntity
     /**
      * @param null|string $channel
      */
-    public function setChannel($channel) : \WirklichDigital\MessagehubConnector\Entity\MessagehubQueue
+    public function setChannel($channel): MessagehubQueue
     {
         $this->channel = $channel;
         return $this;
@@ -68,33 +56,24 @@ class MessagehubQueue extends AbstractEntity
         return $this->messageData;
     }
 
-    public function setMessageData($messageData) : \WirklichDigital\MessagehubConnector\Entity\MessagehubQueue
+    public function setMessageData($messageData): MessagehubQueue
     {
         $this->messageData = $messageData;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getLastRequestAttempt() : ?\DateTime
+    public function getLastRequestAttempt(): ?DateTime
     {
         return $this->lastRequestAttempt;
     }
 
-    /**
-     * @param null|\DateTime $lastRequestAttempt
-     */
-    public function setLastRequestAttempt(?\DateTime $lastRequestAttempt) : \WirklichDigital\MessagehubConnector\Entity\MessagehubQueue
+    public function setLastRequestAttempt(?DateTime $lastRequestAttempt): MessagehubQueue
     {
         $this->lastRequestAttempt = $lastRequestAttempt;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getFailedRequets() : ?int
+    public function getFailedRequets(): ?int
     {
         return $this->failedRequets;
     }
@@ -102,41 +81,29 @@ class MessagehubQueue extends AbstractEntity
     /**
      * @param null|int $failedRequets
      */
-    public function setFailedRequets($failedRequets) : \WirklichDigital\MessagehubConnector\Entity\MessagehubQueue
+    public function setFailedRequets($failedRequets): MessagehubQueue
     {
         $this->failedRequets = $failedRequets;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\MessagehubConnector\Entity\MessagehubQueue
+    public function setCreatedAt(?DateTime $createdAt): MessagehubQueue
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\MessagehubConnector\Entity\MessagehubQueue
+    public function setUpdatedAt(?DateTime $updatedAt): MessagehubQueue
     {
         $this->updatedAt = $updatedAt;
         return $this;
@@ -151,4 +118,3 @@ class MessagehubQueue extends AbstractEntity
     {
     }
 }
-

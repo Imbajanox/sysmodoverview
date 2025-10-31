@@ -3,123 +3,77 @@
 namespace WirklichDigital\SystemModuleOverview\Entity;
 
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer;
 
 class LaminasSystemServerDatabaseInfo extends AbstractEntity
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $dbName = null;
+    /** @var null|string */
+    protected $dbName;
 
-    /**
-     * @var null|string
-     */
-    protected $dbEngine = null;
+    /** @var null|string */
+    protected $dbEngine;
 
-    /**
-     * @var null|string
-     */
-    protected $dbVersion = null;
+    /** @var null|string */
+    protected $dbVersion;
 
-    /**
-     * @var null|string
-     */
-    protected $dbRowFormat = null;
+    /** @var null|string */
+    protected $dbRowFormat;
 
-    /**
-     * @var null|string
-     */
-    protected $dbRows = null;
+    /** @var null|string */
+    protected $dbRows;
 
-    /**
-     * @var null|string
-     */
-    protected $dbAvgRowLength = null;
+    /** @var null|string */
+    protected $dbAvgRowLength;
 
-    /**
-     * @var null|string
-     */
-    protected $dbDataLength = null;
+    /** @var null|string */
+    protected $dbDataLength;
 
-    /**
-     * @var null|string
-     */
-    protected $dbMaxDataLength = null;
+    /** @var null|string */
+    protected $dbMaxDataLength;
 
-    /**
-     * @var null|string
-     */
-    protected $dbIndexLength = null;
+    /** @var null|string */
+    protected $dbIndexLength;
 
-    /**
-     * @var null|string
-     */
-    protected $dbDataFree = null;
+    /** @var null|string */
+    protected $dbDataFree;
 
-    /**
-     * @var null|string
-     */
-    protected $dbAutoIncrement = null;
+    /** @var null|string */
+    protected $dbAutoIncrement;
 
-    /**
-     * @var null|string
-     */
-    protected $dbCreateTime = null;
+    /** @var null|string */
+    protected $dbCreateTime;
 
-    /**
-     * @var null|string
-     */
-    protected $dbUpdateTime = null;
+    /** @var null|string */
+    protected $dbUpdateTime;
 
-    /**
-     * @var null|string
-     */
-    protected $dbCheckTime = null;
+    /** @var null|string */
+    protected $dbCheckTime;
 
-    /**
-     * @var null|string
-     */
-    protected $dbCollation = null;
+    /** @var null|string */
+    protected $dbCollation;
 
-    /**
-     * @var null|string
-     */
-    protected $dbChecksum = null;
+    /** @var null|string */
+    protected $dbChecksum;
 
-    /**
-     * @var null|string
-     */
-    protected $dbCreateOptions = null;
+    /** @var null|string */
+    protected $dbCreateOptions;
 
-    /**
-     * @var null|string
-     */
-    protected $dbComment = null;
+    /** @var null|string */
+    protected $dbComment;
 
-    /**
-     * @var null|string
-     */
-    protected $dbMaxIndexLength = null;
+    /** @var null|string */
+    protected $dbMaxIndexLength;
 
-    /**
-     * @var null|string
-     */
-    protected $dbTemporary = null;
+    /** @var null|string */
+    protected $dbTemporary;
 
-    /**
-     * @var null|\WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
-     */
-    protected $laminasSystemServer = null;
+    /** @var null|LaminasSystemServer */
+    protected $laminasSystemServer;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -127,16 +81,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setId($id): LaminasSystemServerDatabaseInfo
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbName() : ?string
+    public function getDbName(): ?string
     {
         return $this->dbName;
     }
@@ -144,16 +95,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbName
      */
-    public function setDbName($dbName) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbName($dbName): LaminasSystemServerDatabaseInfo
     {
         $this->dbName = $dbName;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbEngine() : ?string
+    public function getDbEngine(): ?string
     {
         return $this->dbEngine;
     }
@@ -161,16 +109,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbEngine
      */
-    public function setDbEngine($dbEngine) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbEngine($dbEngine): LaminasSystemServerDatabaseInfo
     {
         $this->dbEngine = $dbEngine;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbVersion() : ?string
+    public function getDbVersion(): ?string
     {
         return $this->dbVersion;
     }
@@ -178,16 +123,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbVersion
      */
-    public function setDbVersion($dbVersion) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbVersion($dbVersion): LaminasSystemServerDatabaseInfo
     {
         $this->dbVersion = $dbVersion;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbRowFormat() : ?string
+    public function getDbRowFormat(): ?string
     {
         return $this->dbRowFormat;
     }
@@ -195,16 +137,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbRowFormat
      */
-    public function setDbRowFormat($dbRowFormat) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbRowFormat($dbRowFormat): LaminasSystemServerDatabaseInfo
     {
         $this->dbRowFormat = $dbRowFormat;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbRows() : ?string
+    public function getDbRows(): ?string
     {
         return $this->dbRows;
     }
@@ -212,16 +151,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbRows
      */
-    public function setDbRows($dbRows) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbRows($dbRows): LaminasSystemServerDatabaseInfo
     {
         $this->dbRows = $dbRows;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbAvgRowLength() : ?string
+    public function getDbAvgRowLength(): ?string
     {
         return $this->dbAvgRowLength;
     }
@@ -229,16 +165,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbAvgRowLength
      */
-    public function setDbAvgRowLength($dbAvgRowLength) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbAvgRowLength($dbAvgRowLength): LaminasSystemServerDatabaseInfo
     {
         $this->dbAvgRowLength = $dbAvgRowLength;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbDataLength() : ?string
+    public function getDbDataLength(): ?string
     {
         return $this->dbDataLength;
     }
@@ -246,16 +179,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbDataLength
      */
-    public function setDbDataLength($dbDataLength) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbDataLength($dbDataLength): LaminasSystemServerDatabaseInfo
     {
         $this->dbDataLength = $dbDataLength;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbMaxDataLength() : ?string
+    public function getDbMaxDataLength(): ?string
     {
         return $this->dbMaxDataLength;
     }
@@ -263,16 +193,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbMaxDataLength
      */
-    public function setDbMaxDataLength($dbMaxDataLength) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbMaxDataLength($dbMaxDataLength): LaminasSystemServerDatabaseInfo
     {
         $this->dbMaxDataLength = $dbMaxDataLength;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbIndexLength() : ?string
+    public function getDbIndexLength(): ?string
     {
         return $this->dbIndexLength;
     }
@@ -280,16 +207,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbIndexLength
      */
-    public function setDbIndexLength($dbIndexLength) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbIndexLength($dbIndexLength): LaminasSystemServerDatabaseInfo
     {
         $this->dbIndexLength = $dbIndexLength;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbDataFree() : ?string
+    public function getDbDataFree(): ?string
     {
         return $this->dbDataFree;
     }
@@ -297,16 +221,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbDataFree
      */
-    public function setDbDataFree($dbDataFree) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbDataFree($dbDataFree): LaminasSystemServerDatabaseInfo
     {
         $this->dbDataFree = $dbDataFree;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbAutoIncrement() : ?string
+    public function getDbAutoIncrement(): ?string
     {
         return $this->dbAutoIncrement;
     }
@@ -314,16 +235,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbAutoIncrement
      */
-    public function setDbAutoIncrement($dbAutoIncrement) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbAutoIncrement($dbAutoIncrement): LaminasSystemServerDatabaseInfo
     {
         $this->dbAutoIncrement = $dbAutoIncrement;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbCreateTime() : ?string
+    public function getDbCreateTime(): ?string
     {
         return $this->dbCreateTime;
     }
@@ -331,16 +249,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbCreateTime
      */
-    public function setDbCreateTime($dbCreateTime) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbCreateTime($dbCreateTime): LaminasSystemServerDatabaseInfo
     {
         $this->dbCreateTime = $dbCreateTime;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbUpdateTime() : ?string
+    public function getDbUpdateTime(): ?string
     {
         return $this->dbUpdateTime;
     }
@@ -348,16 +263,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbUpdateTime
      */
-    public function setDbUpdateTime($dbUpdateTime) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbUpdateTime($dbUpdateTime): LaminasSystemServerDatabaseInfo
     {
         $this->dbUpdateTime = $dbUpdateTime;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbCheckTime() : ?string
+    public function getDbCheckTime(): ?string
     {
         return $this->dbCheckTime;
     }
@@ -365,16 +277,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbCheckTime
      */
-    public function setDbCheckTime($dbCheckTime) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbCheckTime($dbCheckTime): LaminasSystemServerDatabaseInfo
     {
         $this->dbCheckTime = $dbCheckTime;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbCollation() : ?string
+    public function getDbCollation(): ?string
     {
         return $this->dbCollation;
     }
@@ -382,16 +291,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbCollation
      */
-    public function setDbCollation($dbCollation) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbCollation($dbCollation): LaminasSystemServerDatabaseInfo
     {
         $this->dbCollation = $dbCollation;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbChecksum() : ?string
+    public function getDbChecksum(): ?string
     {
         return $this->dbChecksum;
     }
@@ -399,16 +305,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbChecksum
      */
-    public function setDbChecksum($dbChecksum) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbChecksum($dbChecksum): LaminasSystemServerDatabaseInfo
     {
         $this->dbChecksum = $dbChecksum;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbCreateOptions() : ?string
+    public function getDbCreateOptions(): ?string
     {
         return $this->dbCreateOptions;
     }
@@ -416,16 +319,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbCreateOptions
      */
-    public function setDbCreateOptions($dbCreateOptions) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbCreateOptions($dbCreateOptions): LaminasSystemServerDatabaseInfo
     {
         $this->dbCreateOptions = $dbCreateOptions;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbComment() : ?string
+    public function getDbComment(): ?string
     {
         return $this->dbComment;
     }
@@ -433,16 +333,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbComment
      */
-    public function setDbComment($dbComment) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbComment($dbComment): LaminasSystemServerDatabaseInfo
     {
         $this->dbComment = $dbComment;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbMaxIndexLength() : ?string
+    public function getDbMaxIndexLength(): ?string
     {
         return $this->dbMaxIndexLength;
     }
@@ -450,16 +347,13 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbMaxIndexLength
      */
-    public function setDbMaxIndexLength($dbMaxIndexLength) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbMaxIndexLength($dbMaxIndexLength): LaminasSystemServerDatabaseInfo
     {
         $this->dbMaxIndexLength = $dbMaxIndexLength;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDbTemporary() : ?string
+    public function getDbTemporary(): ?string
     {
         return $this->dbTemporary;
     }
@@ -467,24 +361,18 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     /**
      * @param null|string $dbTemporary
      */
-    public function setDbTemporary($dbTemporary) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setDbTemporary($dbTemporary): LaminasSystemServerDatabaseInfo
     {
         $this->dbTemporary = $dbTemporary;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
-     */
-    public function getLaminasSystemServer() : ?\WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function getLaminasSystemServer(): ?LaminasSystemServer
     {
         return $this->laminasSystemServer;
     }
 
-    /**
-     * @param null|\WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer $laminasSystemServer
-     */
-    public function setLaminasSystemServer(?\WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer $laminasSystemServer) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerDatabaseInfo
+    public function setLaminasSystemServer(?LaminasSystemServer $laminasSystemServer): LaminasSystemServerDatabaseInfo
     {
         $this->laminasSystemServer = $laminasSystemServer;
         return $this;
@@ -499,4 +387,3 @@ class LaminasSystemServerDatabaseInfo extends AbstractEntity
     {
     }
 }
-

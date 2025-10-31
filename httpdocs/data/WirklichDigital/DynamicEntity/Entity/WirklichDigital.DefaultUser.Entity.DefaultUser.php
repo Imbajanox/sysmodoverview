@@ -2,29 +2,21 @@
 
 namespace WirklichDigital\DefaultUser\Entity;
 
+use WirklichDigital\Authentication\Entity\User;
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 
 class DefaultUser extends AbstractEntity
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $name = null;
+    /** @var null|string */
+    protected $name;
 
-    /**
-     * @var null|\WirklichDigital\Authentication\Entity\User
-     */
-    protected $user = null;
+    /** @var null|User */
+    protected $user;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -32,16 +24,13 @@ class DefaultUser extends AbstractEntity
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\DefaultUser\Entity\DefaultUser
+    public function setId($id): DefaultUser
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getName() : ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -49,24 +38,18 @@ class DefaultUser extends AbstractEntity
     /**
      * @param null|string $name
      */
-    public function setName($name) : \WirklichDigital\DefaultUser\Entity\DefaultUser
+    public function setName($name): DefaultUser
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\Authentication\Entity\User
-     */
-    public function getUser() : ?\WirklichDigital\Authentication\Entity\User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    /**
-     * @param null|\WirklichDigital\Authentication\Entity\User $user
-     */
-    public function setUser(?\WirklichDigital\Authentication\Entity\User $user) : \WirklichDigital\DefaultUser\Entity\DefaultUser
+    public function setUser(?User $user): DefaultUser
     {
         $this->user = $user;
         return $this;
@@ -81,4 +64,3 @@ class DefaultUser extends AbstractEntity
     {
     }
 }
-

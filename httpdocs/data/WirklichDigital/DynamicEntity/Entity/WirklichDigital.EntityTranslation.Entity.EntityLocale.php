@@ -6,35 +6,22 @@ use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 
 class EntityLocale extends AbstractEntity
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $localeKey = null;
+    /** @var null|string */
+    protected $localeKey;
 
-    /**
-     * @var null|string
-     */
-    protected $locale = null;
+    /** @var null|string */
+    protected $locale;
 
-    /**
-     * @var null|string
-     */
-    protected $iconClass = null;
+    /** @var null|string */
+    protected $iconClass;
 
-    /**
-     * @var null|bool
-     */
+    /** @var null|bool */
     protected $isDefault = 0;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -42,16 +29,13 @@ class EntityLocale extends AbstractEntity
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\EntityTranslation\Entity\EntityLocale
+    public function setId($id): EntityLocale
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getLocaleKey() : ?string
+    public function getLocaleKey(): ?string
     {
         return $this->localeKey;
     }
@@ -59,16 +43,13 @@ class EntityLocale extends AbstractEntity
     /**
      * @param null|string $localeKey
      */
-    public function setLocaleKey($localeKey) : \WirklichDigital\EntityTranslation\Entity\EntityLocale
+    public function setLocaleKey($localeKey): EntityLocale
     {
         $this->localeKey = $localeKey;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getLocale() : ?string
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
@@ -76,16 +57,13 @@ class EntityLocale extends AbstractEntity
     /**
      * @param null|string $locale
      */
-    public function setLocale($locale) : \WirklichDigital\EntityTranslation\Entity\EntityLocale
+    public function setLocale($locale): EntityLocale
     {
         $this->locale = $locale;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getIconClass() : ?string
+    public function getIconClass(): ?string
     {
         return $this->iconClass;
     }
@@ -93,16 +71,13 @@ class EntityLocale extends AbstractEntity
     /**
      * @param null|string $iconClass
      */
-    public function setIconClass($iconClass) : \WirklichDigital\EntityTranslation\Entity\EntityLocale
+    public function setIconClass($iconClass): EntityLocale
     {
         $this->iconClass = $iconClass;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getIsDefault() : ?bool
+    public function getIsDefault(): ?bool
     {
         return $this->isDefault;
     }
@@ -110,7 +85,7 @@ class EntityLocale extends AbstractEntity
     /**
      * @param null|bool $isDefault
      */
-    public function setIsDefault($isDefault) : \WirklichDigital\EntityTranslation\Entity\EntityLocale
+    public function setIsDefault($isDefault): EntityLocale
     {
         $this->isDefault = $isDefault;
         return $this;
@@ -125,4 +100,3 @@ class EntityLocale extends AbstractEntity
     {
     }
 }
-

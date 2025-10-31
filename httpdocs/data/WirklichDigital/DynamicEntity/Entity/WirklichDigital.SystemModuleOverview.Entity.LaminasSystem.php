@@ -2,44 +2,35 @@
 
 namespace WirklichDigital\SystemModuleOverview\Entity;
 
-use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 
 class LaminasSystem extends AbstractEntity
 {
-    protected $id = null;
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $repositoryName = null;
+    /** @var null|string */
+    protected $repositoryName;
 
-    /**
-     * @var null|string
-     */
-    protected $repository = null;
+    /** @var null|string */
+    protected $repository;
 
-    /**
-     * @var \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $laminasSystemServer = null;
+    /** @var LaminasSystemServer[]|Collection */
+    protected $laminasSystemServer;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystem
+    public function setId($id): LaminasSystem
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getRepositoryName() : ?string
+    public function getRepositoryName(): ?string
     {
         return $this->repositoryName;
     }
@@ -47,16 +38,13 @@ class LaminasSystem extends AbstractEntity
     /**
      * @param null|string $repositoryName
      */
-    public function setRepositoryName($repositoryName) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystem
+    public function setRepositoryName($repositoryName): LaminasSystem
     {
         $this->repositoryName = $repositoryName;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getRepository() : ?string
+    public function getRepository(): ?string
     {
         return $this->repository;
     }
@@ -64,24 +52,24 @@ class LaminasSystem extends AbstractEntity
     /**
      * @param null|string $repository
      */
-    public function setRepository($repository) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystem
+    public function setRepository($repository): LaminasSystem
     {
         $this->repository = $repository;
         return $this;
     }
 
     /**
-     * @return \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer[]|\Doctrine\Common\Collections\Collection
+     * @return LaminasSystemServer[]|Collection
      */
-    public function getLaminasSystemServer() : \Doctrine\Common\Collections\Collection
+    public function getLaminasSystemServer(): Collection
     {
         return $this->laminasSystemServer;
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer[]|\Doctrine\Common\Collections\Collection $laminasSystemServer
+     * @param LaminasSystemServer[]|Collection $laminasSystemServer
      */
-    public function setLaminasSystemServer(\Doctrine\Common\Collections\Collection $laminasSystemServer) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystem
+    public function setLaminasSystemServer(Collection $laminasSystemServer): LaminasSystem
     {
         $this->laminasSystemServer = $laminasSystemServer;
         if ($this->laminasSystemServer) {
@@ -93,9 +81,9 @@ class LaminasSystem extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer[]|\Doctrine\Common\Collections\Collection $laminasSystemServer
+     * @param LaminasSystemServer[]|Collection $laminasSystemServer
      */
-    public function addLaminasSystemServer($laminasSystemServer) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystem
+    public function addLaminasSystemServer($laminasSystemServer): LaminasSystem
     {
         foreach ($laminasSystemServer as $_laminasSystemServer) {
             $_laminasSystemServer->setLaminasSystem($this);
@@ -105,9 +93,9 @@ class LaminasSystem extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer[]|\Doctrine\Common\Collections\Collection $laminasSystemServer
+     * @param LaminasSystemServer[]|Collection $laminasSystemServer
      */
-    public function removeLaminasSystemServer($laminasSystemServer) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystem
+    public function removeLaminasSystemServer($laminasSystemServer): LaminasSystem
     {
         foreach ($laminasSystemServer as $_laminasSystemServer) {
             $_laminasSystemServer->setLaminasSystem(null);
@@ -128,4 +116,3 @@ class LaminasSystem extends AbstractEntity
         $this->laminasSystemServer = clone $this->laminasSystemServer;
     }
 }
-

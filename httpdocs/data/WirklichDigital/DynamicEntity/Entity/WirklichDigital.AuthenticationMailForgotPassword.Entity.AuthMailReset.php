@@ -2,34 +2,25 @@
 
 namespace WirklichDigital\AuthenticationMailForgotPassword\Entity;
 
+use DateTime;
+use WirklichDigital\AuthenticationMail\Entity\AuthenticationMail;
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 
 class AuthMailReset extends AbstractEntity
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $validUntil = null;
+    /** @var null|DateTime */
+    protected $validUntil;
 
-    /**
-     * @var null|string
-     */
-    protected $resetCode = null;
+    /** @var null|string */
+    protected $resetCode;
 
-    /**
-     * @var null|\WirklichDigital\AuthenticationMail\Entity\AuthenticationMail
-     */
-    protected $authMail = null;
+    /** @var null|AuthenticationMail */
+    protected $authMail;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -37,33 +28,24 @@ class AuthMailReset extends AbstractEntity
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\AuthenticationMailForgotPassword\Entity\AuthMailReset
+    public function setId($id): AuthMailReset
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getValidUntil() : ?\DateTime
+    public function getValidUntil(): ?DateTime
     {
         return $this->validUntil;
     }
 
-    /**
-     * @param null|\DateTime $validUntil
-     */
-    public function setValidUntil(?\DateTime $validUntil) : \WirklichDigital\AuthenticationMailForgotPassword\Entity\AuthMailReset
+    public function setValidUntil(?DateTime $validUntil): AuthMailReset
     {
         $this->validUntil = $validUntil;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getResetCode() : ?string
+    public function getResetCode(): ?string
     {
         return $this->resetCode;
     }
@@ -71,24 +53,18 @@ class AuthMailReset extends AbstractEntity
     /**
      * @param null|string $resetCode
      */
-    public function setResetCode($resetCode) : \WirklichDigital\AuthenticationMailForgotPassword\Entity\AuthMailReset
+    public function setResetCode($resetCode): AuthMailReset
     {
         $this->resetCode = $resetCode;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\AuthenticationMail\Entity\AuthenticationMail
-     */
-    public function getAuthMail() : ?\WirklichDigital\AuthenticationMail\Entity\AuthenticationMail
+    public function getAuthMail(): ?AuthenticationMail
     {
         return $this->authMail;
     }
 
-    /**
-     * @param null|\WirklichDigital\AuthenticationMail\Entity\AuthenticationMail $authMail
-     */
-    public function setAuthMail(?\WirklichDigital\AuthenticationMail\Entity\AuthenticationMail $authMail) : \WirklichDigital\AuthenticationMailForgotPassword\Entity\AuthMailReset
+    public function setAuthMail(?AuthenticationMail $authMail): AuthMailReset
     {
         $this->authMail = $authMail;
         return $this;
@@ -103,4 +79,3 @@ class AuthMailReset extends AbstractEntity
     {
     }
 }
-

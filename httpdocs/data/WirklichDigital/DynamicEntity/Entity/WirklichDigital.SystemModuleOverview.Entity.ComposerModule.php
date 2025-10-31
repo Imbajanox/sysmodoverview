@@ -2,56 +2,39 @@
 
 namespace WirklichDigital\SystemModuleOverview\Entity;
 
-use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated;
+use WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule;
 
 class ComposerModule extends AbstractEntity
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $vendor = null;
+    /** @var null|string */
+    protected $vendor;
 
-    /**
-     * @var null|string
-     */
-    protected $name = null;
+    /** @var null|string */
+    protected $name;
 
-    /**
-     * @var null|int
-     */
-    protected $systems = null;
+    /** @var null|int */
+    protected $systems;
 
-    /**
-     * @var null|int
-     */
-    protected $upToDate = null;
+    /** @var null|int */
+    protected $upToDate;
 
-    /**
-     * @var null|int
-     */
-    protected $outdated = null;
+    /** @var null|int */
+    protected $outdated;
 
-    /**
-     * @var \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $laminasSystemServerModule = null;
+    /** @var LaminasSystemServerModule[]|Collection */
+    protected $laminasSystemServerModule;
 
-    /**
-     * @var \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $laminasSystemServerComposerOutdated = null;
+    /** @var LaminasSystemServerComposerOutdated[]|Collection */
+    protected $laminasSystemServerComposerOutdated;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -59,16 +42,13 @@ class ComposerModule extends AbstractEntity
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function setId($id): ComposerModule
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getVendor() : ?string
+    public function getVendor(): ?string
     {
         return $this->vendor;
     }
@@ -76,16 +56,13 @@ class ComposerModule extends AbstractEntity
     /**
      * @param null|string $vendor
      */
-    public function setVendor($vendor) : \WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function setVendor($vendor): ComposerModule
     {
         $this->vendor = $vendor;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getName() : ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -93,16 +70,13 @@ class ComposerModule extends AbstractEntity
     /**
      * @param null|string $name
      */
-    public function setName($name) : \WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function setName($name): ComposerModule
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getSystems() : ?int
+    public function getSystems(): ?int
     {
         return $this->systems;
     }
@@ -110,16 +84,13 @@ class ComposerModule extends AbstractEntity
     /**
      * @param null|int $systems
      */
-    public function setSystems($systems) : \WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function setSystems($systems): ComposerModule
     {
         $this->systems = $systems;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getUpToDate() : ?int
+    public function getUpToDate(): ?int
     {
         return $this->upToDate;
     }
@@ -127,16 +98,13 @@ class ComposerModule extends AbstractEntity
     /**
      * @param null|int $upToDate
      */
-    public function setUpToDate($upToDate) : \WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function setUpToDate($upToDate): ComposerModule
     {
         $this->upToDate = $upToDate;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getOutdated() : ?int
+    public function getOutdated(): ?int
     {
         return $this->outdated;
     }
@@ -144,24 +112,24 @@ class ComposerModule extends AbstractEntity
     /**
      * @param null|int $outdated
      */
-    public function setOutdated($outdated) : \WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function setOutdated($outdated): ComposerModule
     {
         $this->outdated = $outdated;
         return $this;
     }
 
     /**
-     * @return \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule[]|\Doctrine\Common\Collections\Collection
+     * @return LaminasSystemServerModule[]|Collection
      */
-    public function getLaminasSystemServerModule() : \Doctrine\Common\Collections\Collection
+    public function getLaminasSystemServerModule(): Collection
     {
         return $this->laminasSystemServerModule;
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule[]|\Doctrine\Common\Collections\Collection $laminasSystemServerModule
+     * @param LaminasSystemServerModule[]|Collection $laminasSystemServerModule
      */
-    public function setLaminasSystemServerModule(\Doctrine\Common\Collections\Collection $laminasSystemServerModule) : \WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function setLaminasSystemServerModule(Collection $laminasSystemServerModule): ComposerModule
     {
         $this->laminasSystemServerModule = $laminasSystemServerModule;
         if ($this->laminasSystemServerModule) {
@@ -173,9 +141,9 @@ class ComposerModule extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule[]|\Doctrine\Common\Collections\Collection $laminasSystemServerModule
+     * @param LaminasSystemServerModule[]|Collection $laminasSystemServerModule
      */
-    public function addLaminasSystemServerModule($laminasSystemServerModule) : \WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function addLaminasSystemServerModule($laminasSystemServerModule): ComposerModule
     {
         foreach ($laminasSystemServerModule as $_laminasSystemServerModule) {
             $_laminasSystemServerModule->setComposerModule($this);
@@ -185,9 +153,9 @@ class ComposerModule extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerModule[]|\Doctrine\Common\Collections\Collection $laminasSystemServerModule
+     * @param LaminasSystemServerModule[]|Collection $laminasSystemServerModule
      */
-    public function removeLaminasSystemServerModule($laminasSystemServerModule) : \WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function removeLaminasSystemServerModule($laminasSystemServerModule): ComposerModule
     {
         foreach ($laminasSystemServerModule as $_laminasSystemServerModule) {
             $_laminasSystemServerModule->setComposerModule(null);
@@ -197,17 +165,17 @@ class ComposerModule extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated[]|\Doctrine\Common\Collections\Collection
+     * @return LaminasSystemServerComposerOutdated[]|Collection
      */
-    public function getLaminasSystemServerComposerOutdated() : \Doctrine\Common\Collections\Collection
+    public function getLaminasSystemServerComposerOutdated(): Collection
     {
         return $this->laminasSystemServerComposerOutdated;
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated[]|\Doctrine\Common\Collections\Collection $laminasSystemServerComposerOutdated
+     * @param LaminasSystemServerComposerOutdated[]|Collection $laminasSystemServerComposerOutdated
      */
-    public function setLaminasSystemServerComposerOutdated(\Doctrine\Common\Collections\Collection $laminasSystemServerComposerOutdated) : \WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function setLaminasSystemServerComposerOutdated(Collection $laminasSystemServerComposerOutdated): ComposerModule
     {
         $this->laminasSystemServerComposerOutdated = $laminasSystemServerComposerOutdated;
         if ($this->laminasSystemServerComposerOutdated) {
@@ -219,9 +187,9 @@ class ComposerModule extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated[]|\Doctrine\Common\Collections\Collection $laminasSystemServerComposerOutdated
+     * @param LaminasSystemServerComposerOutdated[]|Collection $laminasSystemServerComposerOutdated
      */
-    public function addLaminasSystemServerComposerOutdated($laminasSystemServerComposerOutdated) : \WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function addLaminasSystemServerComposerOutdated($laminasSystemServerComposerOutdated): ComposerModule
     {
         foreach ($laminasSystemServerComposerOutdated as $_laminasSystemServerComposerOutdated) {
             $_laminasSystemServerComposerOutdated->setComposerModule($this);
@@ -231,9 +199,9 @@ class ComposerModule extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerComposerOutdated[]|\Doctrine\Common\Collections\Collection $laminasSystemServerComposerOutdated
+     * @param LaminasSystemServerComposerOutdated[]|Collection $laminasSystemServerComposerOutdated
      */
-    public function removeLaminasSystemServerComposerOutdated($laminasSystemServerComposerOutdated) : \WirklichDigital\SystemModuleOverview\Entity\ComposerModule
+    public function removeLaminasSystemServerComposerOutdated($laminasSystemServerComposerOutdated): ComposerModule
     {
         foreach ($laminasSystemServerComposerOutdated as $_laminasSystemServerComposerOutdated) {
             $_laminasSystemServerComposerOutdated->setComposerModule(null);
@@ -245,15 +213,14 @@ class ComposerModule extends AbstractEntity
     public function __construct()
     {
         parent::__construct();
-        $this->laminasSystemServerModule = new ArrayCollection();
+        $this->laminasSystemServerModule           = new ArrayCollection();
         $this->laminasSystemServerComposerOutdated = new ArrayCollection();
     }
 
     public function __clone()
     {
         parent::__clone();
-        $this->laminasSystemServerModule = clone $this->laminasSystemServerModule;
+        $this->laminasSystemServerModule           = clone $this->laminasSystemServerModule;
         $this->laminasSystemServerComposerOutdated = clone $this->laminasSystemServerComposerOutdated;
     }
 }
-

@@ -2,49 +2,41 @@
 
 namespace WirklichDigital\SyshelperBase\Entity;
 
+use DateTime;
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SyshelperBase\Entity\Host;
+use WirklichDigital\SyshelperBase\Entity\SshPublicKey;
 
 class SshPublicKeyLogin extends AbstractEntity
 {
-    protected $id = null;
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $user = null;
+    /** @var null|string */
+    protected $user;
 
-    protected $ip = null;
+    protected $ip;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $loggedInAt = null;
+    /** @var null|DateTime */
+    protected $loggedInAt;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\Host
-     */
-    protected $host = null;
+    /** @var null|Host */
+    protected $host;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\SshPublicKey
-     */
-    protected $sshPublicKey = null;
+    /** @var null|SshPublicKey */
+    protected $sshPublicKey;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin
+    public function setId($id): SshPublicKeyLogin
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getUser() : ?string
+    public function getUser(): ?string
     {
         return $this->user;
     }
@@ -52,7 +44,7 @@ class SshPublicKeyLogin extends AbstractEntity
     /**
      * @param null|string $user
      */
-    public function setUser($user) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin
+    public function setUser($user): SshPublicKeyLogin
     {
         $this->user = $user;
         return $this;
@@ -63,58 +55,40 @@ class SshPublicKeyLogin extends AbstractEntity
         return $this->ip;
     }
 
-    public function setIp($ip) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin
+    public function setIp($ip): SshPublicKeyLogin
     {
         $this->ip = $ip;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getLoggedInAt() : ?\DateTime
+    public function getLoggedInAt(): ?DateTime
     {
         return $this->loggedInAt;
     }
 
-    /**
-     * @param null|\DateTime $loggedInAt
-     */
-    public function setLoggedInAt(?\DateTime $loggedInAt) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin
+    public function setLoggedInAt(?DateTime $loggedInAt): SshPublicKeyLogin
     {
         $this->loggedInAt = $loggedInAt;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\Host
-     */
-    public function getHost() : ?\WirklichDigital\SyshelperBase\Entity\Host
+    public function getHost(): ?Host
     {
         return $this->host;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\Host $host
-     */
-    public function setHost(?\WirklichDigital\SyshelperBase\Entity\Host $host) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin
+    public function setHost(?Host $host): SshPublicKeyLogin
     {
         $this->host = $host;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\SshPublicKey
-     */
-    public function getSshPublicKey() : ?\WirklichDigital\SyshelperBase\Entity\SshPublicKey
+    public function getSshPublicKey(): ?SshPublicKey
     {
         return $this->sshPublicKey;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\SshPublicKey $sshPublicKey
-     */
-    public function setSshPublicKey(?\WirklichDigital\SyshelperBase\Entity\SshPublicKey $sshPublicKey) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin
+    public function setSshPublicKey(?SshPublicKey $sshPublicKey): SshPublicKeyLogin
     {
         $this->sshPublicKey = $sshPublicKey;
         return $this;
@@ -129,4 +103,3 @@ class SshPublicKeyLogin extends AbstractEntity
     {
     }
 }
-

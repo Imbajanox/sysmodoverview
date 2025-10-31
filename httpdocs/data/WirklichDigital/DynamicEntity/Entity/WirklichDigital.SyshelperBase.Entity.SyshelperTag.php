@@ -2,74 +2,58 @@
 
 namespace WirklichDigital\SyshelperBase\Entity;
 
-use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use WirklichDigital\Authentication\Entity\User;
+use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SyshelperBase\Entity\AssignedIp;
+use WirklichDigital\SyshelperBase\Entity\Host;
+use WirklichDigital\SyshelperBase\Entity\IpSubnet;
 
 class SyshelperTag extends AbstractEntity
 {
-    protected $id = null;
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $name = null;
+    /** @var null|string */
+    protected $name;
 
-    /**
-     * @var null|string
-     */
-    protected $color = null;
+    /** @var null|string */
+    protected $color;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @var \WirklichDigital\SyshelperBase\Entity\Host[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $hosts = null;
+    /** @var Host[]|Collection */
+    protected $hosts;
 
-    /**
-     * @var \WirklichDigital\SyshelperBase\Entity\IpSubnet[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $ipSubnets = null;
+    /** @var IpSubnet[]|Collection */
+    protected $ipSubnets;
 
-    /**
-     * @var \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $assignedIps = null;
+    /** @var AssignedIp[]|Collection */
+    protected $assignedIps;
 
-    /**
-     * @var null|\WirklichDigital\Authentication\Entity\User
-     */
-    protected $createdBy = null;
+    /** @var null|User */
+    protected $createdBy;
 
-    /**
-     * @var null|\WirklichDigital\Authentication\Entity\User
-     */
-    protected $updatedBy = null;
+    /** @var null|User */
+    protected $updatedBy;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function setId($id): SyshelperTag
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getName() : ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -77,16 +61,13 @@ class SyshelperTag extends AbstractEntity
     /**
      * @param null|string $name
      */
-    public function setName($name) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function setName($name): SyshelperTag
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getColor() : ?string
+    public function getColor(): ?string
     {
         return $this->color;
     }
@@ -94,67 +75,55 @@ class SyshelperTag extends AbstractEntity
     /**
      * @param null|string $color
      */
-    public function setColor($color) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function setColor($color): SyshelperTag
     {
         $this->color = $color;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function setCreatedAt(?DateTime $createdAt): SyshelperTag
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function setUpdatedAt(?DateTime $updatedAt): SyshelperTag
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
     /**
-     * @return \WirklichDigital\SyshelperBase\Entity\Host[]|\Doctrine\Common\Collections\Collection
+     * @return Host[]|Collection
      */
-    public function getHosts() : \Doctrine\Common\Collections\Collection
+    public function getHosts(): Collection
     {
         return $this->hosts;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\Host[]|\Doctrine\Common\Collections\Collection $hosts
+     * @param Host[]|Collection $hosts
      */
-    public function setHosts(\Doctrine\Common\Collections\Collection $hosts) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function setHosts(Collection $hosts): SyshelperTag
     {
         $this->hosts = $hosts;
         return $this;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\Host[]|\Doctrine\Common\Collections\Collection $hosts
+     * @param Host[]|Collection $hosts
      */
-    public function addHosts($hosts) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function addHosts($hosts): SyshelperTag
     {
         foreach ($hosts as $_hosts) {
             $_hosts->addTags([$this]);
@@ -164,9 +133,9 @@ class SyshelperTag extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\Host[]|\Doctrine\Common\Collections\Collection $hosts
+     * @param Host[]|Collection $hosts
      */
-    public function removeHosts($hosts) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function removeHosts($hosts): SyshelperTag
     {
         foreach ($hosts as $_hosts) {
             $_hosts->removeTags([$this]);
@@ -176,26 +145,26 @@ class SyshelperTag extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SyshelperBase\Entity\IpSubnet[]|\Doctrine\Common\Collections\Collection
+     * @return IpSubnet[]|Collection
      */
-    public function getIpSubnets() : \Doctrine\Common\Collections\Collection
+    public function getIpSubnets(): Collection
     {
         return $this->ipSubnets;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\IpSubnet[]|\Doctrine\Common\Collections\Collection $ipSubnets
+     * @param IpSubnet[]|Collection $ipSubnets
      */
-    public function setIpSubnets(\Doctrine\Common\Collections\Collection $ipSubnets) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function setIpSubnets(Collection $ipSubnets): SyshelperTag
     {
         $this->ipSubnets = $ipSubnets;
         return $this;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\IpSubnet[]|\Doctrine\Common\Collections\Collection $ipSubnets
+     * @param IpSubnet[]|Collection $ipSubnets
      */
-    public function addIpSubnets($ipSubnets) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function addIpSubnets($ipSubnets): SyshelperTag
     {
         foreach ($ipSubnets as $_ipSubnets) {
             $_ipSubnets->addTags([$this]);
@@ -205,9 +174,9 @@ class SyshelperTag extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\IpSubnet[]|\Doctrine\Common\Collections\Collection $ipSubnets
+     * @param IpSubnet[]|Collection $ipSubnets
      */
-    public function removeIpSubnets($ipSubnets) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function removeIpSubnets($ipSubnets): SyshelperTag
     {
         foreach ($ipSubnets as $_ipSubnets) {
             $_ipSubnets->removeTags([$this]);
@@ -217,26 +186,26 @@ class SyshelperTag extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection
+     * @return AssignedIp[]|Collection
      */
-    public function getAssignedIps() : \Doctrine\Common\Collections\Collection
+    public function getAssignedIps(): Collection
     {
         return $this->assignedIps;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection $assignedIps
+     * @param AssignedIp[]|Collection $assignedIps
      */
-    public function setAssignedIps(\Doctrine\Common\Collections\Collection $assignedIps) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function setAssignedIps(Collection $assignedIps): SyshelperTag
     {
         $this->assignedIps = $assignedIps;
         return $this;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection $assignedIps
+     * @param AssignedIp[]|Collection $assignedIps
      */
-    public function addAssignedIps($assignedIps) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function addAssignedIps($assignedIps): SyshelperTag
     {
         foreach ($assignedIps as $_assignedIps) {
             $_assignedIps->addTags([$this]);
@@ -246,9 +215,9 @@ class SyshelperTag extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection $assignedIps
+     * @param AssignedIp[]|Collection $assignedIps
      */
-    public function removeAssignedIps($assignedIps) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function removeAssignedIps($assignedIps): SyshelperTag
     {
         foreach ($assignedIps as $_assignedIps) {
             $_assignedIps->removeTags([$this]);
@@ -257,35 +226,23 @@ class SyshelperTag extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\Authentication\Entity\User
-     */
-    public function getCreatedBy() : ?\WirklichDigital\Authentication\Entity\User
+    public function getCreatedBy(): ?User
     {
         return $this->createdBy;
     }
 
-    /**
-     * @param null|\WirklichDigital\Authentication\Entity\User $createdBy
-     */
-    public function setCreatedBy(?\WirklichDigital\Authentication\Entity\User $createdBy) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function setCreatedBy(?User $createdBy): SyshelperTag
     {
         $this->createdBy = $createdBy;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\Authentication\Entity\User
-     */
-    public function getUpdatedBy() : ?\WirklichDigital\Authentication\Entity\User
+    public function getUpdatedBy(): ?User
     {
         return $this->updatedBy;
     }
 
-    /**
-     * @param null|\WirklichDigital\Authentication\Entity\User $updatedBy
-     */
-    public function setUpdatedBy(?\WirklichDigital\Authentication\Entity\User $updatedBy) : \WirklichDigital\SyshelperBase\Entity\SyshelperTag
+    public function setUpdatedBy(?User $updatedBy): SyshelperTag
     {
         $this->updatedBy = $updatedBy;
         return $this;
@@ -294,17 +251,16 @@ class SyshelperTag extends AbstractEntity
     public function __construct()
     {
         parent::__construct();
-        $this->hosts = new ArrayCollection();
-        $this->ipSubnets = new ArrayCollection();
+        $this->hosts       = new ArrayCollection();
+        $this->ipSubnets   = new ArrayCollection();
         $this->assignedIps = new ArrayCollection();
     }
 
     public function __clone()
     {
         parent::__clone();
-        $this->hosts = clone $this->hosts;
-        $this->ipSubnets = clone $this->ipSubnets;
+        $this->hosts       = clone $this->hosts;
+        $this->ipSubnets   = clone $this->ipSubnets;
         $this->assignedIps = clone $this->assignedIps;
     }
 }
-

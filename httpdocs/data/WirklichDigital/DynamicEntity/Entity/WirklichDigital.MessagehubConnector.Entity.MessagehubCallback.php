@@ -2,39 +2,27 @@
 
 namespace WirklichDigital\MessagehubConnector\Entity;
 
+use DateTime;
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 
 class MessagehubCallback extends AbstractEntity
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|int
-     */
-    protected $messagehubId = null;
+    /** @var null|int */
+    protected $messagehubId;
 
-    /**
-     * @var null|string
-     */
-    protected $callback = null;
+    /** @var null|string */
+    protected $callback;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -42,16 +30,13 @@ class MessagehubCallback extends AbstractEntity
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\MessagehubConnector\Entity\MessagehubCallback
+    public function setId($id): MessagehubCallback
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getMessagehubId() : ?int
+    public function getMessagehubId(): ?int
     {
         return $this->messagehubId;
     }
@@ -59,16 +44,13 @@ class MessagehubCallback extends AbstractEntity
     /**
      * @param null|int $messagehubId
      */
-    public function setMessagehubId($messagehubId) : \WirklichDigital\MessagehubConnector\Entity\MessagehubCallback
+    public function setMessagehubId($messagehubId): MessagehubCallback
     {
         $this->messagehubId = $messagehubId;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getCallback() : ?string
+    public function getCallback(): ?string
     {
         return $this->callback;
     }
@@ -76,41 +58,29 @@ class MessagehubCallback extends AbstractEntity
     /**
      * @param null|string $callback
      */
-    public function setCallback($callback) : \WirklichDigital\MessagehubConnector\Entity\MessagehubCallback
+    public function setCallback($callback): MessagehubCallback
     {
         $this->callback = $callback;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\MessagehubConnector\Entity\MessagehubCallback
+    public function setCreatedAt(?DateTime $createdAt): MessagehubCallback
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\MessagehubConnector\Entity\MessagehubCallback
+    public function setUpdatedAt(?DateTime $updatedAt): MessagehubCallback
     {
         $this->updatedAt = $updatedAt;
         return $this;
@@ -125,4 +95,3 @@ class MessagehubCallback extends AbstractEntity
     {
     }
 }
-

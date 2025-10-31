@@ -19,19 +19,14 @@ use function class_exists;
 use function count;
 use function explode;
 use function file_put_contents;
-use function get_class;
-use function gettype;
 use function implode;
 use function is_array;
 use function is_dir;
 use function is_integer;
-use function is_object;
 use function is_string;
 use function is_writable;
 use function json_decode;
 use function json_encode;
-use function json_last_error;
-use function json_last_error_msg;
 use function key;
 use function lcfirst;
 use function method_exists;
@@ -41,16 +36,45 @@ use function sprintf;
 use function str_replace;
 use function ucfirst;
 
-use const JSON_ERROR_NONE;
 use const PREG_SPLIT_NO_EMPTY;
 
 class SysModOverviewService
 {
+    private $logFile = '';
     public function __construct(
         protected EntityManager $entityManager,
         protected LaminasSystemServerService $laminasSystemServerService,
         protected ComposerModuleService $composerModuleService
     ) {
+    }
+
+    /**
+     * Schreibt eine Nachricht mit Zeitstempel in die Log-Datei.
+     *
+     * @param string $message Die zu protokollierende Nachricht.
+     */
+    private function logMessage(string $message): void
+    {
+        $logDir        = 'data/log/cron.log';
+        $this->logFile = $logDir;
+
+        $timestamp = date('[Y-m-d H:i:s] ');
+        $logEntry  = $timestamp . $message . PHP_EOL;
+
+        if (! file_exists($logDir)) {
+        // The file does not exist, so create it
+            $fileHandle = fopen($logDir, 'w');
+
+            if ($fileHandle) {
+                // Optionally write some initial content
+                fwrite($fileHandle, "");
+                // Close the file handle
+                fclose($fileHandle);
+            }
+        }
+
+        // Fügt den Eintrag ans Ende der Datei an
+        file_put_contents($this->logFile, $logEntry, FILE_APPEND);
     }
 
     private function checkIfEntityIsSet($entity, $server)
@@ -228,7 +252,7 @@ class SysModOverviewService
         
         foreach ($npmModules as $npmModuleName => $npmModule) {
             if (!is_array($npmModule)) {
-                error_log("Invalid NPM module data for: " . $npmModuleName);
+                $this->logMessage("Invalid NPM module data for: " . $npmModuleName);
                 continue;
             }
             
@@ -321,7 +345,7 @@ class SysModOverviewService
             }
 
             if (!is_array($data) || empty($data)) {
-                error_log("setInfosInEntity: Empty or invalid data provided for entity class: " . $entity);
+                $this->logMessage("setInfosInEntity: Empty or invalid data provided for entity class: " . $entity);
                 return $em;
             }
 
@@ -356,7 +380,7 @@ class SysModOverviewService
             $this->entityManager->persist($em);
             return $em;
         } catch (Exception $e) {
-            error_log("Error in setInfosInEntity: " . $e->getMessage());
+            $this->logMessage("Error in setInfosInEntity: " . $e->getMessage());
             throw $e;
         }
     }
@@ -364,6 +388,7 @@ class SysModOverviewService
     public function setInfos(array $data)
     {
         try {
+            $this->logMessage("SysModOverviewService::setInfos: Processing data for server with IP " . ($data['ipaddress'] ?? 'unknown'));
             // Validate required data
             if (!isset($data['ipaddress']) || empty($data['ipaddress'])) {
                 throw new Exception("Missing required field: ipaddress");
@@ -384,15 +409,16 @@ class SysModOverviewService
             $this->runFinalServices($server);
 
             $this->entityManager->commit();
+            $this->logMessage("SysModOverviewService::setInfos: Successfully processed data for server with IP " . $data['ipaddress']);
         } catch (Exception $e) {
             if ($this->entityManager->getConnection()->isTransactionActive()) {
                 try {
                     $this->entityManager->rollback();
                 } catch (Exception $rollbackException) {
-                    error_log("SysModOverviewService::setInfos Rollback Error: " . $rollbackException->getMessage() . " (Original error: " . $e->getMessage() . ")");
+                    $this->logMessage("SysModOverviewService::setInfos Rollback Error: " . $rollbackException->getMessage() . " (Original error: " . $e->getMessage() . ")");
                 }
             }
-            error_log("SysModOverviewService::setInfos Error: " . $e->getMessage());
+            $this->logMessage("SysModOverviewService::setInfos Error: " . $e->getMessage());
             throw $e;
         }
     }
@@ -482,14 +508,14 @@ class SysModOverviewService
             foreach ($datas["LaminasSystemServerModule"] as $module) {
                 // Validate required fields
                 if (!isset($module["name"]) || !isset($module["version_normalized"])) {
-                    error_log("Skipping module due to missing required fields: " . json_encode($module));
+                    $this->logMessage("Skipping module due to missing required fields: " . json_encode($module));
                     continue;
                 }
 
                 if (! $this->checkIfModuleIsSet($module["name"], $module["version_normalized"], $serverIpAddress)) {
                     $entity = $this->setInfosInEntity($module, "LaminasSystemServerModule");
                     if (!$entity) {
-                        error_log("Failed to create entity for module: " . $module["name"]);
+                        $this->logMessage("Failed to create entity for module: " . $module["name"]);
                         continue;
                     }
                     $entity->addLaminasSystemServer([$server]);
@@ -497,12 +523,12 @@ class SysModOverviewService
                 } else {
                     $entity = $this->getModule($module["name"], $module["version_normalized"], $server);
                     if (!$entity) {
-                        error_log("Failed to get existing module: " . $module["name"]);
+                        $this->logMessage("Failed to get existing module: " . $module["name"]);
                         continue;
                     }
                     $entity = $this->setInfosInEntity($module, "LaminasSystemServerModule", $entity);
                     if (!$entity) {
-                        error_log("Failed to update entity for module: " . $module["name"]);
+                        $this->logMessage("Failed to update entity for module: " . $module["name"]);
                         continue;
                     }
                     $serverCollection = $entity->getLaminasSystemServer();
@@ -532,7 +558,7 @@ class SysModOverviewService
             if (isset($datas[$key]) && is_array($datas[$key])) {
                 foreach ($datas[$key] as $data) {
                     if (!is_array($data) || empty($data)) {
-                        error_log("Skipping invalid data for " . $key);
+                        $this->logMessage("Skipping invalid data for " . $key);
                         continue;
                     }
 
@@ -543,13 +569,13 @@ class SysModOverviewService
 
                     if ($key === "LaminasSystemServerComposerOutdated") {
                         if (!isset($data['name'])) {
-                            error_log("Skipping ComposerOutdated entry without name");
+                            $this->logMessage("Skipping ComposerOutdated entry without name");
                             continue;
                         }
                         $findCriteria['name'] = $data['name'];
                     } elseif ($key === "LaminasSystemServerDatabaseInfo") {
                         if (!isset($data['Name'])) {
-                            error_log("Skipping DatabaseInfo entry without Name");
+                            $this->logMessage("Skipping DatabaseInfo entry without Name");
                             continue;
                         }
                         // Hier wird der Datenbankname als Kriterium hinzugefügt
@@ -568,7 +594,7 @@ class SysModOverviewService
                     }
 
                     if (!$entity) {
-                        error_log("Failed to create/update entity for " . $key);
+                        $this->logMessage("Failed to create/update entity for " . $key);
                         continue;
                     }
 
@@ -616,13 +642,13 @@ class SysModOverviewService
         $npmModules = [];
         foreach ($datas["NpmModules"] as $key => $module) {
             if (!is_string($module)) {
-                error_log("Skipping invalid NPM module data for key: " . $key);
+                $this->logMessage("Skipping invalid NPM module data for key: " . $key);
                 continue;
             }
             
             $decoded = json_decode($module, true);
             if ($decoded === null && json_last_error() !== JSON_ERROR_NONE) {
-                error_log("Invalid JSON for NPM module " . $key . ": " . json_last_error_msg());
+                $this->logMessage("Invalid JSON for NPM module " . $key . ": " . json_last_error_msg());
                 continue;
             }
             
@@ -652,7 +678,7 @@ class SysModOverviewService
         }
 
         if (! is_writable($fileFolder)) {
-            error_log("Warning: Directory '$fileFolder' is not writable");
+            $this->logMessage("Warning: Directory '$fileFolder' is not writable");
             return;
         }
 
@@ -674,7 +700,7 @@ class SysModOverviewService
                 $server->setPhpVersion($phpVersion);
             }
         } else {
-            error_log("Warning: No PHP-Info found for server ID: " . $serverId);
+            $this->logMessage("Warning: No PHP-Info found for server ID: " . $serverId);
         }
 
         // Config
@@ -683,7 +709,7 @@ class SysModOverviewService
             file_put_contents($configPath, json_encode($datas["LaminasSystemServerconfig"]));
             $server->setConfig($configPath);
         } else {
-            error_log("Warning: No Serverconfig found for server ID: " . $serverId);
+            $this->logMessage("Warning: No Serverconfig found for server ID: " . $serverId);
         }
     }
 

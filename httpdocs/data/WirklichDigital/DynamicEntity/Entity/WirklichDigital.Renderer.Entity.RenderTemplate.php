@@ -2,64 +2,45 @@
 
 namespace WirklichDigital\Renderer\Entity;
 
+use DateTime;
+use WirklichDigital\Authentication\Entity\User;
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 use WirklichDigital\DynamicEntityTranslatableModule\Entity\TranslatableInterface;
 
 class RenderTemplate extends AbstractEntity implements TranslatableInterface
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $name = null;
+    /** @var null|string */
+    protected $name;
 
-    /**
-     * @var null|string
-     */
+    /** @var null|string */
     protected $template = '';
 
-    /**
-     * @var null|string
-     */
-    protected $renderer = null;
+    /** @var null|string */
+    protected $renderer;
 
-    protected $lastData = null;
+    protected $lastData;
 
-    /**
-     * @var null|string
-     */
-    protected $component = null;
+    /** @var null|string */
+    protected $component;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @var null|\WirklichDigital\Authentication\Entity\User
-     */
-    protected $createdBy = null;
+    /** @var null|User */
+    protected $createdBy;
 
-    /**
-     * @var null|\WirklichDigital\Authentication\Entity\User
-     */
-    protected $updatedBy = null;
+    /** @var null|User */
+    protected $updatedBy;
 
-    protected $translatableLocale = null;
+    protected $translatableLocale;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -67,16 +48,13 @@ class RenderTemplate extends AbstractEntity implements TranslatableInterface
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\Renderer\Entity\RenderTemplate
+    public function setId($id): RenderTemplate
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getName() : ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -84,16 +62,13 @@ class RenderTemplate extends AbstractEntity implements TranslatableInterface
     /**
      * @param null|string $name
      */
-    public function setName($name) : \WirklichDigital\Renderer\Entity\RenderTemplate
+    public function setName($name): RenderTemplate
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getTemplate() : ?string
+    public function getTemplate(): ?string
     {
         return $this->template;
     }
@@ -101,16 +76,13 @@ class RenderTemplate extends AbstractEntity implements TranslatableInterface
     /**
      * @param null|string $template
      */
-    public function setTemplate($template) : \WirklichDigital\Renderer\Entity\RenderTemplate
+    public function setTemplate($template): RenderTemplate
     {
         $this->template = $template;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getRenderer() : ?string
+    public function getRenderer(): ?string
     {
         return $this->renderer;
     }
@@ -118,7 +90,7 @@ class RenderTemplate extends AbstractEntity implements TranslatableInterface
     /**
      * @param null|string $renderer
      */
-    public function setRenderer($renderer) : \WirklichDigital\Renderer\Entity\RenderTemplate
+    public function setRenderer($renderer): RenderTemplate
     {
         $this->renderer = $renderer;
         return $this;
@@ -129,16 +101,13 @@ class RenderTemplate extends AbstractEntity implements TranslatableInterface
         return $this->lastData;
     }
 
-    public function setLastData($lastData) : \WirklichDigital\Renderer\Entity\RenderTemplate
+    public function setLastData($lastData): RenderTemplate
     {
         $this->lastData = $lastData;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getComponent() : ?string
+    public function getComponent(): ?string
     {
         return $this->component;
     }
@@ -146,75 +115,51 @@ class RenderTemplate extends AbstractEntity implements TranslatableInterface
     /**
      * @param null|string $component
      */
-    public function setComponent($component) : \WirklichDigital\Renderer\Entity\RenderTemplate
+    public function setComponent($component): RenderTemplate
     {
         $this->component = $component;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\Renderer\Entity\RenderTemplate
+    public function setCreatedAt(?DateTime $createdAt): RenderTemplate
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\Renderer\Entity\RenderTemplate
+    public function setUpdatedAt(?DateTime $updatedAt): RenderTemplate
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\Authentication\Entity\User
-     */
-    public function getCreatedBy() : ?\WirklichDigital\Authentication\Entity\User
+    public function getCreatedBy(): ?User
     {
         return $this->createdBy;
     }
 
-    /**
-     * @param null|\WirklichDigital\Authentication\Entity\User $createdBy
-     */
-    public function setCreatedBy(?\WirklichDigital\Authentication\Entity\User $createdBy) : \WirklichDigital\Renderer\Entity\RenderTemplate
+    public function setCreatedBy(?User $createdBy): RenderTemplate
     {
         $this->createdBy = $createdBy;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\Authentication\Entity\User
-     */
-    public function getUpdatedBy() : ?\WirklichDigital\Authentication\Entity\User
+    public function getUpdatedBy(): ?User
     {
         return $this->updatedBy;
     }
 
-    /**
-     * @param null|\WirklichDigital\Authentication\Entity\User $updatedBy
-     */
-    public function setUpdatedBy(?\WirklichDigital\Authentication\Entity\User $updatedBy) : \WirklichDigital\Renderer\Entity\RenderTemplate
+    public function setUpdatedBy(?User $updatedBy): RenderTemplate
     {
         $this->updatedBy = $updatedBy;
         return $this;
@@ -236,8 +181,7 @@ class RenderTemplate extends AbstractEntity implements TranslatableInterface
 
     public function setTranslatableLocale($translatableLocale)
     {
-        $this->translatableLocale = $translatableLocale; 
+        $this->translatableLocale = $translatableLocale;
         return $this;
     }
 }
-

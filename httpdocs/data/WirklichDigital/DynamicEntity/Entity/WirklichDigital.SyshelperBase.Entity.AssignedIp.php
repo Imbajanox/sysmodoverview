@@ -2,81 +2,65 @@
 
 namespace WirklichDigital\SyshelperBase\Entity;
 
-use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SyshelperAlerts\Entity\Alert;
+use WirklichDigital\SyshelperBase\Entity\Host;
+use WirklichDigital\SyshelperBase\Entity\IpSubnet;
+use WirklichDigital\SyshelperBase\Entity\ReachableIp;
+use WirklichDigital\SyshelperBase\Entity\SyshelperTag;
 
 class AssignedIp extends AbstractEntity
 {
-    protected $id = null;
+    protected $id;
 
-    protected $address = null;
+    protected $address;
 
-    /**
-     * @var null|string
-     */
-    protected $ptr = null;
+    /** @var null|string */
+    protected $ptr;
 
-    /**
-     * @var null|string
-     */
-    protected $syshelperDescription = null;
+    /** @var null|string */
+    protected $syshelperDescription;
 
-    protected $openPortsInternal = null;
+    protected $openPortsInternal;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $openPortsInternalLastScanAt = null;
+    /** @var null|DateTime */
+    protected $openPortsInternalLastScanAt;
 
-    protected $openPortsExternal = null;
+    protected $openPortsExternal;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $openPortsExternalLastScanAt = null;
+    /** @var null|DateTime */
+    protected $openPortsExternalLastScanAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\ReachableIp
-     */
-    protected $reachableIp = null;
+    /** @var null|ReachableIp */
+    protected $reachableIp;
 
-    /**
-     * @var \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $alerts = null;
+    /** @var Alert[]|Collection */
+    protected $alerts;
 
-    /**
-     * @var \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $tags = null;
+    /** @var SyshelperTag[]|Collection */
+    protected $tags;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\Host
-     */
-    protected $host = null;
+    /** @var null|Host */
+    protected $host;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\IpSubnet
-     */
-    protected $subnet = null;
+    /** @var null|IpSubnet */
+    protected $subnet;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setId($id): AssignedIp
     {
         $this->id = $id;
         return $this;
@@ -87,16 +71,13 @@ class AssignedIp extends AbstractEntity
         return $this->address;
     }
 
-    public function setAddress($address) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setAddress($address): AssignedIp
     {
         $this->address = $address;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getPtr() : ?string
+    public function getPtr(): ?string
     {
         return $this->ptr;
     }
@@ -104,16 +85,13 @@ class AssignedIp extends AbstractEntity
     /**
      * @param null|string $ptr
      */
-    public function setPtr($ptr) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setPtr($ptr): AssignedIp
     {
         $this->ptr = $ptr;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getSyshelperDescription() : ?string
+    public function getSyshelperDescription(): ?string
     {
         return $this->syshelperDescription;
     }
@@ -121,7 +99,7 @@ class AssignedIp extends AbstractEntity
     /**
      * @param null|string $syshelperDescription
      */
-    public function setSyshelperDescription($syshelperDescription) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setSyshelperDescription($syshelperDescription): AssignedIp
     {
         $this->syshelperDescription = $syshelperDescription;
         return $this;
@@ -132,24 +110,18 @@ class AssignedIp extends AbstractEntity
         return $this->openPortsInternal;
     }
 
-    public function setOpenPortsInternal($openPortsInternal) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setOpenPortsInternal($openPortsInternal): AssignedIp
     {
         $this->openPortsInternal = $openPortsInternal;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getOpenPortsInternalLastScanAt() : ?\DateTime
+    public function getOpenPortsInternalLastScanAt(): ?DateTime
     {
         return $this->openPortsInternalLastScanAt;
     }
 
-    /**
-     * @param null|\DateTime $openPortsInternalLastScanAt
-     */
-    public function setOpenPortsInternalLastScanAt(?\DateTime $openPortsInternalLastScanAt) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setOpenPortsInternalLastScanAt(?DateTime $openPortsInternalLastScanAt): AssignedIp
     {
         $this->openPortsInternalLastScanAt = $openPortsInternalLastScanAt;
         return $this;
@@ -160,75 +132,51 @@ class AssignedIp extends AbstractEntity
         return $this->openPortsExternal;
     }
 
-    public function setOpenPortsExternal($openPortsExternal) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setOpenPortsExternal($openPortsExternal): AssignedIp
     {
         $this->openPortsExternal = $openPortsExternal;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getOpenPortsExternalLastScanAt() : ?\DateTime
+    public function getOpenPortsExternalLastScanAt(): ?DateTime
     {
         return $this->openPortsExternalLastScanAt;
     }
 
-    /**
-     * @param null|\DateTime $openPortsExternalLastScanAt
-     */
-    public function setOpenPortsExternalLastScanAt(?\DateTime $openPortsExternalLastScanAt) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setOpenPortsExternalLastScanAt(?DateTime $openPortsExternalLastScanAt): AssignedIp
     {
         $this->openPortsExternalLastScanAt = $openPortsExternalLastScanAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setCreatedAt(?DateTime $createdAt): AssignedIp
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setUpdatedAt(?DateTime $updatedAt): AssignedIp
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\ReachableIp
-     */
-    public function getReachableIp() : ?\WirklichDigital\SyshelperBase\Entity\ReachableIp
+    public function getReachableIp(): ?ReachableIp
     {
         return $this->reachableIp;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\ReachableIp $reachableIp
-     */
-    public function setReachableIp(?\WirklichDigital\SyshelperBase\Entity\ReachableIp $reachableIp) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setReachableIp(?ReachableIp $reachableIp): AssignedIp
     {
         $this->reachableIp = $reachableIp;
         if ($this->reachableIp) {
@@ -238,17 +186,17 @@ class AssignedIp extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection
+     * @return Alert[]|Collection
      */
-    public function getAlerts() : \Doctrine\Common\Collections\Collection
+    public function getAlerts(): Collection
     {
         return $this->alerts;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection $alerts
+     * @param Alert[]|Collection $alerts
      */
-    public function setAlerts(\Doctrine\Common\Collections\Collection $alerts) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setAlerts(Collection $alerts): AssignedIp
     {
         $this->alerts = $alerts;
         if ($this->alerts) {
@@ -260,9 +208,9 @@ class AssignedIp extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection $alerts
+     * @param Alert[]|Collection $alerts
      */
-    public function addAlerts($alerts) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function addAlerts($alerts): AssignedIp
     {
         foreach ($alerts as $_alerts) {
             $_alerts->setHost($this);
@@ -272,9 +220,9 @@ class AssignedIp extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection $alerts
+     * @param Alert[]|Collection $alerts
      */
-    public function removeAlerts($alerts) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function removeAlerts($alerts): AssignedIp
     {
         foreach ($alerts as $_alerts) {
             $_alerts->setHost(null);
@@ -284,26 +232,26 @@ class AssignedIp extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection
+     * @return SyshelperTag[]|Collection
      */
-    public function getTags() : \Doctrine\Common\Collections\Collection
+    public function getTags(): Collection
     {
         return $this->tags;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection $tags
+     * @param SyshelperTag[]|Collection $tags
      */
-    public function setTags(\Doctrine\Common\Collections\Collection $tags) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setTags(Collection $tags): AssignedIp
     {
         $this->tags = $tags;
         return $this;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection $tags
+     * @param SyshelperTag[]|Collection $tags
      */
-    public function addTags($tags) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function addTags($tags): AssignedIp
     {
         foreach ($tags as $_tags) {
             $this->tags->add($_tags);
@@ -312,9 +260,9 @@ class AssignedIp extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection $tags
+     * @param SyshelperTag[]|Collection $tags
      */
-    public function removeTags($tags) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function removeTags($tags): AssignedIp
     {
         foreach ($tags as $_tags) {
             $this->tags->removeElement($_tags);
@@ -322,35 +270,23 @@ class AssignedIp extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\Host
-     */
-    public function getHost() : ?\WirklichDigital\SyshelperBase\Entity\Host
+    public function getHost(): ?Host
     {
         return $this->host;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\Host $host
-     */
-    public function setHost(?\WirklichDigital\SyshelperBase\Entity\Host $host) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setHost(?Host $host): AssignedIp
     {
         $this->host = $host;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\IpSubnet
-     */
-    public function getSubnet() : ?\WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function getSubnet(): ?IpSubnet
     {
         return $this->subnet;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\IpSubnet $subnet
-     */
-    public function setSubnet(?\WirklichDigital\SyshelperBase\Entity\IpSubnet $subnet) : \WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function setSubnet(?IpSubnet $subnet): AssignedIp
     {
         $this->subnet = $subnet;
         return $this;
@@ -360,14 +296,13 @@ class AssignedIp extends AbstractEntity
     {
         parent::__construct();
         $this->alerts = new ArrayCollection();
-        $this->tags = new ArrayCollection();
+        $this->tags   = new ArrayCollection();
     }
 
     public function __clone()
     {
         parent::__clone();
         $this->alerts = clone $this->alerts;
-        $this->tags = clone $this->tags;
+        $this->tags   = clone $this->tags;
     }
 }
-

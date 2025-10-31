@@ -2,57 +2,44 @@
 
 namespace WirklichDigital\SyshelperBase\Entity;
 
+use DateTime;
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SyshelperBase\Entity\Host;
 
 class HostRawFact extends AbstractEntity
 {
-    protected $id = null;
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $type = null;
+    /** @var null|string */
+    protected $type;
 
-    /**
-     * @var null|string
-     */
-    protected $rawValue = null;
+    /** @var null|string */
+    protected $rawValue;
 
-    /**
-     * @var null|bool
-     */
+    /** @var null|bool */
     protected $hasBeenParsed = 0;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\Host
-     */
-    protected $host = null;
+    /** @var null|Host */
+    protected $host;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id) : \WirklichDigital\SyshelperBase\Entity\HostRawFact
+    public function setId($id): HostRawFact
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getType() : ?string
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -60,16 +47,13 @@ class HostRawFact extends AbstractEntity
     /**
      * @param null|string $type
      */
-    public function setType($type) : \WirklichDigital\SyshelperBase\Entity\HostRawFact
+    public function setType($type): HostRawFact
     {
         $this->type = $type;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getRawValue() : ?string
+    public function getRawValue(): ?string
     {
         return $this->rawValue;
     }
@@ -77,16 +61,13 @@ class HostRawFact extends AbstractEntity
     /**
      * @param null|string $rawValue
      */
-    public function setRawValue($rawValue) : \WirklichDigital\SyshelperBase\Entity\HostRawFact
+    public function setRawValue($rawValue): HostRawFact
     {
         $this->rawValue = $rawValue;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getHasBeenParsed() : ?bool
+    public function getHasBeenParsed(): ?bool
     {
         return $this->hasBeenParsed;
     }
@@ -94,58 +75,40 @@ class HostRawFact extends AbstractEntity
     /**
      * @param null|bool $hasBeenParsed
      */
-    public function setHasBeenParsed($hasBeenParsed) : \WirklichDigital\SyshelperBase\Entity\HostRawFact
+    public function setHasBeenParsed($hasBeenParsed): HostRawFact
     {
         $this->hasBeenParsed = $hasBeenParsed;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\SyshelperBase\Entity\HostRawFact
+    public function setCreatedAt(?DateTime $createdAt): HostRawFact
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\SyshelperBase\Entity\HostRawFact
+    public function setUpdatedAt(?DateTime $updatedAt): HostRawFact
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\Host
-     */
-    public function getHost() : ?\WirklichDigital\SyshelperBase\Entity\Host
+    public function getHost(): ?Host
     {
         return $this->host;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\Host $host
-     */
-    public function setHost(?\WirklichDigital\SyshelperBase\Entity\Host $host) : \WirklichDigital\SyshelperBase\Entity\HostRawFact
+    public function setHost(?Host $host): HostRawFact
     {
         $this->host = $host;
         return $this;
@@ -160,4 +123,3 @@ class HostRawFact extends AbstractEntity
     {
     }
 }
-

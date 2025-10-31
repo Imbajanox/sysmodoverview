@@ -2,44 +2,30 @@
 
 namespace WirklichDigital\Search\Entity;
 
+use DateTime;
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 
 class SearchIndexSchedule extends AbstractEntity
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $objectClass = null;
+    /** @var null|string */
+    protected $objectClass;
 
-    /**
-     * @var null|string
-     */
-    protected $objectId = null;
+    /** @var null|string */
+    protected $objectId;
 
-    /**
-     * @var null|string
-     */
-    protected $updateType = null;
+    /** @var null|string */
+    protected $updateType;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -47,16 +33,13 @@ class SearchIndexSchedule extends AbstractEntity
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\Search\Entity\SearchIndexSchedule
+    public function setId($id): SearchIndexSchedule
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getObjectClass() : ?string
+    public function getObjectClass(): ?string
     {
         return $this->objectClass;
     }
@@ -64,16 +47,13 @@ class SearchIndexSchedule extends AbstractEntity
     /**
      * @param null|string $objectClass
      */
-    public function setObjectClass($objectClass) : \WirklichDigital\Search\Entity\SearchIndexSchedule
+    public function setObjectClass($objectClass): SearchIndexSchedule
     {
         $this->objectClass = $objectClass;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getObjectId() : ?string
+    public function getObjectId(): ?string
     {
         return $this->objectId;
     }
@@ -81,16 +61,13 @@ class SearchIndexSchedule extends AbstractEntity
     /**
      * @param null|string $objectId
      */
-    public function setObjectId($objectId) : \WirklichDigital\Search\Entity\SearchIndexSchedule
+    public function setObjectId($objectId): SearchIndexSchedule
     {
         $this->objectId = $objectId;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getUpdateType() : ?string
+    public function getUpdateType(): ?string
     {
         return $this->updateType;
     }
@@ -98,41 +75,29 @@ class SearchIndexSchedule extends AbstractEntity
     /**
      * @param null|string $updateType
      */
-    public function setUpdateType($updateType) : \WirklichDigital\Search\Entity\SearchIndexSchedule
+    public function setUpdateType($updateType): SearchIndexSchedule
     {
         $this->updateType = $updateType;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\Search\Entity\SearchIndexSchedule
+    public function setCreatedAt(?DateTime $createdAt): SearchIndexSchedule
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\Search\Entity\SearchIndexSchedule
+    public function setUpdatedAt(?DateTime $updatedAt): SearchIndexSchedule
     {
         $this->updatedAt = $updatedAt;
         return $this;
@@ -147,4 +112,3 @@ class SearchIndexSchedule extends AbstractEntity
     {
     }
 }
-

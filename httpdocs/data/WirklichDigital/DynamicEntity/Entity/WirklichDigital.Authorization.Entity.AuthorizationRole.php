@@ -2,31 +2,24 @@
 
 namespace WirklichDigital\Authorization\Entity;
 
-use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
-use WirklichDigital\Authorization\Role\HierarchicalRoleInterface;
-use WirklichDigital\Authorization\Resource\HierarchicalResourceInterface;
 use WirklichDigital\Authorization\Entity\AuthorizationRoleAsHierarchicalResourceTrait;
+use WirklichDigital\Authorization\Resource\HierarchicalResourceInterface;
+use WirklichDigital\Authorization\Role\HierarchicalRoleInterface;
+use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 
 class AuthorizationRole extends AbstractEntity implements HierarchicalRoleInterface, HierarchicalResourceInterface
 {
     use AuthorizationRoleAsHierarchicalResourceTrait;
 
-    /**
-     * @var null|string
-     */
-    protected $roleId = null;
+    /** @var null|string */
+    protected $roleId;
 
-    protected $parents = null;
+    protected $parents;
 
-    /**
-     * @var null|int
-     */
-    protected $priority = null;
+    /** @var null|int */
+    protected $priority;
 
-    /**
-     * @return null|string
-     */
-    public function getRoleId() : ?string
+    public function getRoleId(): ?string
     {
         return $this->roleId;
     }
@@ -34,7 +27,7 @@ class AuthorizationRole extends AbstractEntity implements HierarchicalRoleInterf
     /**
      * @param null|string $roleId
      */
-    public function setRoleId($roleId) : \WirklichDigital\Authorization\Entity\AuthorizationRole
+    public function setRoleId($roleId): AuthorizationRole
     {
         $this->roleId = $roleId;
         return $this;
@@ -45,16 +38,13 @@ class AuthorizationRole extends AbstractEntity implements HierarchicalRoleInterf
         return $this->parents;
     }
 
-    public function setParents($parents) : \WirklichDigital\Authorization\Entity\AuthorizationRole
+    public function setParents($parents): AuthorizationRole
     {
         $this->parents = $parents;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getPriority() : ?int
+    public function getPriority(): ?int
     {
         return $this->priority;
     }
@@ -62,7 +52,7 @@ class AuthorizationRole extends AbstractEntity implements HierarchicalRoleInterf
     /**
      * @param null|int $priority
      */
-    public function setPriority($priority) : \WirklichDigital\Authorization\Entity\AuthorizationRole
+    public function setPriority($priority): AuthorizationRole
     {
         $this->priority = $priority;
         return $this;
@@ -77,4 +67,3 @@ class AuthorizationRole extends AbstractEntity implements HierarchicalRoleInterf
     {
     }
 }
-

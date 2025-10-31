@@ -2,92 +2,68 @@
 
 namespace WirklichDigital\SyshelperAlerts\Entity;
 
+use DateTime;
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SyshelperBase\Entity\AssignedIp;
+use WirklichDigital\SyshelperBase\Entity\Host;
+use WirklichDigital\SyshelperBase\Entity\IpSubnet;
+use WirklichDigital\SyshelperBase\Entity\ReachableIp;
 
 class Alert extends AbstractEntity
 {
-    protected $id = null;
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $name = null;
+    /** @var null|string */
+    protected $name;
 
-    /**
-     * @var null|string
-     */
-    protected $description = null;
+    /** @var null|string */
+    protected $description;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $lastSeenAt = null;
+    /** @var null|DateTime */
+    protected $lastSeenAt;
 
-    /**
-     * @var null|string
-     */
-    protected $cronjobClass = null;
+    /** @var null|string */
+    protected $cronjobClass;
 
-    /**
-     * @var null|string
-     */
-    protected $alertIdentifier = null;
+    /** @var null|string */
+    protected $alertIdentifier;
 
-    /**
-     * @var null|bool
-     */
+    /** @var null|bool */
     protected $isAcknowledged = 0;
 
-    /**
-     * @var null|bool
-     */
+    /** @var null|bool */
     protected $isMuted = 0;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\Host
-     */
-    protected $host = null;
+    /** @var null|Host */
+    protected $host;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\IpSubnet
-     */
-    protected $ipSubnet = null;
+    /** @var null|IpSubnet */
+    protected $ipSubnet;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\AssignedIp
-     */
-    protected $assignedIp = null;
+    /** @var null|AssignedIp */
+    protected $assignedIp;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\ReachableIp
-     */
-    protected $reachableIp = null;
+    /** @var null|ReachableIp */
+    protected $reachableIp;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setId($id): Alert
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getName() : ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -95,16 +71,13 @@ class Alert extends AbstractEntity
     /**
      * @param null|string $name
      */
-    public function setName($name) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setName($name): Alert
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getDescription() : ?string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -112,33 +85,24 @@ class Alert extends AbstractEntity
     /**
      * @param null|string $description
      */
-    public function setDescription($description) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setDescription($description): Alert
     {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getLastSeenAt() : ?\DateTime
+    public function getLastSeenAt(): ?DateTime
     {
         return $this->lastSeenAt;
     }
 
-    /**
-     * @param null|\DateTime $lastSeenAt
-     */
-    public function setLastSeenAt(?\DateTime $lastSeenAt) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setLastSeenAt(?DateTime $lastSeenAt): Alert
     {
         $this->lastSeenAt = $lastSeenAt;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getCronjobClass() : ?string
+    public function getCronjobClass(): ?string
     {
         return $this->cronjobClass;
     }
@@ -146,16 +110,13 @@ class Alert extends AbstractEntity
     /**
      * @param null|string $cronjobClass
      */
-    public function setCronjobClass($cronjobClass) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setCronjobClass($cronjobClass): Alert
     {
         $this->cronjobClass = $cronjobClass;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getAlertIdentifier() : ?string
+    public function getAlertIdentifier(): ?string
     {
         return $this->alertIdentifier;
     }
@@ -163,16 +124,13 @@ class Alert extends AbstractEntity
     /**
      * @param null|string $alertIdentifier
      */
-    public function setAlertIdentifier($alertIdentifier) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setAlertIdentifier($alertIdentifier): Alert
     {
         $this->alertIdentifier = $alertIdentifier;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getIsAcknowledged() : ?bool
+    public function getIsAcknowledged(): ?bool
     {
         return $this->isAcknowledged;
     }
@@ -180,16 +138,13 @@ class Alert extends AbstractEntity
     /**
      * @param null|bool $isAcknowledged
      */
-    public function setIsAcknowledged($isAcknowledged) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setIsAcknowledged($isAcknowledged): Alert
     {
         $this->isAcknowledged = $isAcknowledged;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getIsMuted() : ?bool
+    public function getIsMuted(): ?bool
     {
         return $this->isMuted;
     }
@@ -197,109 +152,73 @@ class Alert extends AbstractEntity
     /**
      * @param null|bool $isMuted
      */
-    public function setIsMuted($isMuted) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setIsMuted($isMuted): Alert
     {
         $this->isMuted = $isMuted;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setCreatedAt(?DateTime $createdAt): Alert
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setUpdatedAt(?DateTime $updatedAt): Alert
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\Host
-     */
-    public function getHost() : ?\WirklichDigital\SyshelperBase\Entity\Host
+    public function getHost(): ?Host
     {
         return $this->host;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\Host $host
-     */
-    public function setHost(?\WirklichDigital\SyshelperBase\Entity\Host $host) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setHost(?Host $host): Alert
     {
         $this->host = $host;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\IpSubnet
-     */
-    public function getIpSubnet() : ?\WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function getIpSubnet(): ?IpSubnet
     {
         return $this->ipSubnet;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\IpSubnet $ipSubnet
-     */
-    public function setIpSubnet(?\WirklichDigital\SyshelperBase\Entity\IpSubnet $ipSubnet) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setIpSubnet(?IpSubnet $ipSubnet): Alert
     {
         $this->ipSubnet = $ipSubnet;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\AssignedIp
-     */
-    public function getAssignedIp() : ?\WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function getAssignedIp(): ?AssignedIp
     {
         return $this->assignedIp;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\AssignedIp $assignedIp
-     */
-    public function setAssignedIp(?\WirklichDigital\SyshelperBase\Entity\AssignedIp $assignedIp) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setAssignedIp(?AssignedIp $assignedIp): Alert
     {
         $this->assignedIp = $assignedIp;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\ReachableIp
-     */
-    public function getReachableIp() : ?\WirklichDigital\SyshelperBase\Entity\ReachableIp
+    public function getReachableIp(): ?ReachableIp
     {
         return $this->reachableIp;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\ReachableIp $reachableIp
-     */
-    public function setReachableIp(?\WirklichDigital\SyshelperBase\Entity\ReachableIp $reachableIp) : \WirklichDigital\SyshelperAlerts\Entity\Alert
+    public function setReachableIp(?ReachableIp $reachableIp): Alert
     {
         $this->reachableIp = $reachableIp;
         return $this;
@@ -314,4 +233,3 @@ class Alert extends AbstractEntity
     {
     }
 }
-

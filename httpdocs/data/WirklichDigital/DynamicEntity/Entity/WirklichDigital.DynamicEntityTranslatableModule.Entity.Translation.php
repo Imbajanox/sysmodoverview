@@ -6,40 +6,25 @@ use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 
 class Translation extends AbstractEntity
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $locale = null;
+    /** @var null|string */
+    protected $locale;
 
-    /**
-     * @var null|string
-     */
-    protected $objectClass = null;
+    /** @var null|string */
+    protected $objectClass;
 
-    /**
-     * @var null|string
-     */
-    protected $field = null;
+    /** @var null|string */
+    protected $field;
 
-    /**
-     * @var null|string
-     */
-    protected $foreignKey = null;
+    /** @var null|string */
+    protected $foreignKey;
 
-    /**
-     * @var null|string
-     */
-    protected $content = null;
+    /** @var null|string */
+    protected $content;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -47,16 +32,13 @@ class Translation extends AbstractEntity
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\DynamicEntityTranslatableModule\Entity\Translation
+    public function setId($id): Translation
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getLocale() : ?string
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
@@ -64,16 +46,13 @@ class Translation extends AbstractEntity
     /**
      * @param null|string $locale
      */
-    public function setLocale($locale) : \WirklichDigital\DynamicEntityTranslatableModule\Entity\Translation
+    public function setLocale($locale): Translation
     {
         $this->locale = $locale;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getObjectClass() : ?string
+    public function getObjectClass(): ?string
     {
         return $this->objectClass;
     }
@@ -81,16 +60,13 @@ class Translation extends AbstractEntity
     /**
      * @param null|string $objectClass
      */
-    public function setObjectClass($objectClass) : \WirklichDigital\DynamicEntityTranslatableModule\Entity\Translation
+    public function setObjectClass($objectClass): Translation
     {
         $this->objectClass = $objectClass;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getField() : ?string
+    public function getField(): ?string
     {
         return $this->field;
     }
@@ -98,16 +74,13 @@ class Translation extends AbstractEntity
     /**
      * @param null|string $field
      */
-    public function setField($field) : \WirklichDigital\DynamicEntityTranslatableModule\Entity\Translation
+    public function setField($field): Translation
     {
         $this->field = $field;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getForeignKey() : ?string
+    public function getForeignKey(): ?string
     {
         return $this->foreignKey;
     }
@@ -115,16 +88,13 @@ class Translation extends AbstractEntity
     /**
      * @param null|string $foreignKey
      */
-    public function setForeignKey($foreignKey) : \WirklichDigital\DynamicEntityTranslatableModule\Entity\Translation
+    public function setForeignKey($foreignKey): Translation
     {
         $this->foreignKey = $foreignKey;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getContent() : ?string
+    public function getContent(): ?string
     {
         return $this->content;
     }
@@ -132,7 +102,7 @@ class Translation extends AbstractEntity
     /**
      * @param null|string $content
      */
-    public function setContent($content) : \WirklichDigital\DynamicEntityTranslatableModule\Entity\Translation
+    public function setContent($content): Translation
     {
         $this->content = $content;
         return $this;
@@ -147,4 +117,3 @@ class Translation extends AbstractEntity
     {
     }
 }
-

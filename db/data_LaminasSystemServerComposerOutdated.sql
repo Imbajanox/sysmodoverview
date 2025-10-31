@@ -166,7 +166,7 @@ INSERT INTO `LaminasSystemServerComposerOutdated` VALUES
 (310,'symfony/string','6.4.25','6.4.26','semver-safe-update','Provides an object-oriented API to strings and deals with bytes, UTF-8 code points and grapheme clusters in a unified way',2,447),
 (311,'symfony/var-dumper','6.4.25','6.4.26','semver-safe-update','Provides mechanisms for walking through any arbitrary PHP variable',2,448),
 (312,'symfony/var-exporter','6.4.25','6.4.26','semver-safe-update','Allows exporting any serializable PHP data structure to plain PHP code',2,449),
-(313,'webmozart/assert','1.11.0','1.12.0','semver-safe-update','Assertions to validate method input/output with nice error messages.',2,453),
+(313,'webmozart/assert','1.11.0','1.12.1','semver-safe-update','Assertions to validate method input/output with nice error messages.',2,453),
 (314,'wirklich-digital/admin-authorization','2.3.1','2.5.1','semver-safe-update','Adminisration interface for wirklich-digital/authorization',2,456),
 (315,'wirklich-digital/cron-scheduler','1.6','2.2.1','update-possible','Cron Scheduling Module',2,496),
 (316,'wirklich-digital/entity-translation','2.2.2','4.0.1','update-possible','EntityTranslation',2,511),

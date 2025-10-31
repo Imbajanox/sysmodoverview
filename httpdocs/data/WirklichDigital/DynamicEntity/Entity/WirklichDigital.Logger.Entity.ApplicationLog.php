@@ -2,61 +2,42 @@
 
 namespace WirklichDigital\Logger\Entity;
 
+use DateTime;
+use WirklichDigital\Authentication\Entity\User;
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
 
 class ApplicationLog extends AbstractEntity
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $message = null;
+    /** @var null|string */
+    protected $message;
 
-    protected $extra = null;
+    protected $extra;
 
-    /**
-     * @var null|int
-     */
-    protected $priority = null;
+    /** @var null|int */
+    protected $priority;
 
-    /**
-     * @var null|string
-     */
-    protected $url = null;
+    /** @var null|string */
+    protected $url;
 
-    /**
-     * @var null|string
-     */
-    protected $component = null;
+    /** @var null|string */
+    protected $component;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @var null|\WirklichDigital\Authentication\Entity\User
-     */
-    protected $createdBy = null;
+    /** @var null|User */
+    protected $createdBy;
 
-    /**
-     * @var null|\WirklichDigital\Authentication\Entity\User
-     */
-    protected $updatedBy = null;
+    /** @var null|User */
+    protected $updatedBy;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -64,16 +45,13 @@ class ApplicationLog extends AbstractEntity
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\Logger\Entity\ApplicationLog
+    public function setId($id): ApplicationLog
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getMessage() : ?string
+    public function getMessage(): ?string
     {
         return $this->message;
     }
@@ -81,7 +59,7 @@ class ApplicationLog extends AbstractEntity
     /**
      * @param null|string $message
      */
-    public function setMessage($message) : \WirklichDigital\Logger\Entity\ApplicationLog
+    public function setMessage($message): ApplicationLog
     {
         $this->message = $message;
         return $this;
@@ -92,16 +70,13 @@ class ApplicationLog extends AbstractEntity
         return $this->extra;
     }
 
-    public function setExtra($extra) : \WirklichDigital\Logger\Entity\ApplicationLog
+    public function setExtra($extra): ApplicationLog
     {
         $this->extra = $extra;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getPriority() : ?int
+    public function getPriority(): ?int
     {
         return $this->priority;
     }
@@ -109,16 +84,13 @@ class ApplicationLog extends AbstractEntity
     /**
      * @param null|int $priority
      */
-    public function setPriority($priority) : \WirklichDigital\Logger\Entity\ApplicationLog
+    public function setPriority($priority): ApplicationLog
     {
         $this->priority = $priority;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getUrl() : ?string
+    public function getUrl(): ?string
     {
         return $this->url;
     }
@@ -126,16 +98,13 @@ class ApplicationLog extends AbstractEntity
     /**
      * @param null|string $url
      */
-    public function setUrl($url) : \WirklichDigital\Logger\Entity\ApplicationLog
+    public function setUrl($url): ApplicationLog
     {
         $this->url = $url;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getComponent() : ?string
+    public function getComponent(): ?string
     {
         return $this->component;
     }
@@ -143,75 +112,51 @@ class ApplicationLog extends AbstractEntity
     /**
      * @param null|string $component
      */
-    public function setComponent($component) : \WirklichDigital\Logger\Entity\ApplicationLog
+    public function setComponent($component): ApplicationLog
     {
         $this->component = $component;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\Logger\Entity\ApplicationLog
+    public function setCreatedAt(?DateTime $createdAt): ApplicationLog
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\Logger\Entity\ApplicationLog
+    public function setUpdatedAt(?DateTime $updatedAt): ApplicationLog
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\Authentication\Entity\User
-     */
-    public function getCreatedBy() : ?\WirklichDigital\Authentication\Entity\User
+    public function getCreatedBy(): ?User
     {
         return $this->createdBy;
     }
 
-    /**
-     * @param null|\WirklichDigital\Authentication\Entity\User $createdBy
-     */
-    public function setCreatedBy(?\WirklichDigital\Authentication\Entity\User $createdBy) : \WirklichDigital\Logger\Entity\ApplicationLog
+    public function setCreatedBy(?User $createdBy): ApplicationLog
     {
         $this->createdBy = $createdBy;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\Authentication\Entity\User
-     */
-    public function getUpdatedBy() : ?\WirklichDigital\Authentication\Entity\User
+    public function getUpdatedBy(): ?User
     {
         return $this->updatedBy;
     }
 
-    /**
-     * @param null|\WirklichDigital\Authentication\Entity\User $updatedBy
-     */
-    public function setUpdatedBy(?\WirklichDigital\Authentication\Entity\User $updatedBy) : \WirklichDigital\Logger\Entity\ApplicationLog
+    public function setUpdatedBy(?User $updatedBy): ApplicationLog
     {
         $this->updatedBy = $updatedBy;
         return $this;
@@ -226,4 +171,3 @@ class ApplicationLog extends AbstractEntity
     {
     }
 }
-

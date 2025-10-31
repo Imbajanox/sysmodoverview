@@ -2,62 +2,48 @@
 
 namespace WirklichDigital\SyshelperBase\Entity;
 
+use DateTime;
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SyshelperBase\Entity\Host;
+use WirklichDigital\SyshelperBase\Entity\SshPublicKey;
 
 class SshPublicKeyHostAccess extends AbstractEntity
 {
-    protected $id = null;
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $userOnHost = null;
+    /** @var null|string */
+    protected $userOnHost;
 
-    /**
-     * @var null|bool
-     */
+    /** @var null|bool */
     protected $doNotBlockIfUnused = 0;
 
-    /**
-     * @var null|bool
-     */
+    /** @var null|bool */
     protected $blockedBecauseUnused = 0;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\SshPublicKey
-     */
-    protected $sshPublicKey = null;
+    /** @var null|SshPublicKey */
+    protected $sshPublicKey;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\Host
-     */
-    protected $host = null;
+    /** @var null|Host */
+    protected $host;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostAccess
+    public function setId($id): SshPublicKeyHostAccess
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getUserOnHost() : ?string
+    public function getUserOnHost(): ?string
     {
         return $this->userOnHost;
     }
@@ -65,16 +51,13 @@ class SshPublicKeyHostAccess extends AbstractEntity
     /**
      * @param null|string $userOnHost
      */
-    public function setUserOnHost($userOnHost) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostAccess
+    public function setUserOnHost($userOnHost): SshPublicKeyHostAccess
     {
         $this->userOnHost = $userOnHost;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getDoNotBlockIfUnused() : ?bool
+    public function getDoNotBlockIfUnused(): ?bool
     {
         return $this->doNotBlockIfUnused;
     }
@@ -82,16 +65,13 @@ class SshPublicKeyHostAccess extends AbstractEntity
     /**
      * @param null|bool $doNotBlockIfUnused
      */
-    public function setDoNotBlockIfUnused($doNotBlockIfUnused) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostAccess
+    public function setDoNotBlockIfUnused($doNotBlockIfUnused): SshPublicKeyHostAccess
     {
         $this->doNotBlockIfUnused = $doNotBlockIfUnused;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getBlockedBecauseUnused() : ?bool
+    public function getBlockedBecauseUnused(): ?bool
     {
         return $this->blockedBecauseUnused;
     }
@@ -99,75 +79,51 @@ class SshPublicKeyHostAccess extends AbstractEntity
     /**
      * @param null|bool $blockedBecauseUnused
      */
-    public function setBlockedBecauseUnused($blockedBecauseUnused) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostAccess
+    public function setBlockedBecauseUnused($blockedBecauseUnused): SshPublicKeyHostAccess
     {
         $this->blockedBecauseUnused = $blockedBecauseUnused;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostAccess
+    public function setCreatedAt(?DateTime $createdAt): SshPublicKeyHostAccess
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostAccess
+    public function setUpdatedAt(?DateTime $updatedAt): SshPublicKeyHostAccess
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\SshPublicKey
-     */
-    public function getSshPublicKey() : ?\WirklichDigital\SyshelperBase\Entity\SshPublicKey
+    public function getSshPublicKey(): ?SshPublicKey
     {
         return $this->sshPublicKey;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\SshPublicKey $sshPublicKey
-     */
-    public function setSshPublicKey(?\WirklichDigital\SyshelperBase\Entity\SshPublicKey $sshPublicKey) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostAccess
+    public function setSshPublicKey(?SshPublicKey $sshPublicKey): SshPublicKeyHostAccess
     {
         $this->sshPublicKey = $sshPublicKey;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\Host
-     */
-    public function getHost() : ?\WirklichDigital\SyshelperBase\Entity\Host
+    public function getHost(): ?Host
     {
         return $this->host;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\Host $host
-     */
-    public function setHost(?\WirklichDigital\SyshelperBase\Entity\Host $host) : \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostAccess
+    public function setHost(?Host $host): SshPublicKeyHostAccess
     {
         $this->host = $host;
         return $this;
@@ -182,4 +138,3 @@ class SshPublicKeyHostAccess extends AbstractEntity
     {
     }
 }
-

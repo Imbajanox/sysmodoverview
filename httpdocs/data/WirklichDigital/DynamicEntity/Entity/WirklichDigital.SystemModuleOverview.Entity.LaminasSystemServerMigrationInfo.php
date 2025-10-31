@@ -3,29 +3,23 @@
 namespace WirklichDigital\SystemModuleOverview\Entity;
 
 use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer;
 
 class LaminasSystemServerMigrationInfo extends AbstractEntity
 {
-    /**
-     * @var null|int
-     */
-    protected $id = null;
+    /** @var null|int */
+    protected $id;
 
-    protected $databaseDetails = null;
+    protected $databaseDetails;
 
-    protected $versions = null;
+    protected $versions;
 
-    protected $migrationDetails = null;
+    protected $migrationDetails;
 
-    /**
-     * @var null|\WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
-     */
-    protected $laminasSystemServer = null;
+    /** @var null|LaminasSystemServer */
+    protected $laminasSystemServer;
 
-    /**
-     * @return null|int
-     */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -33,7 +27,7 @@ class LaminasSystemServerMigrationInfo extends AbstractEntity
     /**
      * @param null|int $id
      */
-    public function setId($id) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerMigrationInfo
+    public function setId($id): LaminasSystemServerMigrationInfo
     {
         $this->id = $id;
         return $this;
@@ -44,7 +38,7 @@ class LaminasSystemServerMigrationInfo extends AbstractEntity
         return $this->databaseDetails;
     }
 
-    public function setDatabaseDetails($databaseDetails) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerMigrationInfo
+    public function setDatabaseDetails($databaseDetails): LaminasSystemServerMigrationInfo
     {
         $this->databaseDetails = $databaseDetails;
         return $this;
@@ -55,7 +49,7 @@ class LaminasSystemServerMigrationInfo extends AbstractEntity
         return $this->versions;
     }
 
-    public function setVersions($versions) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerMigrationInfo
+    public function setVersions($versions): LaminasSystemServerMigrationInfo
     {
         $this->versions = $versions;
         return $this;
@@ -66,24 +60,18 @@ class LaminasSystemServerMigrationInfo extends AbstractEntity
         return $this->migrationDetails;
     }
 
-    public function setMigrationDetails($migrationDetails) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerMigrationInfo
+    public function setMigrationDetails($migrationDetails): LaminasSystemServerMigrationInfo
     {
         $this->migrationDetails = $migrationDetails;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
-     */
-    public function getLaminasSystemServer() : ?\WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer
+    public function getLaminasSystemServer(): ?LaminasSystemServer
     {
         return $this->laminasSystemServer;
     }
 
-    /**
-     * @param null|\WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer $laminasSystemServer
-     */
-    public function setLaminasSystemServer(?\WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServer $laminasSystemServer) : \WirklichDigital\SystemModuleOverview\Entity\LaminasSystemServerMigrationInfo
+    public function setLaminasSystemServer(?LaminasSystemServer $laminasSystemServer): LaminasSystemServerMigrationInfo
     {
         $this->laminasSystemServer = $laminasSystemServer;
         return $this;
@@ -98,4 +86,3 @@ class LaminasSystemServerMigrationInfo extends AbstractEntity
     {
     }
 }
-

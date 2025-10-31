@@ -2,226 +2,160 @@
 
 namespace WirklichDigital\SyshelperBase\Entity;
 
-use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SyshelperAlerts\Entity\Alert;
+use WirklichDigital\SyshelperBase\Entity\AssignedIp;
+use WirklichDigital\SyshelperBase\Entity\HostRawFact;
+use WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostMapping;
+use WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin;
+use WirklichDigital\SyshelperBase\Entity\SyshelperTag;
 
 class Host extends AbstractEntity
 {
-    protected $id = null;
+    protected $id;
 
-    /**
-     * @var null|string
-     */
-    protected $name = null;
+    /** @var null|string */
+    protected $name;
 
-    /**
-     * @var null|string
-     */
-    protected $syshelperDescription = null;
+    /** @var null|string */
+    protected $syshelperDescription;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $lastConnectionAt = null;
+    /** @var null|DateTime */
+    protected $lastConnectionAt;
 
-    protected $connectionIp = null;
+    protected $connectionIp;
 
-    /**
-     * @var null|string
-     */
-    protected $systemUuid = null;
+    /** @var null|string */
+    protected $systemUuid;
 
-    /**
-     * @var null|string
-     */
-    protected $scriptVersion = null;
+    /** @var null|string */
+    protected $scriptVersion;
 
-    /**
-     * @var null|string
-     */
-    protected $fqdn = null;
+    /** @var null|string */
+    protected $fqdn;
 
-    /**
-     * @var null|string
-     */
-    protected $externalIpV4 = null;
+    /** @var null|string */
+    protected $externalIpV4;
 
-    /**
-     * @var null|string
-     */
-    protected $externalIpV6 = null;
+    /** @var null|string */
+    protected $externalIpV6;
 
-    protected $nameservers = null;
+    protected $nameservers;
 
-    protected $interfaces = null;
+    protected $interfaces;
 
-    protected $servicesListening = null;
+    protected $servicesListening;
 
-    protected $processesRunning = null;
+    protected $processesRunning;
 
-    /**
-     * @var null|string
-     */
-    protected $puppetVersion = null;
+    /** @var null|string */
+    protected $puppetVersion;
 
-    /**
-     * @var null|bool
-     */
-    protected $puppetIsOK = null;
+    /** @var null|bool */
+    protected $puppetIsOK;
 
-    /**
-     * @var null|string
-     */
-    protected $webserverVersionApache = null;
+    /** @var null|string */
+    protected $webserverVersionApache;
 
-    /**
-     * @var null|string
-     */
-    protected $webserverVersionNginx = null;
+    /** @var null|string */
+    protected $webserverVersionNginx;
 
-    protected $webserverDomainsApache = null;
+    protected $webserverDomainsApache;
 
-    protected $webserverDomainsNginx = null;
+    protected $webserverDomainsNginx;
 
-    /**
-     * @var null|bool
-     */
-    protected $isVirtual = null;
+    /** @var null|bool */
+    protected $isVirtual;
 
-    /**
-     * @var null|int
-     */
-    protected $cpuCores = null;
+    /** @var null|int */
+    protected $cpuCores;
 
-    /**
-     * @var null|string
-     */
-    protected $cpuModel = null;
+    /** @var null|string */
+    protected $cpuModel;
 
-    /**
-     * @var null|int
-     */
-    protected $ramSizeKb = null;
+    /** @var null|int */
+    protected $ramSizeKb;
 
-    /**
-     * @var null|int
-     */
-    protected $ramAvailableKb = null;
+    /** @var null|int */
+    protected $ramAvailableKb;
 
-    protected $disks = null;
+    protected $disks;
 
-    /**
-     * @var null|string
-     */
-    protected $osName = null;
+    /** @var null|string */
+    protected $osName;
 
-    /**
-     * @var null|string
-     */
-    protected $osVersion = null;
+    /** @var null|string */
+    protected $osVersion;
 
-    /**
-     * @var null|string
-     */
-    protected $kernelVersion = null;
+    /** @var null|string */
+    protected $kernelVersion;
 
-    protected $packagesAptMirrors = null;
+    protected $packagesAptMirrors;
 
-    /**
-     * @var null|bool
-     */
-    protected $packagesAptHasRepoError = null;
+    /** @var null|bool */
+    protected $packagesAptHasRepoError;
 
-    protected $packagesAptUpgradable = null;
+    protected $packagesAptUpgradable;
 
-    protected $packagesInstalled = null;
+    protected $packagesInstalled;
 
-    /**
-     * @var null|string
-     */
-    protected $pleskVersion = null;
+    /** @var null|string */
+    protected $pleskVersion;
 
-    /**
-     * @var null|bool
-     */
-    protected $pleskBackupIsDone = null;
+    /** @var null|bool */
+    protected $pleskBackupIsDone;
 
-    /**
-     * @var null|bool
-     */
-    protected $pleskBackupHasError = null;
+    /** @var null|bool */
+    protected $pleskBackupHasError;
 
-    /**
-     * @var null|int
-     */
-    protected $mailqCount = null;
+    /** @var null|int */
+    protected $mailqCount;
 
-    /**
-     * @var null|string
-     */
-    protected $proxmoxVersion = null;
+    /** @var null|string */
+    protected $proxmoxVersion;
 
-    /**
-     * @var null|int
-     */
-    protected $uptimeSeconds = null;
+    /** @var null|int */
+    protected $uptimeSeconds;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @var \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $assignedIps = null;
+    /** @var AssignedIp[]|Collection */
+    protected $assignedIps;
 
-    /**
-     * @var \WirklichDigital\SyshelperBase\Entity\HostRawFact[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $rawFacts = null;
+    /** @var HostRawFact[]|Collection */
+    protected $rawFacts;
 
-    /**
-     * @var \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostMapping[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $sshPublicKeyHostMappings = null;
+    /** @var SshPublicKeyHostMapping[]|Collection */
+    protected $sshPublicKeyHostMappings;
 
-    /**
-     * @var \WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $sshPublicKeyLogins = null;
+    /** @var SshPublicKeyLogin[]|Collection */
+    protected $sshPublicKeyLogins;
 
-    /**
-     * @var \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $alerts = null;
+    /** @var Alert[]|Collection */
+    protected $alerts;
 
-    /**
-     * @var \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $tags = null;
+    /** @var SyshelperTag[]|Collection */
+    protected $tags;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setId($id): Host
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getName() : ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -229,16 +163,13 @@ class Host extends AbstractEntity
     /**
      * @param null|string $name
      */
-    public function setName($name) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setName($name): Host
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getSyshelperDescription() : ?string
+    public function getSyshelperDescription(): ?string
     {
         return $this->syshelperDescription;
     }
@@ -246,24 +177,18 @@ class Host extends AbstractEntity
     /**
      * @param null|string $syshelperDescription
      */
-    public function setSyshelperDescription($syshelperDescription) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setSyshelperDescription($syshelperDescription): Host
     {
         $this->syshelperDescription = $syshelperDescription;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getLastConnectionAt() : ?\DateTime
+    public function getLastConnectionAt(): ?DateTime
     {
         return $this->lastConnectionAt;
     }
 
-    /**
-     * @param null|\DateTime $lastConnectionAt
-     */
-    public function setLastConnectionAt(?\DateTime $lastConnectionAt) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setLastConnectionAt(?DateTime $lastConnectionAt): Host
     {
         $this->lastConnectionAt = $lastConnectionAt;
         return $this;
@@ -274,16 +199,13 @@ class Host extends AbstractEntity
         return $this->connectionIp;
     }
 
-    public function setConnectionIp($connectionIp) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setConnectionIp($connectionIp): Host
     {
         $this->connectionIp = $connectionIp;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getSystemUuid() : ?string
+    public function getSystemUuid(): ?string
     {
         return $this->systemUuid;
     }
@@ -291,16 +213,13 @@ class Host extends AbstractEntity
     /**
      * @param null|string $systemUuid
      */
-    public function setSystemUuid($systemUuid) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setSystemUuid($systemUuid): Host
     {
         $this->systemUuid = $systemUuid;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getScriptVersion() : ?string
+    public function getScriptVersion(): ?string
     {
         return $this->scriptVersion;
     }
@@ -308,16 +227,13 @@ class Host extends AbstractEntity
     /**
      * @param null|string $scriptVersion
      */
-    public function setScriptVersion($scriptVersion) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setScriptVersion($scriptVersion): Host
     {
         $this->scriptVersion = $scriptVersion;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getFqdn() : ?string
+    public function getFqdn(): ?string
     {
         return $this->fqdn;
     }
@@ -325,16 +241,13 @@ class Host extends AbstractEntity
     /**
      * @param null|string $fqdn
      */
-    public function setFqdn($fqdn) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setFqdn($fqdn): Host
     {
         $this->fqdn = $fqdn;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getExternalIpV4() : ?string
+    public function getExternalIpV4(): ?string
     {
         return $this->externalIpV4;
     }
@@ -342,16 +255,13 @@ class Host extends AbstractEntity
     /**
      * @param null|string $externalIpV4
      */
-    public function setExternalIpV4($externalIpV4) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setExternalIpV4($externalIpV4): Host
     {
         $this->externalIpV4 = $externalIpV4;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getExternalIpV6() : ?string
+    public function getExternalIpV6(): ?string
     {
         return $this->externalIpV6;
     }
@@ -359,7 +269,7 @@ class Host extends AbstractEntity
     /**
      * @param null|string $externalIpV6
      */
-    public function setExternalIpV6($externalIpV6) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setExternalIpV6($externalIpV6): Host
     {
         $this->externalIpV6 = $externalIpV6;
         return $this;
@@ -370,7 +280,7 @@ class Host extends AbstractEntity
         return $this->nameservers;
     }
 
-    public function setNameservers($nameservers) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setNameservers($nameservers): Host
     {
         $this->nameservers = $nameservers;
         return $this;
@@ -381,7 +291,7 @@ class Host extends AbstractEntity
         return $this->interfaces;
     }
 
-    public function setInterfaces($interfaces) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setInterfaces($interfaces): Host
     {
         $this->interfaces = $interfaces;
         return $this;
@@ -392,7 +302,7 @@ class Host extends AbstractEntity
         return $this->servicesListening;
     }
 
-    public function setServicesListening($servicesListening) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setServicesListening($servicesListening): Host
     {
         $this->servicesListening = $servicesListening;
         return $this;
@@ -403,16 +313,13 @@ class Host extends AbstractEntity
         return $this->processesRunning;
     }
 
-    public function setProcessesRunning($processesRunning) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setProcessesRunning($processesRunning): Host
     {
         $this->processesRunning = $processesRunning;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getPuppetVersion() : ?string
+    public function getPuppetVersion(): ?string
     {
         return $this->puppetVersion;
     }
@@ -420,16 +327,13 @@ class Host extends AbstractEntity
     /**
      * @param null|string $puppetVersion
      */
-    public function setPuppetVersion($puppetVersion) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setPuppetVersion($puppetVersion): Host
     {
         $this->puppetVersion = $puppetVersion;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getPuppetIsOK() : ?bool
+    public function getPuppetIsOK(): ?bool
     {
         return $this->puppetIsOK;
     }
@@ -437,16 +341,13 @@ class Host extends AbstractEntity
     /**
      * @param null|bool $puppetIsOK
      */
-    public function setPuppetIsOK($puppetIsOK) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setPuppetIsOK($puppetIsOK): Host
     {
         $this->puppetIsOK = $puppetIsOK;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getWebserverVersionApache() : ?string
+    public function getWebserverVersionApache(): ?string
     {
         return $this->webserverVersionApache;
     }
@@ -454,16 +355,13 @@ class Host extends AbstractEntity
     /**
      * @param null|string $webserverVersionApache
      */
-    public function setWebserverVersionApache($webserverVersionApache) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setWebserverVersionApache($webserverVersionApache): Host
     {
         $this->webserverVersionApache = $webserverVersionApache;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getWebserverVersionNginx() : ?string
+    public function getWebserverVersionNginx(): ?string
     {
         return $this->webserverVersionNginx;
     }
@@ -471,7 +369,7 @@ class Host extends AbstractEntity
     /**
      * @param null|string $webserverVersionNginx
      */
-    public function setWebserverVersionNginx($webserverVersionNginx) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setWebserverVersionNginx($webserverVersionNginx): Host
     {
         $this->webserverVersionNginx = $webserverVersionNginx;
         return $this;
@@ -482,7 +380,7 @@ class Host extends AbstractEntity
         return $this->webserverDomainsApache;
     }
 
-    public function setWebserverDomainsApache($webserverDomainsApache) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setWebserverDomainsApache($webserverDomainsApache): Host
     {
         $this->webserverDomainsApache = $webserverDomainsApache;
         return $this;
@@ -493,16 +391,13 @@ class Host extends AbstractEntity
         return $this->webserverDomainsNginx;
     }
 
-    public function setWebserverDomainsNginx($webserverDomainsNginx) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setWebserverDomainsNginx($webserverDomainsNginx): Host
     {
         $this->webserverDomainsNginx = $webserverDomainsNginx;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getIsVirtual() : ?bool
+    public function getIsVirtual(): ?bool
     {
         return $this->isVirtual;
     }
@@ -510,16 +405,13 @@ class Host extends AbstractEntity
     /**
      * @param null|bool $isVirtual
      */
-    public function setIsVirtual($isVirtual) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setIsVirtual($isVirtual): Host
     {
         $this->isVirtual = $isVirtual;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getCpuCores() : ?int
+    public function getCpuCores(): ?int
     {
         return $this->cpuCores;
     }
@@ -527,16 +419,13 @@ class Host extends AbstractEntity
     /**
      * @param null|int $cpuCores
      */
-    public function setCpuCores($cpuCores) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setCpuCores($cpuCores): Host
     {
         $this->cpuCores = $cpuCores;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getCpuModel() : ?string
+    public function getCpuModel(): ?string
     {
         return $this->cpuModel;
     }
@@ -544,16 +433,13 @@ class Host extends AbstractEntity
     /**
      * @param null|string $cpuModel
      */
-    public function setCpuModel($cpuModel) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setCpuModel($cpuModel): Host
     {
         $this->cpuModel = $cpuModel;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getRamSizeKb() : ?int
+    public function getRamSizeKb(): ?int
     {
         return $this->ramSizeKb;
     }
@@ -561,16 +447,13 @@ class Host extends AbstractEntity
     /**
      * @param null|int $ramSizeKb
      */
-    public function setRamSizeKb($ramSizeKb) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setRamSizeKb($ramSizeKb): Host
     {
         $this->ramSizeKb = $ramSizeKb;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getRamAvailableKb() : ?int
+    public function getRamAvailableKb(): ?int
     {
         return $this->ramAvailableKb;
     }
@@ -578,7 +461,7 @@ class Host extends AbstractEntity
     /**
      * @param null|int $ramAvailableKb
      */
-    public function setRamAvailableKb($ramAvailableKb) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setRamAvailableKb($ramAvailableKb): Host
     {
         $this->ramAvailableKb = $ramAvailableKb;
         return $this;
@@ -589,16 +472,13 @@ class Host extends AbstractEntity
         return $this->disks;
     }
 
-    public function setDisks($disks) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setDisks($disks): Host
     {
         $this->disks = $disks;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getOsName() : ?string
+    public function getOsName(): ?string
     {
         return $this->osName;
     }
@@ -606,16 +486,13 @@ class Host extends AbstractEntity
     /**
      * @param null|string $osName
      */
-    public function setOsName($osName) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setOsName($osName): Host
     {
         $this->osName = $osName;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getOsVersion() : ?string
+    public function getOsVersion(): ?string
     {
         return $this->osVersion;
     }
@@ -623,16 +500,13 @@ class Host extends AbstractEntity
     /**
      * @param null|string $osVersion
      */
-    public function setOsVersion($osVersion) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setOsVersion($osVersion): Host
     {
         $this->osVersion = $osVersion;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getKernelVersion() : ?string
+    public function getKernelVersion(): ?string
     {
         return $this->kernelVersion;
     }
@@ -640,7 +514,7 @@ class Host extends AbstractEntity
     /**
      * @param null|string $kernelVersion
      */
-    public function setKernelVersion($kernelVersion) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setKernelVersion($kernelVersion): Host
     {
         $this->kernelVersion = $kernelVersion;
         return $this;
@@ -651,16 +525,13 @@ class Host extends AbstractEntity
         return $this->packagesAptMirrors;
     }
 
-    public function setPackagesAptMirrors($packagesAptMirrors) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setPackagesAptMirrors($packagesAptMirrors): Host
     {
         $this->packagesAptMirrors = $packagesAptMirrors;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getPackagesAptHasRepoError() : ?bool
+    public function getPackagesAptHasRepoError(): ?bool
     {
         return $this->packagesAptHasRepoError;
     }
@@ -668,7 +539,7 @@ class Host extends AbstractEntity
     /**
      * @param null|bool $packagesAptHasRepoError
      */
-    public function setPackagesAptHasRepoError($packagesAptHasRepoError) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setPackagesAptHasRepoError($packagesAptHasRepoError): Host
     {
         $this->packagesAptHasRepoError = $packagesAptHasRepoError;
         return $this;
@@ -679,7 +550,7 @@ class Host extends AbstractEntity
         return $this->packagesAptUpgradable;
     }
 
-    public function setPackagesAptUpgradable($packagesAptUpgradable) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setPackagesAptUpgradable($packagesAptUpgradable): Host
     {
         $this->packagesAptUpgradable = $packagesAptUpgradable;
         return $this;
@@ -690,16 +561,13 @@ class Host extends AbstractEntity
         return $this->packagesInstalled;
     }
 
-    public function setPackagesInstalled($packagesInstalled) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setPackagesInstalled($packagesInstalled): Host
     {
         $this->packagesInstalled = $packagesInstalled;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getPleskVersion() : ?string
+    public function getPleskVersion(): ?string
     {
         return $this->pleskVersion;
     }
@@ -707,16 +575,13 @@ class Host extends AbstractEntity
     /**
      * @param null|string $pleskVersion
      */
-    public function setPleskVersion($pleskVersion) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setPleskVersion($pleskVersion): Host
     {
         $this->pleskVersion = $pleskVersion;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getPleskBackupIsDone() : ?bool
+    public function getPleskBackupIsDone(): ?bool
     {
         return $this->pleskBackupIsDone;
     }
@@ -724,16 +589,13 @@ class Host extends AbstractEntity
     /**
      * @param null|bool $pleskBackupIsDone
      */
-    public function setPleskBackupIsDone($pleskBackupIsDone) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setPleskBackupIsDone($pleskBackupIsDone): Host
     {
         $this->pleskBackupIsDone = $pleskBackupIsDone;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getPleskBackupHasError() : ?bool
+    public function getPleskBackupHasError(): ?bool
     {
         return $this->pleskBackupHasError;
     }
@@ -741,16 +603,13 @@ class Host extends AbstractEntity
     /**
      * @param null|bool $pleskBackupHasError
      */
-    public function setPleskBackupHasError($pleskBackupHasError) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setPleskBackupHasError($pleskBackupHasError): Host
     {
         $this->pleskBackupHasError = $pleskBackupHasError;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getMailqCount() : ?int
+    public function getMailqCount(): ?int
     {
         return $this->mailqCount;
     }
@@ -758,16 +617,13 @@ class Host extends AbstractEntity
     /**
      * @param null|int $mailqCount
      */
-    public function setMailqCount($mailqCount) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setMailqCount($mailqCount): Host
     {
         $this->mailqCount = $mailqCount;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getProxmoxVersion() : ?string
+    public function getProxmoxVersion(): ?string
     {
         return $this->proxmoxVersion;
     }
@@ -775,16 +631,13 @@ class Host extends AbstractEntity
     /**
      * @param null|string $proxmoxVersion
      */
-    public function setProxmoxVersion($proxmoxVersion) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setProxmoxVersion($proxmoxVersion): Host
     {
         $this->proxmoxVersion = $proxmoxVersion;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getUptimeSeconds() : ?int
+    public function getUptimeSeconds(): ?int
     {
         return $this->uptimeSeconds;
     }
@@ -792,58 +645,46 @@ class Host extends AbstractEntity
     /**
      * @param null|int $uptimeSeconds
      */
-    public function setUptimeSeconds($uptimeSeconds) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setUptimeSeconds($uptimeSeconds): Host
     {
         $this->uptimeSeconds = $uptimeSeconds;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setCreatedAt(?DateTime $createdAt): Host
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setUpdatedAt(?DateTime $updatedAt): Host
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
     /**
-     * @return \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection
+     * @return AssignedIp[]|Collection
      */
-    public function getAssignedIps() : \Doctrine\Common\Collections\Collection
+    public function getAssignedIps(): Collection
     {
         return $this->assignedIps;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection $assignedIps
+     * @param AssignedIp[]|Collection $assignedIps
      */
-    public function setAssignedIps(\Doctrine\Common\Collections\Collection $assignedIps) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setAssignedIps(Collection $assignedIps): Host
     {
         $this->assignedIps = $assignedIps;
         if ($this->assignedIps) {
@@ -855,9 +696,9 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection $assignedIps
+     * @param AssignedIp[]|Collection $assignedIps
      */
-    public function addAssignedIps($assignedIps) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function addAssignedIps($assignedIps): Host
     {
         foreach ($assignedIps as $_assignedIps) {
             $_assignedIps->setHost($this);
@@ -867,9 +708,9 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection $assignedIps
+     * @param AssignedIp[]|Collection $assignedIps
      */
-    public function removeAssignedIps($assignedIps) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function removeAssignedIps($assignedIps): Host
     {
         foreach ($assignedIps as $_assignedIps) {
             $_assignedIps->setHost(null);
@@ -879,17 +720,17 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SyshelperBase\Entity\HostRawFact[]|\Doctrine\Common\Collections\Collection
+     * @return HostRawFact[]|Collection
      */
-    public function getRawFacts() : \Doctrine\Common\Collections\Collection
+    public function getRawFacts(): Collection
     {
         return $this->rawFacts;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\HostRawFact[]|\Doctrine\Common\Collections\Collection $rawFacts
+     * @param HostRawFact[]|Collection $rawFacts
      */
-    public function setRawFacts(\Doctrine\Common\Collections\Collection $rawFacts) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setRawFacts(Collection $rawFacts): Host
     {
         $this->rawFacts = $rawFacts;
         if ($this->rawFacts) {
@@ -901,9 +742,9 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\HostRawFact[]|\Doctrine\Common\Collections\Collection $rawFacts
+     * @param HostRawFact[]|Collection $rawFacts
      */
-    public function addRawFacts($rawFacts) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function addRawFacts($rawFacts): Host
     {
         foreach ($rawFacts as $_rawFacts) {
             $_rawFacts->setHost($this);
@@ -913,9 +754,9 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\HostRawFact[]|\Doctrine\Common\Collections\Collection $rawFacts
+     * @param HostRawFact[]|Collection $rawFacts
      */
-    public function removeRawFacts($rawFacts) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function removeRawFacts($rawFacts): Host
     {
         foreach ($rawFacts as $_rawFacts) {
             $_rawFacts->setHost(null);
@@ -925,17 +766,17 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostMapping[]|\Doctrine\Common\Collections\Collection
+     * @return SshPublicKeyHostMapping[]|Collection
      */
-    public function getSshPublicKeyHostMappings() : \Doctrine\Common\Collections\Collection
+    public function getSshPublicKeyHostMappings(): Collection
     {
         return $this->sshPublicKeyHostMappings;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostMapping[]|\Doctrine\Common\Collections\Collection $sshPublicKeyHostMappings
+     * @param SshPublicKeyHostMapping[]|Collection $sshPublicKeyHostMappings
      */
-    public function setSshPublicKeyHostMappings(\Doctrine\Common\Collections\Collection $sshPublicKeyHostMappings) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setSshPublicKeyHostMappings(Collection $sshPublicKeyHostMappings): Host
     {
         $this->sshPublicKeyHostMappings = $sshPublicKeyHostMappings;
         if ($this->sshPublicKeyHostMappings) {
@@ -947,9 +788,9 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostMapping[]|\Doctrine\Common\Collections\Collection $sshPublicKeyHostMappings
+     * @param SshPublicKeyHostMapping[]|Collection $sshPublicKeyHostMappings
      */
-    public function addSshPublicKeyHostMappings($sshPublicKeyHostMappings) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function addSshPublicKeyHostMappings($sshPublicKeyHostMappings): Host
     {
         foreach ($sshPublicKeyHostMappings as $_sshPublicKeyHostMappings) {
             $_sshPublicKeyHostMappings->setHost($this);
@@ -959,9 +800,9 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SshPublicKeyHostMapping[]|\Doctrine\Common\Collections\Collection $sshPublicKeyHostMappings
+     * @param SshPublicKeyHostMapping[]|Collection $sshPublicKeyHostMappings
      */
-    public function removeSshPublicKeyHostMappings($sshPublicKeyHostMappings) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function removeSshPublicKeyHostMappings($sshPublicKeyHostMappings): Host
     {
         foreach ($sshPublicKeyHostMappings as $_sshPublicKeyHostMappings) {
             $_sshPublicKeyHostMappings->setHost(null);
@@ -971,17 +812,17 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin[]|\Doctrine\Common\Collections\Collection
+     * @return SshPublicKeyLogin[]|Collection
      */
-    public function getSshPublicKeyLogins() : \Doctrine\Common\Collections\Collection
+    public function getSshPublicKeyLogins(): Collection
     {
         return $this->sshPublicKeyLogins;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin[]|\Doctrine\Common\Collections\Collection $sshPublicKeyLogins
+     * @param SshPublicKeyLogin[]|Collection $sshPublicKeyLogins
      */
-    public function setSshPublicKeyLogins(\Doctrine\Common\Collections\Collection $sshPublicKeyLogins) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setSshPublicKeyLogins(Collection $sshPublicKeyLogins): Host
     {
         $this->sshPublicKeyLogins = $sshPublicKeyLogins;
         if ($this->sshPublicKeyLogins) {
@@ -993,9 +834,9 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin[]|\Doctrine\Common\Collections\Collection $sshPublicKeyLogins
+     * @param SshPublicKeyLogin[]|Collection $sshPublicKeyLogins
      */
-    public function addSshPublicKeyLogins($sshPublicKeyLogins) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function addSshPublicKeyLogins($sshPublicKeyLogins): Host
     {
         foreach ($sshPublicKeyLogins as $_sshPublicKeyLogins) {
             $_sshPublicKeyLogins->setHost($this);
@@ -1005,9 +846,9 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SshPublicKeyLogin[]|\Doctrine\Common\Collections\Collection $sshPublicKeyLogins
+     * @param SshPublicKeyLogin[]|Collection $sshPublicKeyLogins
      */
-    public function removeSshPublicKeyLogins($sshPublicKeyLogins) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function removeSshPublicKeyLogins($sshPublicKeyLogins): Host
     {
         foreach ($sshPublicKeyLogins as $_sshPublicKeyLogins) {
             $_sshPublicKeyLogins->setHost(null);
@@ -1017,17 +858,17 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection
+     * @return Alert[]|Collection
      */
-    public function getAlerts() : \Doctrine\Common\Collections\Collection
+    public function getAlerts(): Collection
     {
         return $this->alerts;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection $alerts
+     * @param Alert[]|Collection $alerts
      */
-    public function setAlerts(\Doctrine\Common\Collections\Collection $alerts) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setAlerts(Collection $alerts): Host
     {
         $this->alerts = $alerts;
         if ($this->alerts) {
@@ -1039,9 +880,9 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection $alerts
+     * @param Alert[]|Collection $alerts
      */
-    public function addAlerts($alerts) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function addAlerts($alerts): Host
     {
         foreach ($alerts as $_alerts) {
             $_alerts->setHost($this);
@@ -1051,9 +892,9 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection $alerts
+     * @param Alert[]|Collection $alerts
      */
-    public function removeAlerts($alerts) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function removeAlerts($alerts): Host
     {
         foreach ($alerts as $_alerts) {
             $_alerts->setHost(null);
@@ -1063,26 +904,26 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection
+     * @return SyshelperTag[]|Collection
      */
-    public function getTags() : \Doctrine\Common\Collections\Collection
+    public function getTags(): Collection
     {
         return $this->tags;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection $tags
+     * @param SyshelperTag[]|Collection $tags
      */
-    public function setTags(\Doctrine\Common\Collections\Collection $tags) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function setTags(Collection $tags): Host
     {
         $this->tags = $tags;
         return $this;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection $tags
+     * @param SyshelperTag[]|Collection $tags
      */
-    public function addTags($tags) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function addTags($tags): Host
     {
         foreach ($tags as $_tags) {
             $this->tags->add($_tags);
@@ -1091,9 +932,9 @@ class Host extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection $tags
+     * @param SyshelperTag[]|Collection $tags
      */
-    public function removeTags($tags) : \WirklichDigital\SyshelperBase\Entity\Host
+    public function removeTags($tags): Host
     {
         foreach ($tags as $_tags) {
             $this->tags->removeElement($_tags);
@@ -1104,23 +945,22 @@ class Host extends AbstractEntity
     public function __construct()
     {
         parent::__construct();
-        $this->assignedIps = new ArrayCollection();
-        $this->rawFacts = new ArrayCollection();
+        $this->assignedIps              = new ArrayCollection();
+        $this->rawFacts                 = new ArrayCollection();
         $this->sshPublicKeyHostMappings = new ArrayCollection();
-        $this->sshPublicKeyLogins = new ArrayCollection();
-        $this->alerts = new ArrayCollection();
-        $this->tags = new ArrayCollection();
+        $this->sshPublicKeyLogins       = new ArrayCollection();
+        $this->alerts                   = new ArrayCollection();
+        $this->tags                     = new ArrayCollection();
     }
 
     public function __clone()
     {
         parent::__clone();
-        $this->assignedIps = clone $this->assignedIps;
-        $this->rawFacts = clone $this->rawFacts;
+        $this->assignedIps              = clone $this->assignedIps;
+        $this->rawFacts                 = clone $this->rawFacts;
         $this->sshPublicKeyHostMappings = clone $this->sshPublicKeyHostMappings;
-        $this->sshPublicKeyLogins = clone $this->sshPublicKeyLogins;
-        $this->alerts = clone $this->alerts;
-        $this->tags = clone $this->tags;
+        $this->sshPublicKeyLogins       = clone $this->sshPublicKeyLogins;
+        $this->alerts                   = clone $this->alerts;
+        $this->tags                     = clone $this->tags;
     }
 }
-

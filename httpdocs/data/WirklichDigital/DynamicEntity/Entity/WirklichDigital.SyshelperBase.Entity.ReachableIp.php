@@ -2,52 +2,44 @@
 
 namespace WirklichDigital\SyshelperBase\Entity;
 
-use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SyshelperAlerts\Entity\Alert;
+use WirklichDigital\SyshelperBase\Entity\AssignedIp;
+use WirklichDigital\SyshelperBase\Entity\IpSubnet;
 
 class ReachableIp extends AbstractEntity
 {
-    protected $id = null;
+    protected $id;
 
-    protected $address = null;
+    protected $address;
 
-    /**
-     * @var null|string
-     */
-    protected $ptr = null;
+    /** @var null|string */
+    protected $ptr;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\AssignedIp
-     */
-    protected $assignedIp = null;
+    /** @var null|AssignedIp */
+    protected $assignedIp;
 
-    /**
-     * @var \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $alerts = null;
+    /** @var Alert[]|Collection */
+    protected $alerts;
 
-    /**
-     * @var null|\WirklichDigital\SyshelperBase\Entity\IpSubnet
-     */
-    protected $subnet = null;
+    /** @var null|IpSubnet */
+    protected $subnet;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id) : \WirklichDigital\SyshelperBase\Entity\ReachableIp
+    public function setId($id): ReachableIp
     {
         $this->id = $id;
         return $this;
@@ -58,16 +50,13 @@ class ReachableIp extends AbstractEntity
         return $this->address;
     }
 
-    public function setAddress($address) : \WirklichDigital\SyshelperBase\Entity\ReachableIp
+    public function setAddress($address): ReachableIp
     {
         $this->address = $address;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getPtr() : ?string
+    public function getPtr(): ?string
     {
         return $this->ptr;
     }
@@ -75,75 +64,57 @@ class ReachableIp extends AbstractEntity
     /**
      * @param null|string $ptr
      */
-    public function setPtr($ptr) : \WirklichDigital\SyshelperBase\Entity\ReachableIp
+    public function setPtr($ptr): ReachableIp
     {
         $this->ptr = $ptr;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\SyshelperBase\Entity\ReachableIp
+    public function setCreatedAt(?DateTime $createdAt): ReachableIp
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\SyshelperBase\Entity\ReachableIp
+    public function setUpdatedAt(?DateTime $updatedAt): ReachableIp
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\AssignedIp
-     */
-    public function getAssignedIp() : ?\WirklichDigital\SyshelperBase\Entity\AssignedIp
+    public function getAssignedIp(): ?AssignedIp
     {
         return $this->assignedIp;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\AssignedIp $assignedIp
-     */
-    public function setAssignedIp(?\WirklichDigital\SyshelperBase\Entity\AssignedIp $assignedIp) : \WirklichDigital\SyshelperBase\Entity\ReachableIp
+    public function setAssignedIp(?AssignedIp $assignedIp): ReachableIp
     {
         $this->assignedIp = $assignedIp;
         return $this;
     }
 
     /**
-     * @return \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection
+     * @return Alert[]|Collection
      */
-    public function getAlerts() : \Doctrine\Common\Collections\Collection
+    public function getAlerts(): Collection
     {
         return $this->alerts;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection $alerts
+     * @param Alert[]|Collection $alerts
      */
-    public function setAlerts(\Doctrine\Common\Collections\Collection $alerts) : \WirklichDigital\SyshelperBase\Entity\ReachableIp
+    public function setAlerts(Collection $alerts): ReachableIp
     {
         $this->alerts = $alerts;
         if ($this->alerts) {
@@ -155,9 +126,9 @@ class ReachableIp extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection $alerts
+     * @param Alert[]|Collection $alerts
      */
-    public function addAlerts($alerts) : \WirklichDigital\SyshelperBase\Entity\ReachableIp
+    public function addAlerts($alerts): ReachableIp
     {
         foreach ($alerts as $_alerts) {
             $_alerts->setHost($this);
@@ -167,9 +138,9 @@ class ReachableIp extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection $alerts
+     * @param Alert[]|Collection $alerts
      */
-    public function removeAlerts($alerts) : \WirklichDigital\SyshelperBase\Entity\ReachableIp
+    public function removeAlerts($alerts): ReachableIp
     {
         foreach ($alerts as $_alerts) {
             $_alerts->setHost(null);
@@ -178,18 +149,12 @@ class ReachableIp extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return null|\WirklichDigital\SyshelperBase\Entity\IpSubnet
-     */
-    public function getSubnet() : ?\WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function getSubnet(): ?IpSubnet
     {
         return $this->subnet;
     }
 
-    /**
-     * @param null|\WirklichDigital\SyshelperBase\Entity\IpSubnet $subnet
-     */
-    public function setSubnet(?\WirklichDigital\SyshelperBase\Entity\IpSubnet $subnet) : \WirklichDigital\SyshelperBase\Entity\ReachableIp
+    public function setSubnet(?IpSubnet $subnet): ReachableIp
     {
         $this->subnet = $subnet;
         return $this;
@@ -207,4 +172,3 @@ class ReachableIp extends AbstractEntity
         $this->alerts = clone $this->alerts;
     }
 }
-

@@ -2,84 +2,65 @@
 
 namespace WirklichDigital\SyshelperBase\Entity;
 
-use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use WirklichDigital\DynamicEntityModule\Entity\AbstractEntity;
+use WirklichDigital\SyshelperAlerts\Entity\Alert;
+use WirklichDigital\SyshelperBase\Entity\AssignedIp;
+use WirklichDigital\SyshelperBase\Entity\ReachableIp;
+use WirklichDigital\SyshelperBase\Entity\SyshelperTag;
 
 class IpSubnet extends AbstractEntity
 {
-    protected $id = null;
+    protected $id;
 
-    protected $networkAddress = null;
+    protected $networkAddress;
 
-    /**
-     * @var null|int
-     */
-    protected $networkCidrMask = null;
+    /** @var null|int */
+    protected $networkCidrMask;
 
-    /**
-     * @var null|string
-     */
-    protected $importSource = null;
+    /** @var null|string */
+    protected $importSource;
 
-    /**
-     * @var null|string
-     */
-    protected $syshelperDescription = null;
+    /** @var null|string */
+    protected $syshelperDescription;
 
-    protected $externalUpIps = null;
+    protected $externalUpIps;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $externalUpIpLastScanAt = null;
+    /** @var null|DateTime */
+    protected $externalUpIpLastScanAt;
 
-    /**
-     * @var null|bool
-     */
+    /** @var null|bool */
     protected $isDynamic = 0;
 
-    /**
-     * @var null|bool
-     */
+    /** @var null|bool */
     protected $isDynamicSetManually = 0;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $createdAt = null;
+    /** @var null|DateTime */
+    protected $createdAt;
 
-    /**
-     * @var null|\DateTime
-     */
-    protected $updatedAt = null;
+    /** @var null|DateTime */
+    protected $updatedAt;
 
-    /**
-     * @var \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $assignedIps = null;
+    /** @var AssignedIp[]|Collection */
+    protected $assignedIps;
 
-    /**
-     * @var \WirklichDigital\SyshelperBase\Entity\ReachableIp[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $reachableIps = null;
+    /** @var ReachableIp[]|Collection */
+    protected $reachableIps;
 
-    /**
-     * @var \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $alerts = null;
+    /** @var Alert[]|Collection */
+    protected $alerts;
 
-    /**
-     * @var \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $tags = null;
+    /** @var SyshelperTag[]|Collection */
+    protected $tags;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setId($id) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setId($id): IpSubnet
     {
         $this->id = $id;
         return $this;
@@ -90,16 +71,13 @@ class IpSubnet extends AbstractEntity
         return $this->networkAddress;
     }
 
-    public function setNetworkAddress($networkAddress) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setNetworkAddress($networkAddress): IpSubnet
     {
         $this->networkAddress = $networkAddress;
         return $this;
     }
 
-    /**
-     * @return null|int
-     */
-    public function getNetworkCidrMask() : ?int
+    public function getNetworkCidrMask(): ?int
     {
         return $this->networkCidrMask;
     }
@@ -107,16 +85,13 @@ class IpSubnet extends AbstractEntity
     /**
      * @param null|int $networkCidrMask
      */
-    public function setNetworkCidrMask($networkCidrMask) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setNetworkCidrMask($networkCidrMask): IpSubnet
     {
         $this->networkCidrMask = $networkCidrMask;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getImportSource() : ?string
+    public function getImportSource(): ?string
     {
         return $this->importSource;
     }
@@ -124,16 +99,13 @@ class IpSubnet extends AbstractEntity
     /**
      * @param null|string $importSource
      */
-    public function setImportSource($importSource) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setImportSource($importSource): IpSubnet
     {
         $this->importSource = $importSource;
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getSyshelperDescription() : ?string
+    public function getSyshelperDescription(): ?string
     {
         return $this->syshelperDescription;
     }
@@ -141,7 +113,7 @@ class IpSubnet extends AbstractEntity
     /**
      * @param null|string $syshelperDescription
      */
-    public function setSyshelperDescription($syshelperDescription) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setSyshelperDescription($syshelperDescription): IpSubnet
     {
         $this->syshelperDescription = $syshelperDescription;
         return $this;
@@ -152,33 +124,24 @@ class IpSubnet extends AbstractEntity
         return $this->externalUpIps;
     }
 
-    public function setExternalUpIps($externalUpIps) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setExternalUpIps($externalUpIps): IpSubnet
     {
         $this->externalUpIps = $externalUpIps;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getExternalUpIpLastScanAt() : ?\DateTime
+    public function getExternalUpIpLastScanAt(): ?DateTime
     {
         return $this->externalUpIpLastScanAt;
     }
 
-    /**
-     * @param null|\DateTime $externalUpIpLastScanAt
-     */
-    public function setExternalUpIpLastScanAt(?\DateTime $externalUpIpLastScanAt) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setExternalUpIpLastScanAt(?DateTime $externalUpIpLastScanAt): IpSubnet
     {
         $this->externalUpIpLastScanAt = $externalUpIpLastScanAt;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getIsDynamic() : ?bool
+    public function getIsDynamic(): ?bool
     {
         return $this->isDynamic;
     }
@@ -186,16 +149,13 @@ class IpSubnet extends AbstractEntity
     /**
      * @param null|bool $isDynamic
      */
-    public function setIsDynamic($isDynamic) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setIsDynamic($isDynamic): IpSubnet
     {
         $this->isDynamic = $isDynamic;
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getIsDynamicSetManually() : ?bool
+    public function getIsDynamicSetManually(): ?bool
     {
         return $this->isDynamicSetManually;
     }
@@ -203,58 +163,46 @@ class IpSubnet extends AbstractEntity
     /**
      * @param null|bool $isDynamicSetManually
      */
-    public function setIsDynamicSetManually($isDynamicSetManually) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setIsDynamicSetManually($isDynamicSetManually): IpSubnet
     {
         $this->isDynamicSetManually = $isDynamicSetManually;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param null|\DateTime $createdAt
-     */
-    public function setCreatedAt(?\DateTime $createdAt) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setCreatedAt(?DateTime $createdAt): IpSubnet
     {
         $this->createdAt = $createdAt;
         return $this;
     }
 
-    /**
-     * @return null|\DateTime
-     */
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @param null|\DateTime $updatedAt
-     */
-    public function setUpdatedAt(?\DateTime $updatedAt) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setUpdatedAt(?DateTime $updatedAt): IpSubnet
     {
         $this->updatedAt = $updatedAt;
         return $this;
     }
 
     /**
-     * @return \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection
+     * @return AssignedIp[]|Collection
      */
-    public function getAssignedIps() : \Doctrine\Common\Collections\Collection
+    public function getAssignedIps(): Collection
     {
         return $this->assignedIps;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection $assignedIps
+     * @param AssignedIp[]|Collection $assignedIps
      */
-    public function setAssignedIps(\Doctrine\Common\Collections\Collection $assignedIps) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setAssignedIps(Collection $assignedIps): IpSubnet
     {
         $this->assignedIps = $assignedIps;
         if ($this->assignedIps) {
@@ -266,9 +214,9 @@ class IpSubnet extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection $assignedIps
+     * @param AssignedIp[]|Collection $assignedIps
      */
-    public function addAssignedIps($assignedIps) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function addAssignedIps($assignedIps): IpSubnet
     {
         foreach ($assignedIps as $_assignedIps) {
             $_assignedIps->setSubnet($this);
@@ -278,9 +226,9 @@ class IpSubnet extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\AssignedIp[]|\Doctrine\Common\Collections\Collection $assignedIps
+     * @param AssignedIp[]|Collection $assignedIps
      */
-    public function removeAssignedIps($assignedIps) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function removeAssignedIps($assignedIps): IpSubnet
     {
         foreach ($assignedIps as $_assignedIps) {
             $_assignedIps->setSubnet(null);
@@ -290,17 +238,17 @@ class IpSubnet extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SyshelperBase\Entity\ReachableIp[]|\Doctrine\Common\Collections\Collection
+     * @return ReachableIp[]|Collection
      */
-    public function getReachableIps() : \Doctrine\Common\Collections\Collection
+    public function getReachableIps(): Collection
     {
         return $this->reachableIps;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\ReachableIp[]|\Doctrine\Common\Collections\Collection $reachableIps
+     * @param ReachableIp[]|Collection $reachableIps
      */
-    public function setReachableIps(\Doctrine\Common\Collections\Collection $reachableIps) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setReachableIps(Collection $reachableIps): IpSubnet
     {
         $this->reachableIps = $reachableIps;
         if ($this->reachableIps) {
@@ -312,9 +260,9 @@ class IpSubnet extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\ReachableIp[]|\Doctrine\Common\Collections\Collection $reachableIps
+     * @param ReachableIp[]|Collection $reachableIps
      */
-    public function addReachableIps($reachableIps) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function addReachableIps($reachableIps): IpSubnet
     {
         foreach ($reachableIps as $_reachableIps) {
             $_reachableIps->setSubnet($this);
@@ -324,9 +272,9 @@ class IpSubnet extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\ReachableIp[]|\Doctrine\Common\Collections\Collection $reachableIps
+     * @param ReachableIp[]|Collection $reachableIps
      */
-    public function removeReachableIps($reachableIps) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function removeReachableIps($reachableIps): IpSubnet
     {
         foreach ($reachableIps as $_reachableIps) {
             $_reachableIps->setSubnet(null);
@@ -336,17 +284,17 @@ class IpSubnet extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection
+     * @return Alert[]|Collection
      */
-    public function getAlerts() : \Doctrine\Common\Collections\Collection
+    public function getAlerts(): Collection
     {
         return $this->alerts;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection $alerts
+     * @param Alert[]|Collection $alerts
      */
-    public function setAlerts(\Doctrine\Common\Collections\Collection $alerts) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setAlerts(Collection $alerts): IpSubnet
     {
         $this->alerts = $alerts;
         if ($this->alerts) {
@@ -358,9 +306,9 @@ class IpSubnet extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection $alerts
+     * @param Alert[]|Collection $alerts
      */
-    public function addAlerts($alerts) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function addAlerts($alerts): IpSubnet
     {
         foreach ($alerts as $_alerts) {
             $_alerts->setHost($this);
@@ -370,9 +318,9 @@ class IpSubnet extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperAlerts\Entity\Alert[]|\Doctrine\Common\Collections\Collection $alerts
+     * @param Alert[]|Collection $alerts
      */
-    public function removeAlerts($alerts) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function removeAlerts($alerts): IpSubnet
     {
         foreach ($alerts as $_alerts) {
             $_alerts->setHost(null);
@@ -382,26 +330,26 @@ class IpSubnet extends AbstractEntity
     }
 
     /**
-     * @return \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection
+     * @return SyshelperTag[]|Collection
      */
-    public function getTags() : \Doctrine\Common\Collections\Collection
+    public function getTags(): Collection
     {
         return $this->tags;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection $tags
+     * @param SyshelperTag[]|Collection $tags
      */
-    public function setTags(\Doctrine\Common\Collections\Collection $tags) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function setTags(Collection $tags): IpSubnet
     {
         $this->tags = $tags;
         return $this;
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection $tags
+     * @param SyshelperTag[]|Collection $tags
      */
-    public function addTags($tags) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function addTags($tags): IpSubnet
     {
         foreach ($tags as $_tags) {
             $this->tags->add($_tags);
@@ -410,9 +358,9 @@ class IpSubnet extends AbstractEntity
     }
 
     /**
-     * @param \WirklichDigital\SyshelperBase\Entity\SyshelperTag[]|\Doctrine\Common\Collections\Collection $tags
+     * @param SyshelperTag[]|Collection $tags
      */
-    public function removeTags($tags) : \WirklichDigital\SyshelperBase\Entity\IpSubnet
+    public function removeTags($tags): IpSubnet
     {
         foreach ($tags as $_tags) {
             $this->tags->removeElement($_tags);
@@ -423,19 +371,18 @@ class IpSubnet extends AbstractEntity
     public function __construct()
     {
         parent::__construct();
-        $this->assignedIps = new ArrayCollection();
+        $this->assignedIps  = new ArrayCollection();
         $this->reachableIps = new ArrayCollection();
-        $this->alerts = new ArrayCollection();
-        $this->tags = new ArrayCollection();
+        $this->alerts       = new ArrayCollection();
+        $this->tags         = new ArrayCollection();
     }
 
     public function __clone()
     {
         parent::__clone();
-        $this->assignedIps = clone $this->assignedIps;
+        $this->assignedIps  = clone $this->assignedIps;
         $this->reachableIps = clone $this->reachableIps;
-        $this->alerts = clone $this->alerts;
-        $this->tags = clone $this->tags;
+        $this->alerts       = clone $this->alerts;
+        $this->tags         = clone $this->tags;
     }
 }
-
