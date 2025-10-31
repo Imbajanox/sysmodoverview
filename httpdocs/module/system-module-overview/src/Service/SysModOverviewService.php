@@ -280,54 +280,81 @@ class SysModOverviewService
                 $em = new $className();
             } elseif ($entityObject instanceof $className) {
                 $em = $entityObject;
+            } else {
+                throw new Exception("Invalid entity object provided");
             }
 
-            if (is_array($data)) {
-                foreach ($data as $originalKey => $value) {
-                    $originalKey   = str_replace("-", "", $originalKey);
-                    $originalKey   = str_replace("_", "", $originalKey);
-                    $parts         = preg_split('/(?=[A-Z])/', $originalKey, -1, PREG_SPLIT_NO_EMPTY);
-                    $keyPart       = lcfirst(implode('', $parts));
-                    $setterName    = "setModule" . ucfirst($keyPart);
-                    $setterNameDb  = "setDb" . ucfirst($keyPart);
-                    $setterNameAlt = "set" . ucfirst($keyPart);
+            if (!is_array($data) || empty($data)) {
+                error_log("Warning: Empty or invalid data provided to setInfosInEntity for entity: " . $entity);
+                return $em;
+            }
 
-                    // dump($originalKey,$value);
+            foreach ($data as $originalKey => $value) {
+                if ($value === null) {
+                    continue; // Skip null values
+                }
 
-                    if (method_exists($em, $setterName)) {
-                        if (!is_array($value)) {
-                            $value = ltrim($value,"v");
-                        }
-                        $em->$setterName($value);
-                    } elseif (method_exists($em, $setterNameDb)) {
-                        $em->$setterNameDb($value);
-                    } elseif (method_exists($em, $setterNameAlt)) {
-                        if (!is_array($value)) {
-                            $value = ltrim($value,"v");
-                        }
-                        $em->$setterNameAlt($value);
+                $originalKey   = str_replace("-", "", $originalKey);
+                $originalKey   = str_replace("_", "", $originalKey);
+                $parts         = preg_split('/(?=[A-Z])/', $originalKey, -1, PREG_SPLIT_NO_EMPTY);
+                $keyPart       = lcfirst(implode('', $parts));
+                $setterName    = "setModule" . ucfirst($keyPart);
+                $setterNameDb  = "setDb" . ucfirst($keyPart);
+                $setterNameAlt = "set" . ucfirst($keyPart);
+
+                if (method_exists($em, $setterName)) {
+                    if (!is_array($value)) {
+                        $value = ltrim($value,"v");
                     }
+                    $em->$setterName($value);
+                } elseif (method_exists($em, $setterNameDb)) {
+                    $em->$setterNameDb($value);
+                } elseif (method_exists($em, $setterNameAlt)) {
+                    if (!is_array($value)) {
+                        $value = ltrim($value,"v");
+                    }
+                    $em->$setterNameAlt($value);
                 }
             }
+
             $this->entityManager->persist($em);
             return $em;
         } catch (Exception $e) {
-            echo "Fehler: " . $e->getMessage();
+            error_log("Error in setInfosInEntity: " . $e->getMessage());
+            throw $e;
         }
     }
 
     public function setInfos(array $data)
     {
-        $parsedData = $this->createModuleOverviewArray($data);
-        $system = $this->processLaminasSystemAndServer($parsedData);
+        try {
+            // Validate required data
+            if (!isset($data['ipaddress']) || empty($data['ipaddress'])) {
+                throw new Exception("Missing required field: ipaddress");
+            }
 
-        $this->processEntities($parsedData, $system);
-        // die("nach processEntites");
-        // echo "nach precessentite";
-        $this->processNpmModules($parsedData, $system);
-        // die("nach npm Modules");
-        $this->saveServerFiles($parsedData, $system);
-        $this->runFinalServices($system);
+            $this->entityManager->beginTransaction();
+
+            $parsedData = $this->createModuleOverviewArray($data);
+            $server = $this->processLaminasSystemAndServer($parsedData);
+
+            if (!$server) {
+                throw new Exception("Failed to create or retrieve server");
+            }
+
+            $this->processEntities($parsedData, $server);
+            $this->processNpmModules($parsedData, $server);
+            $this->saveServerFiles($parsedData, $server);
+            $this->runFinalServices($server);
+
+            $this->entityManager->commit();
+        } catch (Exception $e) {
+            if ($this->entityManager->getConnection()->isTransactionActive()) {
+                $this->entityManager->rollback();
+            }
+            error_log("SysModOverviewService::setInfos Error: " . $e->getMessage());
+            throw $e;
+        }
     }
 
     private function createModuleOverviewArray($data)
@@ -351,16 +378,19 @@ class SysModOverviewService
         // Verarbeite LaminasSystem (Git)
         $repositoryName = null;
         $repositoryUrl  = null;
-        foreach ($datas["LaminasSystem"] as $system) {
-            if (! is_string($system)) {
-                continue;
-            } // Sicherstellen, dass der Wert ein String ist
-            $parts = explode("=", $system);
-            if (count($parts) === 2) {
-                if ($parts[0] === "remote.origin.url") {
-                    $repositoryUrl  = $parts[1];
-                    $repositoryFile = basename($repositoryUrl);
-                    $repositoryName = str_replace(".git", "", $repositoryFile);
+
+        if (isset($datas["LaminasSystem"]) && is_array($datas["LaminasSystem"])) {
+            foreach ($datas["LaminasSystem"] as $system) {
+                if (! is_string($system)) {
+                    continue;
+                }
+                $parts = explode("=", $system);
+                if (count($parts) === 2) {
+                    if ($parts[0] === "remote.origin.url") {
+                        $repositoryUrl  = $parts[1];
+                        $repositoryFile = basename($repositoryUrl);
+                        $repositoryName = str_replace(".git", "", $repositoryFile);
+                    }
                 }
             }
         }
@@ -369,19 +399,30 @@ class SysModOverviewService
 
         // Bestimme die URL des Servers
         $j77Url = null;
-        if ($datas["LaminasJ77Config"]) {
+        if (isset($datas["LaminasJ77Config"]) && is_array($datas["LaminasJ77Config"])) {
             $j77Config = $datas["LaminasJ77Config"];
-            $j77Url    = sprintf("https://%s-%s-%s.e5j.de", $j77Config["pms_id"], $j77Config["name"], $j77Config["branch"]);
+            if (isset($j77Config["pms_id"]) && isset($j77Config["name"]) && isset($j77Config["branch"])) {
+                $j77Url = sprintf("https://%s-%s-%s.e5j.de", $j77Config["pms_id"], $j77Config["name"], $j77Config["branch"]);
+            }
         }
 
-        $laminasSystemUrl = $datas["LaminasSystemServerconfig"]["wirklich-digital"]["system-options"]["application.site.base-url"]["default"] ?? null;
-        $serverUrl        = $j77Url ?: $laminasSystemUrl;
+        $laminasSystemUrl = null;
+        if (isset($datas["LaminasSystemServerconfig"]["wirklich-digital"]["system-options"]["application.site.base-url"]["default"])) {
+            $laminasSystemUrl = $datas["LaminasSystemServerconfig"]["wirklich-digital"]["system-options"]["application.site.base-url"]["default"];
+        }
+        
+        $serverUrl = $j77Url ?: $laminasSystemUrl;
+
+        // Validate required server data
+        if (!isset($datas["LaminasSystemServer"]["ipAddress"]) || empty($datas["LaminasSystemServer"]["ipAddress"])) {
+            throw new Exception("Missing required server IP address");
+        }
 
         // Erstelle oder aktualisiere den Server
         $server = $this->createLaminasSystemServerIfNotExists($datas["LaminasSystemServer"]["ipAddress"], $serverUrl, $system);
         $server->setUpdatedAt(new DateTime('now'));
 
-        if ($datas["LaminasJ77Config"]) {
+        if (isset($datas["LaminasJ77Config"]) && is_array($datas["LaminasJ77Config"])) {
             $server->setJ77Config(json_encode($datas["LaminasJ77Config"]));
         }
 
@@ -397,17 +438,33 @@ class SysModOverviewService
         $serverIpAddress = $server->getIpAddress();
         $modules         = [];
         // Process LaminasSystemServerModule (Composer modules)
-        if (isset($datas["LaminasSystemServerModule"])) {
-            // dump($datas["LaminasSystemServerModule"]);
-            // die("in Lamianssystemservermodule");
+        if (isset($datas["LaminasSystemServerModule"]) && is_array($datas["LaminasSystemServerModule"])) {
             foreach ($datas["LaminasSystemServerModule"] as $module) {
+                // Validate required fields
+                if (!isset($module["name"]) || !isset($module["version_normalized"])) {
+                    error_log("Skipping module due to missing required fields: " . json_encode($module));
+                    continue;
+                }
+
                 if (! $this->checkIfModuleIsSet($module["name"], $module["version_normalized"], $serverIpAddress)) {
                     $entity = $this->setInfosInEntity($module, "LaminasSystemServerModule");
+                    if (!$entity) {
+                        error_log("Failed to create entity for module: " . $module["name"]);
+                        continue;
+                    }
                     $entity->addLaminasSystemServer([$server]);
                     $modules[] = $entity;
                 } else {
                     $entity = $this->getModule($module["name"], $module["version_normalized"], $server);
+                    if (!$entity) {
+                        error_log("Failed to get existing module: " . $module["name"]);
+                        continue;
+                    }
                     $entity = $this->setInfosInEntity($module, "LaminasSystemServerModule", $entity);
+                    if (!$entity) {
+                        error_log("Failed to update entity for module: " . $module["name"]);
+                        continue;
+                    }
                     if (! $entity->getLaminasSystemServer()->contains($server)) {
                         $entity->addLaminasSystemServer([$server]);
                     }
@@ -423,7 +480,7 @@ class SysModOverviewService
                     $entity->setComposerModule($composerModule);
                 }
             }
-            // die("vor zweitem foreach");
+
             foreach ($modules as $module) {
                 $this->checkIfModuleHasMultipleVersionsForServer($module->getModuleName(), $server, $module->getModuleVersionNormalized());
             }
@@ -433,14 +490,27 @@ class SysModOverviewService
         foreach (["LaminasSystemServerComposerOutdated", "LaminasSystemServerDatabaseInfo"] as $key) {
             if (isset($datas[$key]) && is_array($datas[$key])) {
                 foreach ($datas[$key] as $data) {
+                    if (!is_array($data) || empty($data)) {
+                        error_log("Skipping invalid data for " . $key);
+                        continue;
+                    }
+
                     $entityName = "WirklichDigital\\SystemModuleOverview\\Entity\\" . $key;
 
                     // Suche nach der Entität basierend auf spezifischen Kriterien
                     $findCriteria = ["laminasSystemServer" => $server];
 
                     if ($key === "LaminasSystemServerComposerOutdated") {
+                        if (!isset($data['name'])) {
+                            error_log("Skipping ComposerOutdated entry without name");
+                            continue;
+                        }
                         $findCriteria['name'] = $data['name'];
                     } elseif ($key === "LaminasSystemServerDatabaseInfo") {
+                        if (!isset($data['Name'])) {
+                            error_log("Skipping DatabaseInfo entry without Name");
+                            continue;
+                        }
                         // Hier wird der Datenbankname als Kriterium hinzugefügt
                         $findCriteria['dbName'] = $data['Name'];
                     }
@@ -454,6 +524,11 @@ class SysModOverviewService
                     } else {
                         // Wenn eine Entität gefunden wird, aktualisiere sie
                         $entity = $this->setInfosInEntity($data, $key, $entity);
+                    }
+
+                    if (!$entity) {
+                        error_log("Failed to create/update entity for " . $key);
+                        continue;
                     }
 
                     $entity->setLaminasSystemServer($server);
@@ -473,7 +548,7 @@ class SysModOverviewService
         }
 
         // Process MigrationState
-        if (isset($datas["LaminasSystemServerMigrationInfo"])) {
+        if (isset($datas["LaminasSystemServerMigrationInfo"]) && is_array($datas["LaminasSystemServerMigrationInfo"])) {
             $key        = "LaminasSystemServerMigrationInfo";
             $entityName = "WirklichDigital\\SystemModuleOverview\\Entity\\" . $key;
 
@@ -483,7 +558,9 @@ class SysModOverviewService
                 $entity = $this->entityManager->getRepository($entityName)->findOneBy(["laminasSystemServer" => $server]);
                 $entity = $this->setInfosInEntity($datas[$key], $key, $entity);
             }
-            $entity->setLaminasSystemServer($server);
+            if ($entity) {
+                $entity->setLaminasSystemServer($server);
+            }
         }
 
         $this->entityManager->flush();
@@ -491,24 +568,37 @@ class SysModOverviewService
 
     private function processNpmModules($datas, $server)
     {
-        if ($datas["NpmModules"] !== null) {
-            $npmModules = [];
-            foreach ($datas["NpmModules"] as $key => $module) {
-                $npmModules[$key] = json_decode($module, true);
-            }
-
-            foreach ($npmModules as $key => $modules) {
-                if (empty($modules)) {
-                    continue;
-                }
-                // Create NPM Modules
-                $npmModule        = $this->createNpmArray($modules);
-                $npmModules[$key] = $npmModule;
-                $npmModule        = $this->createNpmModuleIfnotExists($npmModule, $key, $server);
-            }
-            $this->entityManager->flush();
-            $this->deleteUnnecessaryNpmModules($npmModules, $server);
+        if (!isset($datas["NpmModules"]) || $datas["NpmModules"] === null) {
+            return;
         }
+
+        $npmModules = [];
+        foreach ($datas["NpmModules"] as $key => $module) {
+            if (!is_string($module)) {
+                error_log("Skipping invalid NPM module data for key: " . $key);
+                continue;
+            }
+            
+            $decoded = json_decode($module, true);
+            if ($decoded === null && json_last_error() !== JSON_ERROR_NONE) {
+                error_log("Invalid JSON for NPM module " . $key . ": " . json_last_error_msg());
+                continue;
+            }
+            
+            $npmModules[$key] = $decoded;
+        }
+
+        foreach ($npmModules as $key => $modules) {
+            if (empty($modules) || !is_array($modules)) {
+                continue;
+            }
+            // Create NPM Modules
+            $npmModule        = $this->createNpmArray($modules);
+            $npmModules[$key] = $npmModule;
+            $npmModule        = $this->createNpmModuleIfnotExists($npmModule, $key, $server);
+        }
+        $this->entityManager->flush();
+        $this->deleteUnnecessaryNpmModules($npmModules, $server);
     }
 
     private function saveServerFiles($datas, $server)
@@ -521,34 +611,38 @@ class SysModOverviewService
         }
 
         if (! is_writable($fileFolder)) {
+            error_log("Warning: Directory '$fileFolder' is not writable");
             return;
         }
 
         // PHPInfo
-        if (isset($datas["LaminasSystemServerphpinfo"])) {
+        if (isset($datas["LaminasSystemServerphpinfo"]) && is_array($datas["LaminasSystemServerphpinfo"])) {
             $phpInfoPath = Path::join($fileFolder, "LaminasSystemServerphpinfo-$serverId.json");
             file_put_contents($phpInfoPath, json_encode($datas["LaminasSystemServerphpinfo"]));
             $server->setPhpinfo($phpInfoPath);
-            if(isset($datas["LaminasSystemServerphpinfo"]["PHP Version"][0])){
-                $server->setPhpVersion($datas["LaminasSystemServerphpinfo"]["PHP Version"][0] ?? null);
-            }elseif(isset($datas["LaminasSystemServerphpinfo"]["PHP Version "][0])){
-                $server->setPhpVersion($datas["LaminasSystemServerphpinfo"]["PHP Version "][0] ?? null);
+            
+            // Try multiple possible keys for PHP version
+            $phpVersion = null;
+            if (isset($datas["LaminasSystemServerphpinfo"]["PHP Version"][0])) {
+                $phpVersion = $datas["LaminasSystemServerphpinfo"]["PHP Version"][0];
+            } elseif (isset($datas["LaminasSystemServerphpinfo"]["PHP Version "][0])) {
+                $phpVersion = $datas["LaminasSystemServerphpinfo"]["PHP Version "][0];
             }
-        }else{
-            return new JsonModel([
-                'message' => 'No PHP-Info found'
-            ]);
+            
+            if ($phpVersion) {
+                $server->setPhpVersion($phpVersion);
+            }
+        } else {
+            error_log("Warning: No PHP-Info found for server ID: " . $serverId);
         }
 
         // Config
-        if (isset($datas["LaminasSystemServerconfig"])) {
+        if (isset($datas["LaminasSystemServerconfig"]) && is_array($datas["LaminasSystemServerconfig"])) {
             $configPath = Path::join($fileFolder, "LaminasSystemServerconfig-$serverId.json");
             file_put_contents($configPath, json_encode($datas["LaminasSystemServerconfig"]));
             $server->setConfig($configPath);
-        }else{
-            return new JsonModel([
-                'message' => 'No Serverconfig found'
-            ]);
+        } else {
+            error_log("Warning: No Serverconfig found for server ID: " . $serverId);
         }
     }
 

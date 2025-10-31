@@ -36,7 +36,6 @@ class IndexController extends AbstractActionController
 
         if ($request->isPost()) {
             $postData = $request->getContent();
-            file_put_contents("data.json",$postData);
             $data = json_decode($postData, true);
             if (! $data || json_last_error() !== JSON_ERROR_NONE) {
                 http_response_code(500);
@@ -45,19 +44,14 @@ class IndexController extends AbstractActionController
                     'message' => 'Invalid JSON data',
                 ]);
             }
+            
+            // Save data to file for cronjob processing
             $this->putDataInFile($data);
-            // $this->sysModOverviewService->setInfos($data);
+            
             return new JsonModel([
                 'status' => 'success',
-                'message' => 'Data processed successfully'
+                'message' => 'Data saved successfully for processing'
             ]);
-        }else{
-            $postData = file_get_contents("data.json");
-            $data = json_decode($postData,true);
-            // dump($data);
-            $this->putDataInFile($data);
-            // $this->sysModOverviewService->setInfos($data);
-            return new ViewModel();
         }
 
         return new JsonModel([
@@ -72,14 +66,17 @@ class IndexController extends AbstractActionController
         if (! is_dir($path)) {
             mkdir($path, 0755, true);
         }
-        if(! is_writable($path)){
-            echo "moinsen";
+        
+        if (! is_writable($path)) {
+            error_log("Warning: Directory '$path' is not writable");
             return;
         }
-        $ipaddress = $data["ipaddress"];
+        
+        $ipaddress = $data["ipaddress"] ?? "unknown";
         $systemName = $data["j77Config"]["name"] ?? "laminassystem";
-        $data = json_encode($data);
-        $systemPath = Path::join($path,"$systemName-($ipaddress).json");
-        file_put_contents($systemPath,$data);
+        $jsonData = json_encode($data);
+        
+        $systemPath = Path::join($path, "$systemName-($ipaddress).json");
+        file_put_contents($systemPath, $jsonData);
     }
 }
